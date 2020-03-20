@@ -1,0 +1,8 @@
+<h3>{{sectionTitle}}</h3>
+<hr>
+<div class="filterable-dropdown-container">
+    <div class="drop-down-label">Bugs</div>
+    <bugsplat-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [allowMultiSelect]="allowMultiSelect"
+        (onItemsSelected)="onItemsSelected($event)" (onOpen)="onDropdownOpen()">
+    </bugsplat-filterable-dropdown>
+</div>
