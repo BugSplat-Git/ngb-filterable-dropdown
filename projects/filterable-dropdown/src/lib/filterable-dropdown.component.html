@@ -1,0 +1,30 @@
+<div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (openChange)="onOpenChange($event)">
+    <button ngbDropdownToggle class="btn btn-outline-primary dropdown-button" id="itemDropdown" [disabled]="disabled">
+        {{selectedItems | multiSelect}}
+    </button>
+    <div ngbDropdownMenu aria-labelledby="itemDropdown">
+        <div class="dropdown-menu-inner">
+            <form class="form-search" [formGroup]="searchForm">
+                <input #search class="form-control" formControlName="searchInput" placeholder="Search"
+                    (click)="$event.stopPropagation()" (keyup.enter)="onEnterKeyPressed()">
+            </form>
+            <div class="scroll-container">
+
+                <ng-container *ngIf="allowToggleSelectAll" >
+                    <button *ngIf="nextToggleState === SELECT_ALL" (click)="onSelectAll()" class="dropdown-item filterable-dropdown-item"> Select All </button>
+                    <button *ngIf="nextToggleState === SELECT_NONE" (click)="onSelectNone()" class="dropdown-item filterable-dropdown-item"> Select None </button>
+                </ng-container>
+
+                <button class="dropdown-item filterable-dropdown-item" *ngFor="let item of filteredItems"
+                    (click)="onItemSelect(item)">
+                    {{item.value}}
+                    <fa-icon class="check-icon" [hidden]="!item.selected" [icon]="faCheck"></fa-icon>
+                </button>
+                
+                <div *ngIf="noItemsToDisplay" class="dropdown-item no-items">
+                    No items to display.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

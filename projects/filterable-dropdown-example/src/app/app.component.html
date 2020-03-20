@@ -1,0 +1,18 @@
+<div class="header">
+    <img src="./assets/logo-bugsplat-color.png" class="navbar-label">
+</div>
+
+<div class="box-shadow"></div>
+
+<div class="bg-light" style="height:100%">
+    <div class="container-fluid" style="padding-top: 20px;">
+        <div class="row">
+            <div class="col-6">
+                <dropdown-component [autoClose]="false" [allowMultiSelect] ="true" [sectionTitle]="multiSelectTitle"></dropdown-component>
+            </div>
+            <div class="col-6">
+                <dropdown-component [autoClose]="true" [allowMultiSelect]="false" [sectionTitle]="singleSelectTitle"></dropdown-component>
+            </div>
+        </div>
+    </div>
+</div>
