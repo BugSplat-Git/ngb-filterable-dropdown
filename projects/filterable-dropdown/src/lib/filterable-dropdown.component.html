@@ -10,17 +10,18 @@
             </form>
             <div class="scroll-container">
 
-                <ng-container *ngIf="allowToggleSelectAll" >
-                    <button *ngIf="nextToggleState === SELECT_ALL" (click)="onSelectAll()" class="dropdown-item filterable-dropdown-item"> Select All </button>
-                    <button *ngIf="nextToggleState === SELECT_NONE" (click)="onSelectNone()" class="dropdown-item filterable-dropdown-item"> Select None </button>
+                <ng-container *ngIf="allowToggleSelectAll">
+                    <button *ngIf="nextToggleState === SELECT_ALL" (click)="onSelectAll()"
+                        class="dropdown-item filterable-dropdown-item"> Select All </button>
+                    <button *ngIf="nextToggleState === SELECT_NONE" (click)="onSelectNone()"
+                        class="dropdown-item filterable-dropdown-item"> Select None </button>
                 </ng-container>
-
-                <button class="dropdown-item filterable-dropdown-item" *ngFor="let item of filteredItems"
-                    (click)="onItemSelect(item)">
-                    {{item.value}}
-                    <fa-icon class="check-icon" [hidden]="!item.selected" [icon]="faCheck"></fa-icon>
-                </button>
-                
+                <div *ngFor="let item of items">
+                    <button class="dropdown-item filterable-dropdown-item" [hidden]="!isFiltered(item)" (click)="onItemSelect(item)">
+                        {{item}}
+                        <fa-icon class="check-icon" [hidden]="!isSelected(item)" [icon]="faCheck"></fa-icon>
+                    </button>
+                </div>
                 <div *ngIf="noItemsToDisplay" class="dropdown-item no-items">
                     No items to display.
                 </div>

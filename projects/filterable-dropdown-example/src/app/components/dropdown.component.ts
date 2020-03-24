@@ -10,10 +10,10 @@ export class DropdownComponent {
     @Input() allowMultiSelect: boolean;
     @Input() autoClose: "outside" | "inside" | boolean;
     @Input() sectionTitle: string;
+    @Input() disabled: boolean;
     
-    public bugs: Array<FilterableItem> = [{value: "Beetle", selected: false}, {value: "Ant", selected: false}, {value: "Moth", selected: true}, 
-    {value: "Fire Ant", selected: false}, {value: "Dung Beetle", selected: false}, {value: "Grass Ant", selected: false}];
-
+    public bugs: Array<string> = ["Beetle", "Ant", "Moth", "Fire Ant", "Dung Beetle", "Grass Ant"]
+    
     public selected: Array<string> = ["Moth"]
   
     public onDropdownOpen() {

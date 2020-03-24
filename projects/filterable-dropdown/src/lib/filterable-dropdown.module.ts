@@ -6,9 +6,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FilterableDropdownComponent } from './filterable-dropdown.component';
 import { MultiSelectPipe } from './multi-select-pipe/multi-select-pipe';
 
-
-
-
 @NgModule({
   declarations: [FilterableDropdownComponent, MultiSelectPipe],
   imports: [FormsModule,

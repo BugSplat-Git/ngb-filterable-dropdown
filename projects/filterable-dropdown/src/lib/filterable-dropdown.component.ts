@@ -1,8 +1,7 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { SelectionType } from './selection-type';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { SelectionType } from './selection-type';
 
 export interface FilterableItem {
   value: string,
@@ -14,19 +13,33 @@ export interface FilterableItem {
   templateUrl: './filterable-dropdown.component.html',
   styleUrls: ['./filterable-dropdown.component.scss']
 })
-export class FilterableDropdownComponent {
+export class FilterableDropdownComponent implements OnInit {
 
   public faCheck = faCheck;
   public readonly SELECT_ALL = SelectionType.All;
   public readonly SELECT_NONE = SelectionType.None;
 
+  
+  public selectedValues = new Set();
+  public selectedItem: string = "";
+  public filtered = new Set();
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
-  @Input() items: Array<FilterableItem> = [];
+
+  @Input() items: Array<string> = [];
+
+  @Input() set selected(selection: string | Array<string>) {
+    if (typeof selection === "string") {
+      this.selectedItem = selection;
+    } else if (selection instanceof Array) {
+      this.selectedValues = new Set(selection);
+    }
+  } 
+
   @Input() disabled: boolean = false;
   @Input() allowMultiSelect: boolean = true;
 
-  @Output() onItemsSelected: EventEmitter<Array<string>> = new EventEmitter<Array<string>>();
+  @Output() onItemsSelected: EventEmitter<Array<string> | string> = new EventEmitter<Array<string> | string>();
   @Output() onOpen: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('search', { static: true }) search: ElementRef;
@@ -36,12 +49,8 @@ export class FilterableDropdownComponent {
     return (this.allowMultiSelect && this.searchInputValue.length === 0);
   }
 
-  public get dropdownItems(): Array<string> {
-    return this.items.map(item=> item.value);
-  }
-
   public get noItemsToDisplay(): boolean {
-    return this.filteredItems.length === 0;
+    return this.filtered.size === 0;
   }
 
   nextToggleState: SelectionType = this.SELECT_ALL;
@@ -52,38 +61,56 @@ export class FilterableDropdownComponent {
 
   constructor(private changeDetector: ChangeDetectorRef) { }
 
-  get selectedItems(): Array<string> {
-    const selectedItems =  this.items.filter(item => item.selected === true);
-    return selectedItems.map(item => item.value);
+
+  ngOnInit(): void {
+    this.filtered = new Set(this.items);
+    this.searchForm.get("searchInput").valueChanges.subscribe(value => {
+      if (!value) {
+        this.filtered = new Set(this.items);
+        return;
+      }
+  
+      const lowerCaseSearchInputValue = value.toLowerCase();
+      const filteredValues = this.items.filter(item => item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1);
+  
+      this.filtered = new Set(filteredValues);
+    });
+  }
+
+  get selectedItems(): Array<string> | string {
+    if (this.allowMultiSelect) {
+      let arr: Array<any> = Array.from(this.selectedValues);
+      return arr;
+    } else {
+      return this.selectedItem;
+    }
   }
 
   onSelectAll(): void {
-    this.items.forEach(item => item.selected = true);
     this.nextToggleState = this.SELECT_NONE;
+    this.selected = this.items;
     this.resetFilterInput();
     this.onItemsSelected.emit(this.selectedItems);
   }
 
   onSelectNone(): void {
-    this.items.forEach(item => item.selected = false);
     this.nextToggleState = this.SELECT_ALL;
+    this.selected = [];
     this.resetFilterInput();
     this.onItemsSelected.emit(this.selectedItems);
   }
 
-  onItemSelect(item: FilterableItem) {
-    const itemIndex = this.items.findIndex(value => value.value === item.value);
-    if (itemIndex !== -1) {
-      this.items[itemIndex].selected = !this.items[itemIndex].selected;
-      if (!this.allowMultiSelect) {
-        this.items.forEach(value => {
-          if (value.value != item.value) {
-            value.selected = false;
-          }
-        });
+  onItemSelect(item: string) {
+    if (this.allowMultiSelect) {
+      if (this.selectedValues.has(item)){
+        this.selectedValues.delete(item);
+      } else {
+        this.selectedValues.add(item);
       }
-      this.onItemsSelected.emit(this.selectedItems);
+    } else {
+      this.selectedItem = item;
     }
+    this.onItemsSelected.emit(this.selectedItems);
     this.resetFilterInput();
   }
 
@@ -97,19 +124,18 @@ export class FilterableDropdownComponent {
 
   onEnterKeyPressed(): void {
     if (this.allowMultiSelect) {
-      this.filteredItems.forEach(item => {
-        const itemIndex = this.items.indexOf(item)
-        if (itemIndex != -1) {
-          this.items[itemIndex].selected = true;
+      this.filtered.forEach(item => {
+        if (!this.selectedValues.has(item)) {
+          this.selectedValues.add(item);
         }
       });
-      this.onItemsSelected.emit(this.selectedItems);
     } else {
-      if (this.filteredItems.length) {
-        this.onItemSelect(this.filteredItems[0]);
-      }
+      if (this.filtered && this.filtered.size) {
+        this.selectedItem = this.filtered[0];
+      } 
     }
 
+    this.onItemsSelected.emit(this.selectedItems);
     this.resetFilterInput();
   }
 
@@ -117,15 +143,16 @@ export class FilterableDropdownComponent {
     this.searchInput.setValue("");
   }
 
-  get filteredItems(): Array<FilterableItem> {
-    if (!this.items) {
-      return [];
-    }
+  public isFiltered(value: string): boolean {
+    return this.filtered.has(value);
+  }
 
-    const lowerCaseSearchInputValue = this.searchInputValue.toLowerCase();
-    return this.items
-      .filter(item => !!item)
-      .filter(item => item.value.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1);
+  public isSelected(value: string): boolean {
+    if (this.allowMultiSelect) {
+      return this.selectedValues.has(value)
+    } else {
+      return value === this.selectedItem;
+    }
   }
 
   get searchInput(): AbstractControl {
@@ -134,14 +161,5 @@ export class FilterableDropdownComponent {
 
   get searchInputValue(): string {
     return this.searchInput.value || "";
-  }
-
-  isSelected(item: FilterableItem): boolean {
-    if (this.selectedItems && this.selectedItems.length) {
-      const itemIndex = this.items.findIndex(values => values.value == item.value);
-      return this.items[itemIndex].selected;
-    } else {
-      return false;
-    }
   }
 }

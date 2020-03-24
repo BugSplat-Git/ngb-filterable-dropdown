@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FilterableDropdownComponent, FilterableItem } from './filterable-dropdown.component';
+import { take } from 'rxjs/operators';
+import { FilterableDropdownComponent } from './filterable-dropdown.component';
 import { MultiSelectPipe } from './multi-select-pipe/multi-select-pipe';
-import { take } from 'rxjs/operators'
 
 describe('FilterableDropdownComponent', () => {
   let component: FilterableDropdownComponent;
   let fixture: ComponentFixture<FilterableDropdownComponent>;
 
-  const filterItem = {value: "foo", selected: false};
-  let items: Array<FilterableItem>;
+  let filterItem: string;
+  let items: Array<string>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,7 +33,9 @@ describe('FilterableDropdownComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FilterableDropdownComponent);
     component = fixture.componentInstance;
-    items = [filterItem, {value: "bar", selected: false}, {value: "baz", selected: false}];
+    filterItem = "foo";
+    items = [filterItem, "bar", "baz"];
+    component.allowMultiSelect = true;
     component.items = items;
     fixture.detectChanges();
   });
@@ -42,28 +44,29 @@ describe('FilterableDropdownComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should filter a list of items', () => {
-    const filterText = filterItem.value;
-    component.searchForm.controls["searchInput"].setValue(filterText);
-    expect(component.filteredItems).toEqual([filterItem]);
-  });
-
+  //TODO ZL Talk about whether this should be actual functionality
   it('should clear filter text when item is selected', () => {
     component.searchForm.controls["searchInput"].setValue(filterItem);
     component.onItemSelect(filterItem);
     expect(component.searchForm.controls["searchInput"].value).toEqual("");
   });
 
-  it('should emit the value of the selected item', async() => {
+  it('should populate filtered with correct list of filtered items', () => {
+    component.searchInput.setValue("oo");
+    expect(component.filtered.has(filterItem)).toEqual(true);
+    expect(component.filtered.has("baz")).toEqual(false);
+  });
+
+  it('should emit the value of the selected item', async () => {
     const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
     component.onItemSelect(filterItem);
     const result = await resultPromise;
-    expect(result).toEqual([filterItem.value])
+    expect(result).toEqual([filterItem])
   });
 
   it('should display list of items', () => {
     fixture.detectChanges();
-    items.forEach(item => expect(fixture.nativeElement.textContent).toContain(item.value));
+    items.forEach(item => expect(fixture.nativeElement.textContent).toContain(item));
   });
 
   it('should be disabled if disabled input is true', () => {
@@ -73,33 +76,25 @@ describe('FilterableDropdownComponent', () => {
   });
 
   it('should display All as currentItem if no items are selected', () => {
-    component.items = [{value: "eh, its a living", selected: false}];
+    component.items = ["it's a living"];
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('#itemDropdown').innerText).toEqual("All");
   });
 
   it('should display currentItem if one item is selected', () => {
     const currentItem = "MyDatabaseName";
-    component.items = [{value: currentItem, selected: true}];
+    component.items = [currentItem];
+    component.onItemSelect(currentItem);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('#itemDropdown').innerText).toEqual(currentItem);
   });
 
-  it('should display Multiple as currentItem if more than one item is selected', () => {
-    component.items = [{value: "oh", selected: true}, {value: "boy", selected: true}];
+  it('should display Multiple as currentItem if more than one item is selected', fakeAsync(() => {
+    component.onItemSelect(filterItem);
+    component.onItemSelect("bar");
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('#itemDropdown').innerText).toEqual("Multiple");
-  });
-
-  xit('should display a checkmark if item is selected', () => {
-    const currentItem = "SelectedItem";
-    component.disabled = false;
-    component.items = [{value: currentItem, selected: true}, {value: "Other item", selected: false}];
-    fixture.detectChanges();
-    const checkElement = fixture.nativeElement.querySelector("check-icon");
-    const currentItemElement = checkElement.parentElement;
-    expect(currentItemElement.innerText).toContain(currentItem);
-  });
+  }));
 
   it('should emit an onOpen event when onOpenChange is called with true', () => {
     component.onOpen.subscribe(() => expect(true).toBeTruthy());
@@ -107,7 +102,7 @@ describe('FilterableDropdownComponent', () => {
   });
 
   it('should emit all items if "Select All" is selected', async () => {
-    const expectedResult = items.map(item => item.value);
+    const expectedResult = items.map(item => item);
     const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
     component.disabled = false;
     component.onSelectAll();
@@ -122,11 +117,39 @@ describe('FilterableDropdownComponent', () => {
     component.onSelectNone();
   });
 
+  describe('isSelected', () => {
+    beforeEach(() => {
+      component.onItemSelect(filterItem);
+    });
+
+    it('should should return true if item is selected', () => {
+      expect(component.isSelected(filterItem)).toEqual(true)
+    });
+
+    it('should set selected item when onItemSelect is called', () => {
+      expect(component.isSelected("baz")).toEqual(false);
+    });
+  });
+
+  describe('isFiltered', () => {
+    beforeEach(() => {
+      component.searchInput.setValue(filterItem);
+    });
+
+    it('should should return true if item is selected', () => {
+      expect(component.isFiltered(filterItem)).toEqual(true)
+    });
+
+    it('should set selected item when onItemSelect is called', () => {
+      expect(component.isFiltered("baz")).toEqual(false);
+    });
+  });
+
   describe('noItemsToDisplay', () => {
     it('should be true if filteredItems length is 0', () => {
       component.disabled = false;
-      component.items = [{value: '🍔', selected: false}];
-      
+      component.items = ['🍔'];
+
       component.searchInput.setValue('alsdkjfals');
       fixture.detectChanges();
 
@@ -137,13 +160,29 @@ describe('FilterableDropdownComponent', () => {
     it('should be false if filteredItems length is not 0', () => {
       const item = '🍕';
       component.disabled = false;
-      component.items = [{value: item, selected: false}];
-      
+      component.items = [item];
+
       component.searchInput.setValue(item);
       fixture.detectChanges();
 
       expect(component.noItemsToDisplay).toEqual(false);
       expect(fixture.nativeElement.querySelector('.no-items')).toBeFalsy();
+    });
+  });
+
+  describe('singleSelect', () => {
+    beforeEach(() => {
+      component.allowMultiSelect = false;
+    });
+
+    it('should set selected item', () => {
+      component.selected = filterItem;
+      expect(component.selectedItem).toEqual(filterItem)
+    });
+
+    it('should set selected item when onItemSelect is called', () => {
+      component.onItemSelect(filterItem);
+      expect(component.selectedItem).toEqual(filterItem);
     });
   });
 });
