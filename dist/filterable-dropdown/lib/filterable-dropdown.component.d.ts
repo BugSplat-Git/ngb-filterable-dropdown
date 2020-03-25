@@ -10,14 +10,14 @@ export declare class FilterableDropdownComponent implements OnInit {
     faCheck: import("@fortawesome/fontawesome-common-types").IconDefinition;
     readonly SELECT_ALL = SelectionType.All;
     readonly SELECT_NONE = SelectionType.None;
-    selectedValues: Set<unknown>;
-    selectedItem: string;
+    selected: Set<unknown>;
     filtered: Set<unknown>;
     autoClose: boolean | "outside" | "inside";
     items: Array<string>;
-    selected: string | Array<string>;
+    selectedItems: string | Array<string>;
     disabled: boolean;
     allowMultiSelect: boolean;
+    placeholder: string;
     onItemsSelected: EventEmitter<Array<string> | string>;
     onOpen: EventEmitter<void>;
     search: ElementRef;
@@ -28,7 +28,6 @@ export declare class FilterableDropdownComponent implements OnInit {
     searchForm: FormGroup;
     constructor(changeDetector: ChangeDetectorRef);
     ngOnInit(): void;
-    readonly selectedItems: Array<string> | string;
     onSelectAll(): void;
     onSelectNone(): void;
     onItemSelect(item: string): void;

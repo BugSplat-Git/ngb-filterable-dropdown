@@ -20,7 +20,7 @@ export class DropdownComponent {
       console.log("Dropdown Opened!");
     }
   
-    public onItemsSelected(items: Array<string>) {
-      this.selected = items;
+    public onItemsSelected(items: string) {
+      console.log(items)
     }
 }

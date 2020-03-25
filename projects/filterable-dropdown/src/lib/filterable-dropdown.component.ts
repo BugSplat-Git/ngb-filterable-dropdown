@@ -19,25 +19,21 @@ export class FilterableDropdownComponent implements OnInit {
   public readonly SELECT_ALL = SelectionType.All;
   public readonly SELECT_NONE = SelectionType.None;
 
-  
-  public selectedValues = new Set();
-  public selectedItem: string = "";
+  public selected = new Set();
   public filtered = new Set();
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
-
   @Input() items: Array<string> = [];
-
-  @Input() set selected(selection: string | Array<string>) {
+  @Input() set selectedItems(selection: string | Array<string>) {
     if (typeof selection === "string") {
-      this.selectedItem = selection;
-    } else if (selection instanceof Array) {
-      this.selectedValues = new Set(selection);
+      this.selected = new Set([selection])
+    } else {
+      this.selected = new Set(selection);
     }
   } 
-
   @Input() disabled: boolean = false;
   @Input() allowMultiSelect: boolean = true;
+  @Input() placeholder: string;
 
   @Output() onItemsSelected: EventEmitter<Array<string> | string> = new EventEmitter<Array<string> | string>();
   @Output() onOpen: EventEmitter<void> = new EventEmitter<void>();
@@ -78,37 +74,41 @@ export class FilterableDropdownComponent implements OnInit {
   }
 
   get selectedItems(): Array<string> | string {
+    let arr: Array<any> = Array.from(this.selected);
     if (this.allowMultiSelect) {
-      let arr: Array<any> = Array.from(this.selectedValues);
       return arr;
     } else {
-      return this.selectedItem;
+      if (arr) {
+        return arr[0]
+      } else {
+        return "";
+      }
     }
   }
 
   onSelectAll(): void {
     this.nextToggleState = this.SELECT_NONE;
-    this.selected = this.items;
+    this.selected = new Set(this.items);
     this.resetFilterInput();
     this.onItemsSelected.emit(this.selectedItems);
   }
 
   onSelectNone(): void {
     this.nextToggleState = this.SELECT_ALL;
-    this.selected = [];
+    this.selected = new Set([]);
     this.resetFilterInput();
     this.onItemsSelected.emit(this.selectedItems);
   }
 
   onItemSelect(item: string) {
     if (this.allowMultiSelect) {
-      if (this.selectedValues.has(item)){
-        this.selectedValues.delete(item);
+      if (this.selected.has(item)){
+        this.selected.delete(item);
       } else {
-        this.selectedValues.add(item);
+        this.selected.add(item);
       }
     } else {
-      this.selectedItem = item;
+      this.selected = new Set([item]);
     }
     this.onItemsSelected.emit(this.selectedItems);
     this.resetFilterInput();
@@ -125,13 +125,13 @@ export class FilterableDropdownComponent implements OnInit {
   onEnterKeyPressed(): void {
     if (this.allowMultiSelect) {
       this.filtered.forEach(item => {
-        if (!this.selectedValues.has(item)) {
-          this.selectedValues.add(item);
+        if (!this.selected.has(item)) {
+          this.selected.add(item);
         }
       });
     } else {
       if (this.filtered && this.filtered.size) {
-        this.selectedItem = this.filtered[0];
+        this.selected = new Set([this.filtered[0]]);
       } 
     }
 
@@ -148,11 +148,7 @@ export class FilterableDropdownComponent implements OnInit {
   }
 
   public isSelected(value: string): boolean {
-    if (this.allowMultiSelect) {
-      return this.selectedValues.has(value)
-    } else {
-      return value === this.selectedItem;
-    }
+    return this.selected.has(value);
   }
 
   get searchInput(): AbstractControl {

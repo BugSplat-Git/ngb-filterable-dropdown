@@ -176,13 +176,20 @@ describe('FilterableDropdownComponent', () => {
     });
 
     it('should set selected item', () => {
-      component.selected = filterItem;
-      expect(component.selectedItem).toEqual(filterItem)
+      component.selected = new Set([filterItem]);
+      expect(component.selected.has(filterItem)).toEqual(true)
     });
+
+    it('should remove other items from set when onItemSelect is callsed', () => {
+      component.selected = new Set(["baz"]);
+      component.onItemSelect(filterItem);
+      expect(component.selected.has(filterItem)).toEqual(true);
+      expect(component.selected.has("baz")).toEqual(false);
+    })
 
     it('should set selected item when onItemSelect is called', () => {
       component.onItemSelect(filterItem);
-      expect(component.selectedItem).toEqual(filterItem);
+      expect(component.selected.has(filterItem)).toEqual(true);
     });
   });
 });

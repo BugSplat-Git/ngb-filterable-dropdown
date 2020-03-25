@@ -40,8 +40,7 @@ class FilterableDropdownComponent {
         this.faCheck = faCheck;
         this.SELECT_ALL = SelectionType.All;
         this.SELECT_NONE = SelectionType.None;
-        this.selectedValues = new Set();
-        this.selectedItem = "";
+        this.selected = new Set();
         this.filtered = new Set();
         this.autoClose = "outside";
         this.items = [];
@@ -58,12 +57,12 @@ class FilterableDropdownComponent {
      * @param {?} selection
      * @return {?}
      */
-    set selected(selection) {
+    set selectedItems(selection) {
         if (typeof selection === "string") {
-            this.selectedItem = selection;
+            this.selected = new Set([selection]);
         }
-        else if (selection instanceof Array) {
-            this.selectedValues = new Set(selection);
+        else {
+            this.selected = new Set(selection);
         }
     }
     /**
@@ -107,13 +106,18 @@ class FilterableDropdownComponent {
      * @return {?}
      */
     get selectedItems() {
+        /** @type {?} */
+        let arr = Array.from(this.selected);
         if (this.allowMultiSelect) {
-            /** @type {?} */
-            let arr = Array.from(this.selectedValues);
             return arr;
         }
         else {
-            return this.selectedItem;
+            if (arr) {
+                return arr[0];
+            }
+            else {
+                return "";
+            }
         }
     }
     /**
@@ -121,7 +125,7 @@ class FilterableDropdownComponent {
      */
     onSelectAll() {
         this.nextToggleState = this.SELECT_NONE;
-        this.selected = this.items;
+        this.selected = new Set(this.items);
         this.resetFilterInput();
         this.onItemsSelected.emit(this.selectedItems);
     }
@@ -130,7 +134,7 @@ class FilterableDropdownComponent {
      */
     onSelectNone() {
         this.nextToggleState = this.SELECT_ALL;
-        this.selected = [];
+        this.selected = new Set([]);
         this.resetFilterInput();
         this.onItemsSelected.emit(this.selectedItems);
     }
@@ -140,15 +144,15 @@ class FilterableDropdownComponent {
      */
     onItemSelect(item) {
         if (this.allowMultiSelect) {
-            if (this.selectedValues.has(item)) {
-                this.selectedValues.delete(item);
+            if (this.selected.has(item)) {
+                this.selected.delete(item);
             }
             else {
-                this.selectedValues.add(item);
+                this.selected.add(item);
             }
         }
         else {
-            this.selectedItem = item;
+            this.selected = new Set([item]);
         }
         this.onItemsSelected.emit(this.selectedItems);
         this.resetFilterInput();
@@ -174,14 +178,14 @@ class FilterableDropdownComponent {
              * @return {?}
              */
             item => {
-                if (!this.selectedValues.has(item)) {
-                    this.selectedValues.add(item);
+                if (!this.selected.has(item)) {
+                    this.selected.add(item);
                 }
             }));
         }
         else {
             if (this.filtered && this.filtered.size) {
-                this.selectedItem = this.filtered[0];
+                this.selected = new Set([this.filtered[0]]);
             }
         }
         this.onItemsSelected.emit(this.selectedItems);
@@ -206,12 +210,7 @@ class FilterableDropdownComponent {
      * @return {?}
      */
     isSelected(value) {
-        if (this.allowMultiSelect) {
-            return this.selectedValues.has(value);
-        }
-        else {
-            return value === this.selectedItem;
-        }
+        return this.selected.has(value);
     }
     /**
      * @return {?}
@@ -240,9 +239,10 @@ FilterableDropdownComponent.ctorParameters = () => [
 FilterableDropdownComponent.propDecorators = {
     autoClose: [{ type: Input }],
     items: [{ type: Input }],
-    selected: [{ type: Input }],
+    selectedItems: [{ type: Input }],
     disabled: [{ type: Input }],
     allowMultiSelect: [{ type: Input }],
+    placeholder: [{ type: Input }],
     onItemsSelected: [{ type: Output }],
     onOpen: [{ type: Output }],
     search: [{ type: ViewChild, args: ['search', { static: true },] }],
@@ -256,9 +256,7 @@ if (false) {
     /** @type {?} */
     FilterableDropdownComponent.prototype.SELECT_NONE;
     /** @type {?} */
-    FilterableDropdownComponent.prototype.selectedValues;
-    /** @type {?} */
-    FilterableDropdownComponent.prototype.selectedItem;
+    FilterableDropdownComponent.prototype.selected;
     /** @type {?} */
     FilterableDropdownComponent.prototype.filtered;
     /** @type {?} */
@@ -269,6 +267,8 @@ if (false) {
     FilterableDropdownComponent.prototype.disabled;
     /** @type {?} */
     FilterableDropdownComponent.prototype.allowMultiSelect;
+    /** @type {?} */
+    FilterableDropdownComponent.prototype.placeholder;
     /** @type {?} */
     FilterableDropdownComponent.prototype.onItemsSelected;
     /** @type {?} */
