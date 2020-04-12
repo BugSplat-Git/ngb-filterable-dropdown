@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { SelectionType } from './selection-type';
 
 export interface FilterableItem {
@@ -15,7 +14,6 @@ export interface FilterableItem {
 })
 export class FilterableDropdownComponent implements OnInit {
 
-  public faCheck = faCheck;
   public readonly SELECT_ALL = SelectionType.All;
   public readonly SELECT_NONE = SelectionType.None;
 

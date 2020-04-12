@@ -19,7 +19,7 @@
                 <div *ngFor="let item of items">
                     <button class="dropdown-item filterable-dropdown-item" [hidden]="!isFiltered(item)" (click)="onItemSelect(item)">
                         {{item}}
-                        <fa-icon class="check-icon" [hidden]="!isSelected(item)" [icon]="faCheck"></fa-icon>
+                        <span class="float-right" [hidden]="!isSelected(item)">✔️</span>
                     </button>
                 </div>
                 <div *ngIf="noItemsToDisplay" class="dropdown-item no-items">
