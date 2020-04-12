@@ -1,19 +1,17 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { FilterableDropdownModule } from 'filterable-dropdown';
 import { AppComponent } from './app.component';
-import {FilterableDropdownModule} from 'filterable-dropdown';
-import { DropdownComponent } from './components/dropdown.component';
-
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DropdownComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FilterableDropdownModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,18 +1,33 @@
-<div class="header">
-    <img src="./assets/logo-bugsplat-color.png" class="navbar-label">
-</div>
-
-<div class="box-shadow"></div>
-
-<div class="bg-light" style="height:100%">
-    <div class="container-fluid" style="padding-top: 20px;">
-        <div class="row">
-            <div class="col-6">
-                <dropdown-component [autoClose]="false" [allowMultiSelect] ="true" [sectionTitle]="multiSelectTitle" [disabled]="false"></dropdown-component>
-            </div>
-            <div class="col-6">
-                <dropdown-component [autoClose]="true" [allowMultiSelect]="false" [sectionTitle]="singleSelectTitle" [disabled]="false"></dropdown-component>
-            </div>
+<div class="h-100 p-2">
+    <div class="row">
+        <div class="col-12 col-xl-4">
+            <img class="w-100" src="./assets/logo-bugsplat-color.png">
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12">
+            <h2>{{title}}</h2>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 col-xl-6">
+            <input id="allow-multi-select" (click)="allowMultiSelectClick($event)" type="checkbox">
+            <label class="ml-4 mb-0" for="allow-multi-select">Allow Mult-Select</label>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12 col-xl-6">
+            <input id="auto-close" (click)="autoCloseClick($event)" type="checkbox">
+            <label class="ml-4 mb-0" for="auto-close">Auto Close</label>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 col-xl-6">
+            <h3>Bugs</h3>
+            <bugsplat-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="input"
+                [selectedItems]="selected" [allowMultiSelect]="allowMultiSelect"
+                (onItemsSelected)="onItemsSelected($event)" (onOpen)="onDropdownOpen()">
+            </bugsplat-filterable-dropdown>
         </div>
     </div>
 </div>
