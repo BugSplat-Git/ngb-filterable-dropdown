@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FilterableItem } from 'projects/filterable-dropdown/src/public-api';
 
 @Component({
   selector: 'app-root',

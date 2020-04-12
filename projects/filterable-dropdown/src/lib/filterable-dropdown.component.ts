@@ -2,11 +2,6 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, 
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { SelectionType } from './selection-type';
 
-export interface FilterableItem {
-  value: string,
-  selected: boolean,
-}
-
 @Component({
   selector: 'bugsplat-filterable-dropdown',
   templateUrl: './filterable-dropdown.component.html',
