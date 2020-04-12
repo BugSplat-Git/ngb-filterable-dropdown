@@ -10,8 +10,9 @@ export class AppComponent {
   
   readonly bugs: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'] 
 
-  allowMultiSelect: boolean = true;
-  autoClose: boolean = true;
+  allowMultiSelect: boolean = false;
+  autoClose: boolean = false;
+  disabled: boolean = false;
   selected: Array<string> = ['Moth'];
 
   constructor() {  }
@@ -23,6 +24,10 @@ export class AppComponent {
 
   autoCloseClick(event: CheckboxClickEvent): void {
     this.autoClose = event.target.checked;
+  }
+
+  disabledClick(event: CheckboxClickEvent): void {
+    this.disabled = event.target.checked;
   }
 
   onDropdownOpen(): void {

@@ -21,10 +21,16 @@
             <label class="ml-4 mb-0" for="auto-close">Auto Close</label>
         </div>
     </div>
+    <div class="row mt-2">
+        <div class="col-12 col-xl-6">
+            <input id="disabled" (click)="disabledClick($event)" type="checkbox">
+            <label class="ml-4 mb-0" for="disabled">Disabled</label>
+        </div>
+    </div>
     <div class="row mt-4">
         <div class="col-12 col-xl-6">
             <h3>Bugs</h3>
-            <bugsplat-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="input"
+            <bugsplat-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
                 [selectedItems]="selected" [allowMultiSelect]="allowMultiSelect"
                 (onItemsSelected)="onItemsSelected($event)" (onOpen)="onDropdownOpen()">
             </bugsplat-filterable-dropdown>
