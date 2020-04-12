@@ -1,201 +1,110 @@
 @import "node_modules/bootstrap/scss/bootstrap";
 
-$dark-grey-blue: #354052;
 $blue-grey: #7f8fa4;
-$light-blue-grey: #dae9fc;
-$dark-grey-blue: #354052;
-$font-family: 'Lato', sans-serif;
-$font-size: 14px;
-$grey: #e6eaee;
-$light-grey: #afb7c8;
 $border-light-grey: #dfe2e5;
+$dark-grey-blue: #354052;
+$light-blue-grey: #dae9fc;
+$light-grey: #afb7c8;
+$grey: #e6eaee;
 
-button.filterable-dropdown-item {
-    height: 37px;
-    box-shadow: inset 0 -1px 0 0 #dfe3e9;
-  }
-  
-  button.filterable-dropdown-item {
-  
-    &:active,
-    &:focus,
-    &:hover,
-    &:visited {
-      -webkit-box-shadow: none !important;
-      box-sizing: none;
-      outline: none !important;
-      background-color: #f8f9fa;
-      box-shadow: none !important;
-      color: $dark-grey-blue !important;
-      text-decoration: none;
-    }
-  }
-  
-  .dropdown-menu-inner {
-    display: flex;
-    flex-direction: column;
-    max-height: 231px;
-    min-height: 76px;
-    height: auto;
-  }
-  
-  .filterable-dropdown-item {
-    position: relative;
-    height: 37px;
-    width: 100%;
-    padding-left: 16px;
-    box-shadow: inset 0 -1px 0 0 #dfe3e9;
-    color: $dark-grey-blue;
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-stretch: normal;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: normal;
-    line-height: normal;
-    text-align: left;
-    overflow:hidden;
-    text-overflow: ellipsis;
+* {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  color: $dark-grey-blue;
+}
+
+.btn-dropdown-toggle {
+  width: 100%;
+  height: 37px;
+  border: solid 1px $border-light-grey;
+  border-radius: 4px;
+  background-image: none;
+  background-color: #ffffff;
+  line-height: 1.36;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
+    -webkit-box-shadow: none !important;
+    box-sizing: none;
+    box-shadow: none !important;
   }
 
-  .float-right {
-    float: right;
+  &:disabled {
+    cursor: default;
   }
-  
-  .form-control {
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-stretch: normal;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: normal;
-    line-height: normal;
-    text-align: left;
-  }
-  
-  .form-search {
-    height: fit-content;
-    margin: 4px;
-  }
-  
-  .input-group {
-    height: fit-content;
-  }
-  
-  .scroll-container {
-    width: 100%;
-    overflow-y: scroll;
-  }
-  
-  //Firefox float right fix 
-  .fa.fa-check {
-    font-family: "Font Awesome 5 Free";
+
+  &:after {
+    margin-top: 8px;
     position: absolute;
     right: 15px;
   }
-  
-  //Row Details 
-  datatable-body-row.datatable-body-row {
-    .datatable-row-detail {
-      height: 100%;
-      padding-bottom: 2em;
-    }
-  }
-  
-  .no-items {
-    color: $dark-grey-blue;
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-stretch: normal;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: normal;
-    line-height: normal;
-    text-align: left;
-    padding-top: 10px;
-    padding-left: 16px;
-  
-    &:hover {
-      background-color: transparent !important;
-    }
-  }
+}
 
-  .btn-outline-primary {
-    width: 370px;
-    height: 37px;
-    border: solid 1px $border-light-grey;
-    border-radius: 4px;
-    background-color: transparent;
-    background-image: linear-gradient(to top, #f2f4f7, #ffffff);
-    color: rgba(53, 64, 82, 0.5);
-    font-family: 'Lato', sans-serif;
-    font-size: 14px;
-    font-stretch: normal;
-    font-style: normal;
-    font-weight: normal;
-    letter-spacing: normal;
-    line-height: 1.36;
-    text-align: left;
+.dropdown-menu {
+  width: 100%;
+  height: auto;
+  min-height: 86px;
+  padding-top: 0 !important;
+}
+
+.dropdown-menu-inner {
+  display: flex;
+  flex-direction: column;
+  max-height: 231px;
+  min-height: 76px;
+  height: auto;
+}
+
+.filterable-dropdown-item {
+  position: relative;
+  height: 37px;
+  width: 100%;
+  padding-left: 16px;
+  box-shadow: inset 0 -1px 0 0 #dfe3e9;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
+    -webkit-box-shadow: none !important;
+    box-sizing: none;
+    outline: none !important;
+    background-color: #f8f9fa;
+    box-shadow: none !important;
+    text-decoration: none;
   }
-  
-  // TODO BG I don't think this is a good ID
-  button#itemDropdown {
-    border: solid 1px $border-light-grey;
-    background-image: none;
-    background-color: #ffffff;
-    color: rgba(53, 64, 82, 0.5);
-    padding-right: 20px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  
-    &:active,
-    &:focus,
-    &:hover,
-    &:visited {
-      -webkit-box-shadow: none !important;
-      box-sizing: none;
-      box-shadow: none !important;
-      color: $dark-grey-blue !important;
-    }
+}
+
+.form-control {
+  text-align: left;
+}
+
+.form-search {
+  height: fit-content;
+  margin: 4px;
+}
+
+.no-items {
+  text-align: left;
+  padding-top: 10px;
+  padding-left: 16px;
+
+  &:hover,
+  &:active {
+    background-color: transparent !important;
+    color: $dark-grey-blue !important;
   }
-  
-  .dropdown-menu {
-    width: 100%;
-    height: auto;
-    min-height: 86px;
-    padding-top: 0 !important;
-  }
-  
-  .dropdown-toggle.dropdown-button {
-    width: 100%;
-    border: solid 1px $border-light-grey;
-    background-image: linear-gradient(to top, #f2f4f7, #ffffff);
-    color: $dark-grey-blue;
-  
-    &:after {
-      margin-top: 8px;
-      position: absolute;
-      right: 15px;
-    }
-  }
-  
-  i.fa.fa-calendar {
-    padding-right: 1em;
-  
-    @media (max-width: 1439px) {
-      padding-right: 1em !important;
-    }
-  
-    @media (max-width: 1243px) {
-      padding-right: 1em !important;
-    }
-  
-    @media (max-width: 1139px) {
-      padding-right: .3em !important;
-    }
-  
-    @media (max-width: 1083px) {
-      display: none;
-    }
-  }
-  
+}
+
+.scroll-container {
+  width: 100%;
+  overflow-y: scroll;
+}
