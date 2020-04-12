@@ -64,7 +64,6 @@ $grey: #e6eaee;
   position: relative;
   height: 37px;
   width: 100%;
-  padding-left: 16px;
   box-shadow: inset 0 -1px 0 0 #dfe3e9;
   text-align: left;
   overflow: hidden;
@@ -90,6 +89,12 @@ $grey: #e6eaee;
 .form-search {
   height: fit-content;
   margin: 4px;
+}
+
+.item-text-container {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 90%
 }
 
 .no-items {

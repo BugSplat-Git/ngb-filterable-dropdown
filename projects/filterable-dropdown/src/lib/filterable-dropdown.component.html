@@ -16,11 +16,11 @@
                         class="dropdown-item filterable-dropdown-item"> Select None </button>
                 </ng-container>
                 <div *ngFor="let item of items">
-                    <button class="dropdown-item filterable-dropdown-item" [hidden]="!isFiltered(item)"
+                    <button class="dropdown-item filterable-dropdown-item px-2" [hidden]="!isFiltered(item)"
                         (click)="onItemSelect(item)">
-                        <div class="d-flex">
-                            <span style="flex: 0">{{item}}</span>
-                            <span class="text-right" style="flex: 1" [hidden]="!isSelected(item)">✔️</span>
+                        <div class="d-flex flex-row">
+                            <div class="item-text-container">{{item}}</div>
+                            <div class="w-100 text-right" [hidden]="!isSelected(item)">✔️</div>
                         </div>
                     </button>
                 </div>
