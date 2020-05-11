@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
 import { FilterableDropdownComponent } from './filterable-dropdown.component';
@@ -19,7 +18,6 @@ describe('FilterableDropdownComponent', () => {
       imports: [
         NgbModule,
         ReactiveFormsModule,
-        FontAwesomeModule,
         CommonModule
       ],
       declarations: [

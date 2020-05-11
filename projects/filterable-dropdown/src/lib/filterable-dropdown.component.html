@@ -1,15 +1,14 @@
 <div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (openChange)="onOpenChange($event)">
-    <button ngbDropdownToggle class="btn btn-outline-primary dropdown-button" id="itemDropdown" [disabled]="disabled">
+    <button ngbDropdownToggle class="btn btn-dropdown-toggle" id="toggle" [disabled]="disabled">
         {{selectedItems | multiSelect}}
     </button>
-    <div ngbDropdownMenu aria-labelledby="itemDropdown">
+    <div ngbDropdownMenu aria-labelledby="toggle">
         <div class="dropdown-menu-inner">
             <form class="form-search" [formGroup]="searchForm">
                 <input #search class="form-control" formControlName="searchInput" placeholder="Search"
                     (click)="$event.stopPropagation()" (keyup.enter)="onEnterKeyPressed()">
             </form>
             <div class="scroll-container">
-
                 <ng-container *ngIf="allowToggleSelectAll">
                     <button *ngIf="nextToggleState === SELECT_ALL" (click)="onSelectAll()"
                         class="dropdown-item filterable-dropdown-item"> Select All </button>
@@ -17,9 +16,12 @@
                         class="dropdown-item filterable-dropdown-item"> Select None </button>
                 </ng-container>
                 <div *ngFor="let item of items">
-                    <button class="dropdown-item filterable-dropdown-item" [hidden]="!isFiltered(item)" (click)="onItemSelect(item)">
-                        {{item}}
-                        <fa-icon class="check-icon" [hidden]="!isSelected(item)" [icon]="faCheck"></fa-icon>
+                    <button class="dropdown-item filterable-dropdown-item px-2" [hidden]="!isFiltered(item)"
+                        (click)="onItemSelect(item)">
+                        <div class="d-flex flex-row">
+                            <div class="item-text-container">{{item}}</div>
+                            <div class="w-100 text-right" [hidden]="!isSelected(item)">✔️</div>
+                        </div>
                     </button>
                 </div>
                 <div *ngIf="noItemsToDisplay" class="dropdown-item no-items">

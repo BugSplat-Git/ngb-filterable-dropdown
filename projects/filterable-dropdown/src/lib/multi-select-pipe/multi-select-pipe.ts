@@ -1,5 +1,4 @@
-import { PipeTransform, Pipe } from "@angular/core";
-import { FilterableItem } from '../filterable-dropdown.component';
+import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
   name: 'multiSelect'
