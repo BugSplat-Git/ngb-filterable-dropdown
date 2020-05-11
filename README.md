@@ -32,11 +32,26 @@ Additional inputs are provided for further dropdown customization. Auto close ca
   autoClose: boolean | 'inside' | 'outside' = false;
   disabled: boolean = false;
 ```
+The component provides the selected data back to the parent through the onItemsSelected event and returns a list of selected strings.
+```js
+  onItemsSelected(selected: Array<string>) {
+    // Do Something
+  }
+```
+The component also provides an event when the dropdown is opened through the onOpen event.
+```js
+  onDropdownOpen() {
+    // Do Something
+  }
+```
 Add the counter to your component's template:
 
 ```html
-<ng-filterable-dropdown [params]="params"></ng-filterable-dropdown>
-```	```
+            <bugsplat-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
+                [selectedItems]="selected" [allowMultiSelect]="allowMultiSelect"
+                (onItemsSelected)="onItemsSelected($event)" (onOpen)="onDropdownOpen()">
+            </bugsplat-filterable-dropdown>
+```
 
 ## Compatability
 Animated counter is built using Angular`>=6.0.0`.
