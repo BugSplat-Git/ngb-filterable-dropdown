@@ -20,15 +20,12 @@ import { FilterableDropdownModule } from '@bugsplat/ng-filterable-dropdown'
 ```
 The component takes two main inputs, a list of strings that are selectable and a sub-list of strings that are already selected. 
 ```js
-  
   readonly bugs: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'] 
   selected: Array<string> = ['Moth'];
-  ...
 ```
 You can specify whether or not to allow multiple items to be selected. By default, the component allows one item to be selected.
 ```js
   allowMultiSelect: boolean = false;
-  ...
 ```
 Additional inputs are provided for further dropdown customization. Auto close can be set to true or false; alternatively you can specify whether to close on an outside or inside click. Dropdowns may also be disabled at any time.
 ```js
