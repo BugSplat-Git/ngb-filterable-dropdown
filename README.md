@@ -1,27 +1,58 @@
-# FilterableDropdown
+# animated-counter
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.1.
+Powerful dropdown control for complicated filtering.
 
-## Development server
+## Installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+`npm i --s @bugsplat/ng-filterable-dropdown`
 
-## Code scaffolding
+## Usage
+Import FilterableDropdownModule into NgModule imports:
+```js
+import { FilterableDropdownModule } from '@bugsplat/ng-filterable-dropdown'
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+@NgModule({
+  ...
+  imports: [
+    FilterableDropdownModule
+  ],
+  ...
+```
+The component takes two main inputs, a list of strings that are selectable and a sub-list of strings that are already selected. 
+```js
+  
+  readonly bugs: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'] 
+  selected: Array<string> = ['Moth'];
+  ...
+```
+You can specify whether or not to allow multiple items to be selected. By default, the component allows one item to be selected.
+```js
+  allowMultiSelect: boolean = false;
+  ...
+```
+Additional inputs are provided for further dropdown customization. Auto close can be set to true or false; alternatively you can specify whether to close on an outside or inside click. Dropdowns may also be disabled at any time.
+```js
+  autoClose: boolean | 'inside' | 'outside' = false;
+  disabled: boolean = false;
+```
+Add the counter to your component's template:
 
-## Build
+```html
+<ng-filterable-dropdown [params]="params"></ng-filterable-dropdown>
+```	```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Compatability
+Animated counter is built using Angular`>=6.0.0`.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Credits
 
-## Running end-to-end tests
+ng-filterable-dropdown is an open source tool from [BugSplat](https://www.bugsplat.com/)! BugSplat is a crash reporting tool used by developers to find when their software crashes while in use, and to collect data valuable to fixing those crashes. If you're interested in crash reporting, check out our [Angular](https://www.bugsplat.com/docs/sdk/angular/) integration. 
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+With :heart:  
+BugSplat
 
-## Further help
+## License
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+MIT
+
