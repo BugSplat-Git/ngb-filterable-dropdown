@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { FilterableDropdownModule } from 'filterable-dropdown';
 import { AppComponent } from './app.component';
+import { NgbFilterableDropdownModule } from 'projects/ngb-filterable-dropdown/src/lib/ngb-filterable-dropdown.module'
+
 
 @NgModule({
   declarations: [
@@ -10,7 +11,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    FilterableDropdownModule,
+    NgbFilterableDropdownModule,
     FormsModule
   ],
   providers: [],

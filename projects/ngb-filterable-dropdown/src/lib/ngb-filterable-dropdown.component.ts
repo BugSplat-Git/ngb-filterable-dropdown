@@ -3,11 +3,11 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { SelectionType } from './selection-type';
 
 @Component({
-  selector: 'bugsplat-filterable-dropdown',
-  templateUrl: './filterable-dropdown.component.html',
-  styleUrls: ['./filterable-dropdown.component.scss']
+  selector: 'ngb-filterable-dropdown',
+  templateUrl: './ngb-filterable-dropdown.component.html',
+  styleUrls: ['./ngb-filterable-dropdown.component.scss']
 })
-export class FilterableDropdownComponent implements OnInit {
+export class NgbFilterableDropdownComponent implements OnInit {
 
   public readonly SELECT_ALL = SelectionType.All;
   public readonly SELECT_NONE = SelectionType.None;

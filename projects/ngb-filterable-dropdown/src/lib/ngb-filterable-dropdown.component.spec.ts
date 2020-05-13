@@ -3,12 +3,12 @@ import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testi
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { take } from 'rxjs/operators';
-import { FilterableDropdownComponent } from './filterable-dropdown.component';
+import { NgbFilterableDropdownComponent } from './ngb-filterable-dropdown.component';
 import { MultiSelectPipe } from './multi-select-pipe/multi-select-pipe';
 
 describe('FilterableDropdownComponent', () => {
-  let component: FilterableDropdownComponent;
-  let fixture: ComponentFixture<FilterableDropdownComponent>;
+  let component: NgbFilterableDropdownComponent;
+  let fixture: ComponentFixture<NgbFilterableDropdownComponent>;
 
   let filterItem: string;
   let items: Array<string>;
@@ -21,7 +21,7 @@ describe('FilterableDropdownComponent', () => {
         CommonModule
       ],
       declarations: [
-        FilterableDropdownComponent,
+        NgbFilterableDropdownComponent,
         MultiSelectPipe
       ]
     })
@@ -29,7 +29,7 @@ describe('FilterableDropdownComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FilterableDropdownComponent);
+    fixture = TestBed.createComponent(NgbFilterableDropdownComponent);
     component = fixture.componentInstance;
     filterItem = "foo";
     items = [filterItem, "bar", "baz"];

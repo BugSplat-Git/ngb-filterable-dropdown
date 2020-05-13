@@ -1,5 +1,5 @@
 {
-  "name": "filterable-dropdown",
+  "name": "ngb-filterable-dropdown",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "lib:build": "ng build filterable-dropdown"
+    "lib:build": "ng build ngb-filterable-dropdown"
   },
   "private": true,
   "dependencies": {

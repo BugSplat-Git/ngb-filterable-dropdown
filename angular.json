@@ -3,33 +3,33 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "filterable-dropdown": {
+    "ngb-filterable-dropdown": {
       "projectType": "library",
-      "root": "projects/filterable-dropdown",
-      "sourceRoot": "projects/filterable-dropdown/src",
+      "root": "projects/ngb-filterable-dropdown",
+      "sourceRoot": "projects/ngb-filterable-dropdown/src",
       "prefix": "bugsplat",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/filterable-dropdown/tsconfig.lib.json",
-            "project": "projects/filterable-dropdown/ng-package.json"
+            "tsConfig": "projects/ngb-filterable-dropdown/tsconfig.lib.json",
+            "project": "projects/ngb-filterable-dropdown/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/filterable-dropdown/src/test.ts",
-            "tsConfig": "projects/filterable-dropdown/tsconfig.spec.json",
-            "karmaConfig": "projects/filterable-dropdown/karma.conf.js"
+            "main": "projects/ngb-filterable-dropdown/src/test.ts",
+            "tsConfig": "projects/ngb-filterable-dropdown/tsconfig.spec.json",
+            "karmaConfig": "projects/ngb-filterable-dropdown/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/filterable-dropdown/tsconfig.lib.json",
-              "projects/filterable-dropdown/tsconfig.spec.json"
+              "projects/ngb-filterable-dropdown/tsconfig.lib.json",
+              "projects/ngb-filterable-dropdown/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -38,32 +38,32 @@
         }
       }
     },
-    "filterable-dropdown-example": {
+    "ngb-filterable-dropdown-example": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/filterable-dropdown-example",
-      "sourceRoot": "projects/filterable-dropdown-example/src",
+      "root": "projects/ngb-filterable-dropdown-example",
+      "sourceRoot": "projects/ngb-filterable-dropdown-example/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/filterable-dropdown-example",
-            "index": "projects/filterable-dropdown-example/src/index.html",
-            "main": "projects/filterable-dropdown-example/src/main.ts",
-            "polyfills": "projects/filterable-dropdown-example/src/polyfills.ts",
-            "tsConfig": "projects/filterable-dropdown-example/tsconfig.app.json",
+            "outputPath": "dist/ngb-filterable-dropdown-example",
+            "index": "projects/ngb-filterable-dropdown-example/src/index.html",
+            "main": "projects/ngb-filterable-dropdown-example/src/main.ts",
+            "polyfills": "projects/ngb-filterable-dropdown-example/src/polyfills.ts",
+            "tsConfig": "projects/ngb-filterable-dropdown-example/tsconfig.app.json",
             "aot": false,
             "assets": [
-              "projects/filterable-dropdown-example/src/favicon.ico",
-              "projects/filterable-dropdown-example/src/assets"
+              "projects/ngb-filterable-dropdown-example/src/favicon.ico",
+              "projects/ngb-filterable-dropdown-example/src/assets"
             ],
             "styles": [
-              "projects/filterable-dropdown-example/src/styles.scss"
+              "projects/ngb-filterable-dropdown-example/src/styles.scss"
             ],
             "scripts": []
           },
@@ -71,8 +71,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/filterable-dropdown-example/src/environments/environment.ts",
-                  "with": "projects/filterable-dropdown-example/src/environments/environment.prod.ts"
+                  "replace": "projects/ngb-filterable-dropdown-example/src/environments/environment.ts",
+                  "with": "projects/ngb-filterable-dropdown-example/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -102,33 +102,33 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "filterable-dropdown-example:build"
+            "browserTarget": "ngb-filterable-dropdown-example:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "filterable-dropdown-example:build:production"
+              "browserTarget": "ngb-filterable-dropdown-example:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "filterable-dropdown-example:build"
+            "browserTarget": "ngb-filterable-dropdown-example:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/filterable-dropdown-example/src/test.ts",
-            "polyfills": "projects/filterable-dropdown-example/src/polyfills.ts",
-            "tsConfig": "projects/filterable-dropdown-example/tsconfig.spec.json",
-            "karmaConfig": "projects/filterable-dropdown-example/karma.conf.js",
+            "main": "projects/ngb-filterable-dropdown-example/src/test.ts",
+            "polyfills": "projects/ngb-filterable-dropdown-example/src/polyfills.ts",
+            "tsConfig": "projects/ngb-filterable-dropdown-example/tsconfig.spec.json",
+            "karmaConfig": "projects/ngb-filterable-dropdown-example/karma.conf.js",
             "assets": [
-              "projects/filterable-dropdown-example/src/favicon.ico",
-              "projects/filterable-dropdown-example/src/assets"
+              "projects/ngb-filterable-dropdown-example/src/favicon.ico",
+              "projects/ngb-filterable-dropdown-example/src/assets"
             ],
             "styles": [
-              "projects/filterable-dropdown-example/src/styles.scss"
+              "projects/ngb-filterable-dropdown-example/src/styles.scss"
             ],
             "scripts": []
           }
@@ -137,9 +137,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/filterable-dropdown-example/tsconfig.app.json",
-              "projects/filterable-dropdown-example/tsconfig.spec.json",
-              "projects/filterable-dropdown-example/e2e/tsconfig.json"
+              "projects/ngb-filterable-dropdown-example/tsconfig.app.json",
+              "projects/ngb-filterable-dropdown-example/tsconfig.spec.json",
+              "projects/ngb-filterable-dropdown-example/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -149,16 +149,16 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/filterable-dropdown-example/e2e/protractor.conf.js",
-            "devServerTarget": "filterable-dropdown-example:serve"
+            "protractorConfig": "projects/ngb-filterable-dropdown-example/e2e/protractor.conf.js",
+            "devServerTarget": "ngb-filterable-dropdown-example:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "filterable-dropdown-example:serve:production"
+              "devServerTarget": "ngb-filterable-dropdown-example:serve:production"
             }
           }
         }
       }
     }},
-  "defaultProject": "filterable-dropdown"
+  "defaultProject": "ngb-filterable-dropdown"
 }
