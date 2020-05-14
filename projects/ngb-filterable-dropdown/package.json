@@ -1,11 +1,11 @@
 {
   "name": "@bugsplat/ngb-filterable-dropdown",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/BugSplat-Git/ngb-filterable-dropdown"
+    "type": "git",
+    "url": "https://github.com/BugSplat-Git/ngb-filterable-dropdown"
   },
   "bugs": {
     "url": "https://github.com/BugSplat-Git/ngb-filterable-dropdown/issues"
