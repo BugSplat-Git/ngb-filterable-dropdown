@@ -10,7 +10,15 @@
     "e2e": "ng e2e",
     "lib:build": "ng build ngb-filterable-dropdown"
   },
-  "private": true,
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/BugSplat-Git/ngb-filterable-dropdown"
+  },
+  "bugs": {
+    "url": "https://github.com/BugSplat-Git/ngb-filterable-dropdown/issues"
+  },
   "dependencies": {
     "@angular/animations": "~9.1.7",
     "@angular/common": "~9.1.7",
