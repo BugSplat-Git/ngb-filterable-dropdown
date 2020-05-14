@@ -4,7 +4,7 @@ Powerful dropdown control for complicated filtering.
 
 ## Installation
 
-`npm i --s @bugsplat/ng-filterable-dropdown`
+`npm i -s @bugsplat/ngb-filterable-dropdown`
 
 ## Usage
 Import NgbFilterableDropdownModule into NgModule imports:
@@ -67,4 +67,3 @@ BugSplat
 ## License
 
 MIT
-
