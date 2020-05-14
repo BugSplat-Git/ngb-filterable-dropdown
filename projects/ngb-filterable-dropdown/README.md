@@ -4,7 +4,7 @@ Powerful dropdown control for complicated filtering.
 
 ## Installation
 
-`npm i --s @bugsplat/ng-filterable-dropdown`
+`npm i -s @bugsplat/ngb-filterable-dropdown`
 
 ## Usage
 Import NgbFilterableDropdownModule into NgModule imports:
@@ -59,7 +59,7 @@ Animated counter is built using Angular`>=6.0.0`.
 
 ## Credits
 
-ng-filterable-dropdown is an open source tool from [BugSplat](https://www.bugsplat.com/)! BugSplat is a crash reporting tool used by developers to find when their software crashes while in use, and to collect data valuable to fixing those crashes. If you're interested in crash reporting, check out our [Angular](https://www.bugsplat.com/docs/sdk/angular/) integration. 
+ngb-filterable-dropdown is an open source tool from [BugSplat](https://www.bugsplat.com/)! BugSplat is a crash reporting tool used by developers to find when their software crashes while in use, and to collect data valuable to fixing those crashes. If you're interested in crash reporting, check out our [Angular](https://www.bugsplat.com/docs/sdk/angular/) integration. 
 
 With :heart:  
 BugSplat
@@ -67,4 +67,3 @@ BugSplat
 ## License
 
 MIT
-

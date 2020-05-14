@@ -2,16 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FilterableDropdownComponent } from './filterable-dropdown.component';
+import { NgbFilterableDropdownComponent } from './ngb-filterable-dropdown.component';
 import { MultiSelectPipe } from './multi-select-pipe/multi-select-pipe';
 
 @NgModule({
-  declarations: [FilterableDropdownComponent, MultiSelectPipe],
+  declarations: [NgbFilterableDropdownComponent, MultiSelectPipe],
   imports: [FormsModule,
     ReactiveFormsModule,
     CommonModule,
     NgbModule
   ],
-  exports: [FilterableDropdownComponent]
+  exports: [NgbFilterableDropdownComponent]
 })
-export class FilterableDropdownModule { }
+export class NgbFilterableDropdownModule { }

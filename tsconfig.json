@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "filterable-dropdown": [
-        "dist/filterable-dropdown"
+      "ngb-filterable-dropdown": [
+        "dist/ngb-filterable-dropdown"
       ],
-      "filterable-dropdown/*": [
-        "dist/filterable-dropdown/*"
+      "ngb-filterable-dropdown/*": [
+        "dist/ngb-filterable-dropdown/*"
       ]
     }
   },
