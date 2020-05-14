@@ -1,5 +1,5 @@
 /*
- * Public API Surface of filterable-dropdown
+ * Public API Surface of ngb-filterable-dropdown
  */
 
 export * from './lib/ngb-filterable-dropdown.component';

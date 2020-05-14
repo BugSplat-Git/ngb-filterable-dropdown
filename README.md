@@ -1,4 +1,4 @@
-# animated-counter
+# ngb-filterable-dropdown
 
 Powerful dropdown control for complicated filtering.
 
@@ -7,9 +7,9 @@ Powerful dropdown control for complicated filtering.
 `npm i --s @bugsplat/ng-filterable-dropdown`
 
 ## Usage
-Import FilterableDropdownModule into NgModule imports:
+Import NgbFilterableDropdownModule into NgModule imports:
 ```js
-import { FilterableDropdownModule } from '@bugsplat/ng-filterable-dropdown'
+import { NgbFilterableDropdownModule } from '@bugsplat/ng-filterable-dropdown'
 
 @NgModule({
   ...
@@ -47,10 +47,10 @@ The component also provides an event when the dropdown is opened through the onO
 Add the counter to your component's template:
 
 ```html
-            <bugsplat-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
+            <ngb-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
                 [selectedItems]="selected" [allowMultiSelect]="allowMultiSelect"
                 (onItemsSelected)="onItemsSelected($event)" (onOpen)="onDropdownOpen()">
-            </bugsplat-filterable-dropdown>
+            </ngb-filterable-dropdown>
 ```
 
 ## Compatability

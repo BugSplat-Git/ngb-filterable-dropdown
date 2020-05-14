@@ -1,15 +1,15 @@
-# animated-counter
+# ngb-filterable-dropdown
 
 Powerful dropdown control for complicated filtering.
 
 ## Installation
 
-`npm i --s @bugsplat/ngb-filterable-dropdown`
+`npm i --s @bugsplat/ng-filterable-dropdown`
 
 ## Usage
-Import FilterableDropdownModule into NgModule imports:
+Import NgbFilterableDropdownModule into NgModule imports:
 ```js
-import { FilterableDropdownModule } from '@bugsplat/ngb-filterable-dropdown'
+import { NgbFilterableDropdownModule } from '@bugsplat/ng-filterable-dropdown'
 
 @NgModule({
   ...
@@ -47,19 +47,19 @@ The component also provides an event when the dropdown is opened through the onO
 Add the counter to your component's template:
 
 ```html
-            <bugsplat-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
+            <ngb-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
                 [selectedItems]="selected" [allowMultiSelect]="allowMultiSelect"
                 (onItemsSelected)="onItemsSelected($event)" (onOpen)="onDropdownOpen()">
-            </bugsplat-filterable-dropdown>
+            </ngb-filterable-dropdown>
 ```
 
 ## Compatability
-Animated counter is built using Angular`>=6.0.0` and has a dependancy on ng-bootstrap `>=6.0.0`.
+Animated counter is built using Angular`>=6.0.0`.
 
 
 ## Credits
 
-ngb-filterable-dropdown is an open source tool from [BugSplat](https://www.bugsplat.com/)! BugSplat is a crash reporting tool used by developers to find when their software crashes while in use, and to collect data valuable to fixing those crashes. If you're interested in crash reporting, check out our [Angular](https://www.bugsplat.com/docs/sdk/angular/) integration. 
+ng-filterable-dropdown is an open source tool from [BugSplat](https://www.bugsplat.com/)! BugSplat is a crash reporting tool used by developers to find when their software crashes while in use, and to collect data valuable to fixing those crashes. If you're interested in crash reporting, check out our [Angular](https://www.bugsplat.com/docs/sdk/angular/) integration. 
 
 With :heart:  
 BugSplat
@@ -67,5 +67,4 @@ BugSplat
 ## License
 
 MIT
-
 
