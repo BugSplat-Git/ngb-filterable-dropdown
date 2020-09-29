@@ -50,7 +50,6 @@ export class NgbFilterableDropdownComponent implements OnInit {
 
   constructor(private changeDetector: ChangeDetectorRef) { }
 
-
   ngOnInit(): void {
     this.filtered = new Set(this.items);
     this.searchForm.get("searchInput").valueChanges.subscribe(value => {
@@ -70,13 +69,13 @@ export class NgbFilterableDropdownComponent implements OnInit {
     let arr: Array<any> = Array.from(this.selected);
     if (this.allowMultiSelect) {
       return arr;
-    } else {
-      if (arr) {
-        return arr[0]
-      } else {
-        return "";
-      }
     }
+
+    if (arr) {
+      return arr[0]
+    } 
+    
+    return "";
   }
 
   onSelectAll(): void {
@@ -93,7 +92,7 @@ export class NgbFilterableDropdownComponent implements OnInit {
     this.onItemsSelected.emit(this.selectedItems);
   }
 
-  onItemSelect(item: string) {
+  onItemSelect(item: string): void {
     if (this.allowMultiSelect) {
       if (this.selected.has(item)){
         this.selected.delete(item);
@@ -124,7 +123,7 @@ export class NgbFilterableDropdownComponent implements OnInit {
       });
     } else {
       if (this.filtered && this.filtered.size) {
-        this.selected = new Set([this.filtered[0]]);
+        this.selected = new Set([this.filtered.entries().next().value[0]]);
       } 
     }
 
