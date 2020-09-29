@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { SelectionType } from './selection-type';
 
 @Component({
@@ -26,13 +27,13 @@ export class NgbFilterableDropdownComponent implements OnInit {
   } 
   @Input() disabled: boolean = false;
   @Input() allowMultiSelect: boolean = true;
-  @Input() placeholder: string;
+  @Input() placeholder: string = 'No Items Selected';
 
   @Output() onItemsSelected: EventEmitter<Array<string> | string> = new EventEmitter<Array<string> | string>();
   @Output() onOpen: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('search', { static: true }) search: ElementRef;
-  @ViewChild('dropdown', { static: true }) dropdown: ElementRef;
+  @ViewChild('dropdown', { static: true }) dropdown: NgbDropdown;
 
   public get allowToggleSelectAll(): boolean {
     return (this.allowMultiSelect && this.searchInputValue.length === 0);
@@ -125,6 +126,11 @@ export class NgbFilterableDropdownComponent implements OnInit {
       if (this.filtered && this.filtered.size) {
         this.selected = new Set([this.filtered.entries().next().value[0]]);
       } 
+    }
+
+    // TODO BG test
+    if (this.autoClose) {
+      this.dropdown.close();
     }
 
     this.onItemsSelected.emit(this.selectedItems);

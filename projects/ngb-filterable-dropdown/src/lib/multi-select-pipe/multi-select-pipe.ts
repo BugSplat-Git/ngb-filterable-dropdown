@@ -5,13 +5,12 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class MultiSelectPipe implements PipeTransform {
 
-  public static readonly ALL_ITEMS_STRING = "All";
   public static readonly MULTIPLE_ITEMS_STRING = "Multiple";
 
-  transform(val: Array<string> | string): string {
+  transform(val: Array<string> | string, placeholderText: string): string {
     if (typeof val === "string") {
       if (!val) {
-        return MultiSelectPipe.ALL_ITEMS_STRING;
+        return placeholderText;
       }
       else {
         return val;
@@ -19,12 +18,14 @@ export class MultiSelectPipe implements PipeTransform {
     }
     else if (val instanceof Array) {
       if (val.length === 0) {
-        return MultiSelectPipe.ALL_ITEMS_STRING;
+        return placeholderText;
       } else if (val.length === 1) {
         return val[0];
       } else {
         return MultiSelectPipe.MULTIPLE_ITEMS_STRING;
       }
     }
+
+    return placeholderText;
   }
 }
