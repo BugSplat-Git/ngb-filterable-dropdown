@@ -1,16 +1,16 @@
-import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import { AppPage } from "./app.po";
+import { browser, logging } from "protractor";
 
-describe('workspace-project App', () => {
+describe("NgbFilterableDropdownExample", () => {
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it("should display welcome message", () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('filterable-dropdown-example');
+    expect(page.getTitleText()).toEqual("ngb-filterable-dropdown-example");
   });
 
   afterEach(async () => {

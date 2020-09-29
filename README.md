@@ -5,9 +5,9 @@ Powerful dropdown control for complicated filtering.
 `npm i -s @bugsplat/ngb-filterable-dropdown`
 
 ## Usage
-Import NgbFilterableDropdownModule into NgModule imports:
+Add NgbFilterableDropdownModule into your AppModules NgModule imports:
 ```ts
-import { NgbFilterableDropdownModule } from '@bugsplat/ng-filterable-dropdown'
+import { NgbFilterableDropdownModule } from '@bugsplat/ngb-filterable-dropdown'
 
 @NgModule({
   ...
@@ -33,6 +33,7 @@ Additional inputs are provided for further dropdown customization. Auto close ca
 ```ts
 autoClose: boolean | 'inside' | 'outside' = false;
 disabled: boolean = false;
+placeholder: string = 'No Items Selected';
 ```
 
 The component provides the selected data back to the parent through the onItemsSelected event and returns a list of selected strings.
@@ -49,11 +50,13 @@ onDropdownOpen() {
 }
 ```
 
-Add the ngb-filterable-dropdown component to your component's template:
+Add ngb-filterable-dropdown to your component's template:
 ```html
-<ngb-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
-    [selectedItems]="selected" [allowMultiSelect]="allowMultiSelect"
-    (onItemsSelected)="onItemsSelected($event)" (onOpen)="onDropdownOpen()">
+<ngb-filterable-dropdown [allowMultiSelect]="allowMultiSelect" 
+    [autoClose]="autoClose" [disabled]="disabled"
+    [items]="bugs" [selectedItems]="selected"
+    (onItemsSelected)="onItemsSelected($event)" 
+    (onOpen)="onDropdownOpen()">
 </ngb-filterable-dropdown>
 ```
 

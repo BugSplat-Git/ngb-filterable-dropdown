@@ -1,6 +1,6 @@
 <div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (openChange)="onOpenChange($event)">
     <button ngbDropdownToggle class="btn btn-dropdown-toggle" id="toggle" [disabled]="disabled">
-        {{selectedItems | multiSelect}}
+        {{ selectedItems | multiSelect: placeholder }}
     </button>
     <div ngbDropdownMenu aria-labelledby="toggle">
         <div class="dropdown-menu-inner">
