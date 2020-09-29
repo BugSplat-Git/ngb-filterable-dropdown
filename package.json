@@ -13,8 +13,8 @@
   "private": false,
   "license": "MIT",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/BugSplat-Git/ngb-filterable-dropdown"
+    "type": "git",
+    "url": "https://github.com/BugSplat-Git/ngb-filterable-dropdown"
   },
   "bugs": {
     "url": "https://github.com/BugSplat-Git/ngb-filterable-dropdown/issues"
@@ -28,8 +28,8 @@
     "@angular/platform-browser": "~9.1.7",
     "@angular/platform-browser-dynamic": "~9.1.7",
     "@angular/router": "~9.1.7",
-    "@ng-bootstrap/ng-bootstrap": "^5.0.0",
-    "bootstrap": "^4.3.1",
+    "@ng-bootstrap/ng-bootstrap": "^7.0.0",
+    "bootstrap": "^4.5.2",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.5",
     "tslib": "^1.10.0",
