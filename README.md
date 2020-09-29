@@ -7,7 +7,7 @@ Powerful dropdown control for complicated filtering.
 ## Usage
 Import NgbFilterableDropdownModule into NgModule imports:
 ```ts
-import { NgbFilterableDropdownModule } from '@bugsplat/ng-filterable-dropdown'
+import { NgbFilterableDropdownModule } from '@bugsplat/ngb-filterable-dropdown'
 
 @NgModule({
   ...
