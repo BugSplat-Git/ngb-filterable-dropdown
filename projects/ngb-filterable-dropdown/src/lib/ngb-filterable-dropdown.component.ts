@@ -142,7 +142,6 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
       } 
     }
 
-    // TODO BG test
     if (this.autoClose) {
       this.dropdown.close();
     }
