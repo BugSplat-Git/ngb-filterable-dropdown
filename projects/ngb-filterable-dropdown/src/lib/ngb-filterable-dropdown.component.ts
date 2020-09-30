@@ -16,14 +16,21 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   public selected = new Set();
   public filtered = new Set();
+  private _items: Array<string> = [];
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
-  @Input() items: Array<string> = [];
-  @Input() set selectedItems(selection: string | Array<string>) {
-    if (typeof selection === "string") {
-      this.selected = new Set([selection])
+  @Input() set items(value: Array<string>) {
+    this.filtered = new Set(value);
+    this._items = value;
+  }
+  get items(): Array<string> {
+    return this._items;
+  }
+  @Input() set selectedItems(value: string | Array<string>) {
+    if (typeof value === "string") {
+      this.selected = new Set([value])
     } else {
-      this.selected = new Set(selection);
+      this.selected = new Set(value);
     }
   } 
   @Input() disabled: boolean = false;
@@ -55,7 +62,6 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   constructor(private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.filtered = new Set(this.items);
     this._valueChangesSubscription = this.searchForm.get("searchInput").valueChanges
       .subscribe(value => {
         if (!value) {
