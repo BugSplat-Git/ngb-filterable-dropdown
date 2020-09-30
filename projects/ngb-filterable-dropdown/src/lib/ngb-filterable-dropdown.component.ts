@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -13,10 +13,6 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   public readonly SELECT_ALL = SelectionType.All;
   public readonly SELECT_NONE = SelectionType.None;
-
-  public selected = new Set();
-  public filtered = new Set();
-  private _items: Array<string> = [];
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
   @Input() set items(value: Array<string>) {
@@ -43,6 +39,14 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   @ViewChild('search', { static: true }) search: ElementRef;
   @ViewChild('dropdown', { static: true }) dropdown: NgbDropdown;
 
+  public filtered: Set<string> = new Set();
+  public nextToggleState: SelectionType = this.SELECT_ALL;
+  public searchForm = new FormGroup({ searchInput: new FormControl() });
+  public selected: Set<string> = new Set();
+  
+  private _items: Array<string> = [];
+  private _valueChangesSubscription: Subscription;
+
   public get allowToggleSelectAll(): boolean {
     return (this.allowMultiSelect && this.searchInputValue.length === 0);
   }
@@ -50,16 +54,6 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   public get noItemsToDisplay(): boolean {
     return this.filtered.size === 0;
   }
-
-  nextToggleState: SelectionType = this.SELECT_ALL;
-
-  searchForm = new FormGroup({
-    searchInput: new FormControl()
-  });
-
-  private _valueChangesSubscription: Subscription;
-
-  constructor(private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this._valueChangesSubscription = this.searchForm.get("searchInput").valueChanges
@@ -123,8 +117,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   onOpenChange(open): void {
     if (open) {
-      this.changeDetector.detectChanges();
-      this.search.nativeElement.focus();
+      setTimeout(() => this.search.nativeElement.focus());
       this.onOpen.emit();
     }
   }
