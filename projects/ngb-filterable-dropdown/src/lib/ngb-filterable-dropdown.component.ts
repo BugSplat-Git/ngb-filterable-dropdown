@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 import { SelectionType } from './selection-type';
 
 @Component({
@@ -8,7 +9,7 @@ import { SelectionType } from './selection-type';
   templateUrl: './ngb-filterable-dropdown.component.html',
   styleUrls: ['./ngb-filterable-dropdown.component.scss']
 })
-export class NgbFilterableDropdownComponent implements OnInit {
+export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   public readonly SELECT_ALL = SelectionType.All;
   public readonly SELECT_NONE = SelectionType.None;
@@ -49,21 +50,28 @@ export class NgbFilterableDropdownComponent implements OnInit {
     searchInput: new FormControl()
   });
 
+  private _valueChangesSubscription: Subscription;
+
   constructor(private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.filtered = new Set(this.items);
-    this.searchForm.get("searchInput").valueChanges.subscribe(value => {
-      if (!value) {
-        this.filtered = new Set(this.items);
-        return;
-      }
-  
-      const lowerCaseSearchInputValue = value.toLowerCase();
-      const filteredValues = this.items.filter(item => item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1);
-  
-      this.filtered = new Set(filteredValues);
-    });
+    this._valueChangesSubscription = this.searchForm.get("searchInput").valueChanges
+      .subscribe(value => {
+        if (!value) {
+          this.filtered = new Set(this.items);
+          return;
+        }
+    
+        const lowerCaseSearchInputValue = value.toLowerCase();
+        const filteredValues = this.items.filter(item => item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1);
+    
+        this.filtered = new Set(filteredValues);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._valueChangesSubscription?.unsubscribe();
   }
 
   get selectedItems(): Array<string> | string {
