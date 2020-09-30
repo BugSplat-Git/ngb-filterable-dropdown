@@ -2,7 +2,7 @@ import { CommonModule } from "@angular/common";
 import { ComponentFixture, fakeAsync, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { take } from "rxjs/operators";
+import { take, tap } from "rxjs/operators";
 import { MultiSelectPipe } from "./multi-select-pipe/multi-select-pipe";
 import { NgbFilterableDropdownComponent } from "./ngb-filterable-dropdown.component";
 
@@ -38,12 +38,6 @@ describe("NgbFilterableDropdownComponent", () => {
 
   it("should create", () => {
     expect(component).toBeTruthy();
-  });
-
-  it("should clear filter text when item is selected", () => {
-    component.searchForm.controls["searchInput"].setValue(filterItem);
-    component.onItemSelect(filterItem);
-    expect(component.searchForm.controls["searchInput"].value).toEqual("");
   });
 
   it("should populate filtered with correct list of filtered items", () => {
@@ -162,6 +156,44 @@ describe("NgbFilterableDropdownComponent", () => {
 
       expect(component.noItemsToDisplay).toEqual(false);
       expect(fixture.nativeElement.querySelector(".no-items")).toBeFalsy();
+    });
+  });
+
+  describe("onOpenChange", () => {
+    it("should emit event if dialog is being opened", async () => {
+      let emitted = false;
+      const resultPromise = component.onOpen.pipe(tap(() => emitted = true), take(1)).toPromise();
+
+      component.onOpenChange(true);
+      await resultPromise;
+
+      expect(emitted).toEqual(true);
+    });
+
+    it("should clear filter text if dialog is being closed", () => {
+      component.searchForm.controls["searchInput"].setValue(filterItem);
+      component.onOpenChange(false);
+      expect(component.searchForm.controls["searchInput"].value).toEqual("");
+    });
+  });
+
+  describe("onSelectMultiple", () => {
+    it("should set nextToggleState to DESELECT", () => {
+      component.nextToggleState = component.SELECT;
+
+      component.onSelectMultiple();
+
+      expect(component.nextToggleState).toEqual(component.DESELECT);
+    });
+
+    it("should emit selected items", async () => {
+      const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
+      component.filtered = new Set(items);
+
+      component.onSelectMultiple();
+      const result = await resultPromise;
+
+      expect(result).toEqual(items);
     });
   });
 
