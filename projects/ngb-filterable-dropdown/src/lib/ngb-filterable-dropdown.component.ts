@@ -11,8 +11,8 @@ import { SelectionType } from './selection-type';
 })
 export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
-  public readonly SELECT_ALL = SelectionType.All;
-  public readonly SELECT_NONE = SelectionType.None;
+  public readonly SELECT = SelectionType.All;
+  public readonly DESELECT = SelectionType.None;
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
   @Input() set items(value: Array<string>) {
@@ -40,7 +40,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   @ViewChild('dropdown', { static: true }) dropdown: NgbDropdown;
 
   public filtered: Set<string> = new Set();
-  public nextToggleState: SelectionType = this.SELECT_ALL;
+  public nextToggleState: SelectionType = this.SELECT;
   public searchForm = new FormGroup({ searchInput: new FormControl() });
   public selected: Set<string> = new Set();
   
@@ -49,6 +49,10 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   public get allowToggleSelectAll(): boolean {
     return (this.allowMultiSelect && this.searchInputValue.length === 0);
+  }
+
+  public get allowToggleSelectMultiple(): boolean {
+    return (this.allowMultiSelect && this.searchInputValue.length > 0 && this.filtered.size > 0);
   }
 
   public get noItemsToDisplay(): boolean {
@@ -88,16 +92,20 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   onSelectAll(): void {
-    this.nextToggleState = this.SELECT_NONE;
+    this.nextToggleState = this.DESELECT;
     this.selected = new Set(this.items);
-    this.resetFilterInput();
     this.onItemsSelected.emit(this.selectedItems);
   }
 
   onSelectNone(): void {
-    this.nextToggleState = this.SELECT_ALL;
+    this.nextToggleState = this.SELECT;
     this.selected = new Set([]);
-    this.resetFilterInput();
+    this.onItemsSelected.emit(this.selectedItems);
+  }
+
+  onSelectMultiple(): void {
+    this.nextToggleState = this.DESELECT
+    this.selectMultiple();
     this.onItemsSelected.emit(this.selectedItems);
   }
 
@@ -112,39 +120,43 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
       this.selected = new Set([item]);
     }
     this.onItemsSelected.emit(this.selectedItems);
-    this.resetFilterInput();
   }
 
-  onOpenChange(open): void {
+  onOpenChange(open: boolean): void {
     if (open) {
       setTimeout(() => this.search.nativeElement.focus());
       this.onOpen.emit();
+    } else {
+      this.resetFilterInput();
     }
   }
 
   onEnterKeyPressed(): void {
     if (this.allowMultiSelect) {
-      this.filtered.forEach(item => {
-        if (!this.selected.has(item)) {
-          this.selected.add(item);
-        }
-      });
-    } else {
-      if (this.filtered && this.filtered.size) {
-        this.selected = new Set([this.filtered.entries().next().value[0]]);
-      } 
+      this.selectMultiple();
     }
+    
+    if (!this.allowMultiSelect && this.filtered?.size) {
+      this.selected = new Set([this.filtered.entries().next().value[0]]);
+    } 
 
     if (this.autoClose) {
       this.dropdown.close();
     }
 
     this.onItemsSelected.emit(this.selectedItems);
-    this.resetFilterInput();
   }
 
   private resetFilterInput(): void {
     this.searchInput.setValue("");
+  }
+
+  private selectMultiple(): void {
+    this.filtered.forEach(item => {
+      if (!this.selected.has(item)) {
+        this.selected.add(item);
+      }
+    });
   }
 
   public isFiltered(value: string): boolean {

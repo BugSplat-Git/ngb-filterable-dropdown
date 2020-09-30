@@ -10,9 +10,15 @@
             </form>
             <div class="scroll-container">
                 <ng-container *ngIf="allowToggleSelectAll">
-                    <button *ngIf="nextToggleState === SELECT_ALL" (click)="onSelectAll()"
+                    <button *ngIf="nextToggleState === SELECT" (click)="onSelectAll()"
                         class="dropdown-item filterable-dropdown-item"> Select All </button>
-                    <button *ngIf="nextToggleState === SELECT_NONE" (click)="onSelectNone()"
+                    <button *ngIf="nextToggleState === DESELECT" (click)="onSelectNone()"
+                        class="dropdown-item filterable-dropdown-item"> Select None </button>
+                </ng-container>
+                <ng-container *ngIf="allowToggleSelectMultiple">
+                    <button *ngIf="nextToggleState === SELECT" (click)="onSelectMultiple()"
+                        class="dropdown-item filterable-dropdown-item"> Select Multiple </button>
+                    <button *ngIf="nextToggleState === DESELECT" (click)="onSelectNone()"
                         class="dropdown-item filterable-dropdown-item"> Select None </button>
                 </ng-container>
                 <div *ngFor="let item of items">
