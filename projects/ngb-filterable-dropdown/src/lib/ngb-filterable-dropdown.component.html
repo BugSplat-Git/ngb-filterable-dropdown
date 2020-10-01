@@ -12,30 +12,30 @@
                 <ng-container *ngIf="allowToggleSelectAll">
                     <button [hidden]="nextToggleState === DESELECT" (click)="onSelectAll()"
                         class="dropdown-item filterable-dropdown-item"> 
-                        <img class="icon all" src="assets/icons/all.svg">
+                        <icon-all></icon-all>
                         Select All 
                     </button>
                     <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
                         class="dropdown-item filterable-dropdown-item"> 
-                        <img class="icon none" src="assets/icons/none.svg">
+                        <icon-none></icon-none>
                         Select None 
                     </button>
                 </ng-container>
                 <ng-container *ngIf="allowToggleSelectMultiple">
                     <button [hidden]="nextToggleState === DESELECT" (click)="onSelectMultiple()"
                         class="dropdown-item filterable-dropdown-item"> 
-                        <img class="icon all" src="assets/icons/all.svg">
+                        <icon-all></icon-all>
                         Select Multiple 
                     </button>
                     <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
                         class="dropdown-item filterable-dropdown-item"> 
-                        <img class="icon none" src="assets/icons/none.svg">
+                        <icon-none></icon-none>
                         Select None 
                     </button>
                 </ng-container>
-                <button [hidden]="!showCreateItem" class="dropdown-item filterable-dropdown-item action-button"
+                <button [hidden]="!showCreateItem" class="dropdown-item filterable-dropdown-item action-button icon-fix"
                     (click)="onCreateItem()">
-                    <img class="icon plus" src="assets/icons/plus.svg">
+                    <icon-plus></icon-plus>
                     Create {{searchInputValue}}
                 </button>
                 <div *ngFor="let item of items">
@@ -44,7 +44,7 @@
                         <div class="d-flex flex-row">
                             <div class="item-text-container">{{item}}</div>
                             <div class="w-100 text-right" [hidden]="!isSelected(item)">
-                                <img class="icon" src="assets/icons/checkmark.svg">
+                                <icon-checkmark></icon-checkmark>
                             </div>
                         </div>
                     </button>
@@ -56,3 +56,4 @@
         </div>
     </div>
 </div>
+
