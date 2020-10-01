@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { ItemCreatedEvent, ItemsSelectedEvent } from 'projects/ngb-filterable-dropdown/src';
 
 @Component({
   selector: "app-root",
@@ -8,12 +9,17 @@ import { Component } from "@angular/core";
 export class AppComponent {
   title = "ngb-filterable-dropdown-example";
   
-  readonly bugs: Array<string> = ["Beetle", "Ant", "Moth", "Fire Ant", "Dung Beetle", "Grass Ant"] 
+  bugs: Array<string> = ["Beetle", "Ant", "Moth", "Fire Ant", "Dung Beetle", "Grass Ant"] 
 
+  allowCreateItem: boolean = false;
   allowMultiSelect: boolean = false;
   autoClose: boolean | "inside" | "outside" = false;
   disabled: boolean = false;
-  selected: Array<string> = ["Moth"];
+  selected: string | Array<string> = "Moth";
+
+  allowCreateItemClick(event: CheckboxClickEvent): void {
+    this.allowCreateItem = event.target.checked;
+  }
 
   allowMultiSelectClick(event: CheckboxClickEvent): void {
     this.allowMultiSelect = event.target.checked;
@@ -27,13 +33,20 @@ export class AppComponent {
   disabledClick(event: CheckboxClickEvent): void {
     this.disabled = event.target.checked;
   }
-
+  
   onDropdownOpen(): void {
     console.log("Dropdown opened!");
   }
+  
+  onItemCreated(event: ItemCreatedEvent): void {
+    this.bugs = event.items;
+    this.selected = event.selectedItems;
+    console.log(event.created);
+  }
 
-  onItemsSelected(items: string): void {
-    console.log(items)
+  onItemsSelected(event: ItemsSelectedEvent): void {
+    this.selected = event.selectedItems;
+    console.log(event.selectedItems)
   }
 }
 

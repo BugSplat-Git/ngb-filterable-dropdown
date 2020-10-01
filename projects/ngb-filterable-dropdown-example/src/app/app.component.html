@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-12 col-xl-4">
             <a href="https://www.bugsplat.com">
-                <img class="w-100" src="./assets/logo-bugsplat-color.png">
+                <img style="max-width:350px" src="./assets/logo-bugsplat-color.png">
             </a>
         </div>
     </div>
@@ -11,6 +11,12 @@
             <h2>
                 <a href="https://github.com/BugSplat-Git/ngb-filterable-dropdown">{{title}}</a>
             </h2>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 col-xl-6">
+            <input id="allow-create-item" (click)="allowCreateItemClick($event)" type="checkbox">
+            <label class="ml-4 mb-0" for="allow-create-item">Allow Create Item</label>
         </div>
     </div>
     <div class="row mt-2">
@@ -31,12 +37,13 @@
             <label class="ml-4 mb-0" for="disabled">Disabled</label>
         </div>
     </div>
-    <div class="row mt-2">
+    <div class="row mt-4">
         <div class="col-12 col-xl-6">
             <h3>Bugs</h3>
             <ngb-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
-                [selectedItems]="selected" [allowMultiSelect]="allowMultiSelect"
-                (onItemsSelected)="onItemsSelected($event)" (onOpen)="onDropdownOpen()">
+                [selectedItems]="selected" [allowCreateItem]="allowCreateItem" [allowMultiSelect]="allowMultiSelect"
+                (onItemCreated)="onItemCreated($event)" (onItemsSelected)="onItemsSelected($event)"
+                (onOpen)="onDropdownOpen()">
             </ngb-filterable-dropdown>
         </div>
     </div>
