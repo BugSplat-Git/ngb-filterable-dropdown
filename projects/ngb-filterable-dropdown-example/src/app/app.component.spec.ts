@@ -37,12 +37,14 @@ describe("AppComponent", () => {
   template: ""
 })
 class MockFilterableDropdownComponent {
+  @Input() allowCreateItem: any;
   @Input() allowMultiSelect: any;
   @Input() autoClose: any;
   @Input() items: any;
   @Input() selectedItems: any;
   @Input() disabled: any;
   @Input() placeholder: any;
+  @Output() onItemCreated = new EventEmitter<any>();
   @Output() onItemsSelected = new EventEmitter<any>();
   @Output() onOpen = new EventEmitter<any>();
 }

@@ -13,6 +13,10 @@ $grey: #e6eaee;
   color: $dark-grey-blue;
 }
 
+.action-button {
+  font-weight: 400;
+}
+
 .btn-dropdown-toggle {
   width: 100%;
   height: 37px;
@@ -111,5 +115,30 @@ $grey: #e6eaee;
 
 .scroll-container {
   width: 100%;
+  min-height: 30px;
   overflow-y: scroll;
+}
+
+img.icon {
+  height: 12px;
+  width: 12px;
+}
+
+img.icon.plus {
+  height: 14px;
+  width: 14px;
+  margin-left: -1.5px;
+  margin-top: -2px;
+}
+
+img.icon.check {
+  height: 18px;
+}
+
+img.icon.all {
+  margin-top: -2px;
+}
+
+img.icon.none {
+  margin-top: -2px;
 }

@@ -10,27 +10,46 @@
             </form>
             <div class="scroll-container">
                 <ng-container *ngIf="allowToggleSelectAll">
-                    <button *ngIf="nextToggleState === SELECT" (click)="onSelectAll()"
-                        class="dropdown-item filterable-dropdown-item"> Select All </button>
-                    <button *ngIf="nextToggleState === DESELECT" (click)="onSelectNone()"
-                        class="dropdown-item filterable-dropdown-item"> Select None </button>
+                    <button [hidden]="nextToggleState === DESELECT" (click)="onSelectAll()"
+                        class="dropdown-item filterable-dropdown-item"> 
+                        <img class="icon all" src="assets/icons/all.svg">
+                        Select All 
+                    </button>
+                    <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
+                        class="dropdown-item filterable-dropdown-item"> 
+                        <img class="icon none" src="assets/icons/none.svg">
+                        Select None 
+                    </button>
                 </ng-container>
                 <ng-container *ngIf="allowToggleSelectMultiple">
-                    <button *ngIf="nextToggleState === SELECT" (click)="onSelectMultiple()"
-                        class="dropdown-item filterable-dropdown-item"> Select Multiple </button>
-                    <button *ngIf="nextToggleState === DESELECT" (click)="onSelectNone()"
-                        class="dropdown-item filterable-dropdown-item"> Select None </button>
+                    <button [hidden]="nextToggleState === DESELECT" (click)="onSelectMultiple()"
+                        class="dropdown-item filterable-dropdown-item"> 
+                        <img class="icon all" src="assets/icons/all.svg">
+                        Select Multiple 
+                    </button>
+                    <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
+                        class="dropdown-item filterable-dropdown-item"> 
+                        <img class="icon none" src="assets/icons/none.svg">
+                        Select None 
+                    </button>
                 </ng-container>
+                <button [hidden]="!showCreateItem" class="dropdown-item filterable-dropdown-item action-button"
+                    (click)="onCreateItem()">
+                    <img class="icon plus" src="assets/icons/plus.svg">
+                    Create {{searchInputValue}}
+                </button>
                 <div *ngFor="let item of items">
                     <button class="dropdown-item filterable-dropdown-item px-2" [hidden]="!isFiltered(item)"
                         (click)="onItemSelect(item)">
                         <div class="d-flex flex-row">
                             <div class="item-text-container">{{item}}</div>
-                            <div class="w-100 text-right" [hidden]="!isSelected(item)">✔️</div>
+                            <div class="w-100 text-right" [hidden]="!isSelected(item)">
+                                <img class="icon" src="assets/icons/checkmark.svg">
+                            </div>
                         </div>
                     </button>
                 </div>
-                <div *ngIf="noItemsToDisplay" class="dropdown-item no-items">
+                <div [hidden]="!noItemsToDisplay" class="dropdown-item no-items">
                     No items to display.
                 </div>
             </div>
