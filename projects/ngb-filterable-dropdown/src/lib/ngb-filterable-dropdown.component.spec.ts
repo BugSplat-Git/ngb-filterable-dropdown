@@ -553,4 +553,35 @@ describe("NgbFilterableDropdownComponent", () => {
       expect(component.showCreateItem).toEqual(true);
     });
   });
+
+  describe("typeToCreateItem", () => {
+    it("should return false if filtered length is not 0", () => {
+      component.items = items;
+      
+      expect(component.typeToCreateItem).toEqual(false);
+    });
+
+    it("should return false if searchInputValue length is not 0", () => {
+      component.items = [];
+      component.searchInput.setValue("🎃");
+
+      expect(component.typeToCreateItem).toEqual(false);
+    });
+
+    it("should return false if allowCreateItem is false", () => {
+      component.items = [];
+      component.searchInput.setValue("");
+      component.allowCreateItem = false;
+
+      expect(component.typeToCreateItem).toEqual(false);
+    });
+
+    it("should return true if filtered length is 0, searchInputValue length is 0 and allowCreateItem is true", () => {
+      component.items = [];
+      component.searchInput.setValue("");
+      component.allowCreateItem = true;
+
+      expect(component.typeToCreateItem).toEqual(true);
+    });
+  });
 });
