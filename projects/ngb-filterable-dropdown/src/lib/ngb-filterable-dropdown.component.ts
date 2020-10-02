@@ -94,6 +94,10 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
     return this.searchInput.value || "";
   }
 
+  get typeToCreateItem(): boolean {
+    return this.filtered.size === 0 && this.searchInputValue.length === 0 && this.allowCreateItem;
+  }
+
   ngOnInit(): void {
     this._valueChangesSubscription = this.searchForm.get("searchInput").valueChanges
       .subscribe(value => {
