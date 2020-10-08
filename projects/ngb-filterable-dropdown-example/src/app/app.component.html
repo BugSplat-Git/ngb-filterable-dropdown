@@ -40,10 +40,10 @@
     <div class="row mt-4">
         <div class="col-12 col-xl-6">
             <h3>Bugs</h3>
-            <ngb-filterable-dropdown [autoClose]="autoClose" [items]="bugs" [disabled]="disabled"
-                [selectedItems]="selected" [allowCreateItem]="allowCreateItem" [allowMultiSelect]="allowMultiSelect"
-                (itemCreated)="onItemCreated($event)" (selectionChanged)="onSelectionChanged($event)"
-                (openChanged)="onOpenChanged($event)">
+            <ngb-filterable-dropdown [autoClose]="autoClose" [items]="items" [disabled]="disabled"
+                [selectedItems]="selectedItems" [allowCreateItem]="allowCreateItem"
+                [allowMultiSelect]="allowMultiSelect" (itemCreated)="onItemCreated($event)"
+                (selectionChanged)="onSelectionChanged($event)" (openChanged)="onOpenChanged($event)">
             </ngb-filterable-dropdown>
         </div>
     </div>

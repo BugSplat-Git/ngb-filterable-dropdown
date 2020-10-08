@@ -9,13 +9,13 @@ import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from 'proje
 export class AppComponent {
   title = "ngb-filterable-dropdown-example";
   
-  bugs: Array<string> = ["Beetle", "Ant", "Moth", "Fire Ant", "Dung Beetle", "Grass Ant"] 
+  items: Array<string> = ["Beetle", "Ant", "Moth", "Fire Ant", "Dung Beetle", "Grass Ant"] 
 
   allowCreateItem: boolean = false;
   allowMultiSelect: boolean = false;
   autoClose: boolean | "inside" | "outside" = false;
   disabled: boolean = false;
-  selected: string | Array<string> = "Moth";
+  selectedItems: string | Array<string> = "Moth";
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem = event.target.checked;
@@ -23,7 +23,7 @@ export class AppComponent {
 
   allowMultiSelectClick(event: CheckboxClickEvent): void {
     this.allowMultiSelect = event.target.checked;
-    this.selected = [];
+    this.selectedItems = [];
   }
 
   autoCloseClick(event: CheckboxClickEvent): void {
@@ -35,18 +35,18 @@ export class AppComponent {
   }
  
   onItemCreated(event: ItemCreatedEvent): void {
-    this.bugs = event.items;
-    this.selected = event.selectedItems;
-    console.log(event.created);
+    this.items = event.items;
+    this.selectedItems = event.selection;
+    console.log(event);
   }
    
   onOpenChanged(event: OpenChangedEvent): void {
-    console.log("Dropdown open:", event.open);
+    console.log(event);
   }
 
   onSelectionChanged(event: SelectionChangedEvent): void {
-    this.selected = event.selectedItems;
-    console.log(event.selectedItems)
+    this.selectedItems = event.selection;
+    console.log(event)
   }
 }
 
