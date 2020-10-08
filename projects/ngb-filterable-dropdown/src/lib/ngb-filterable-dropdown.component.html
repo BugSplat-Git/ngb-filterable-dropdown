@@ -11,30 +11,30 @@
             <div class="scroll-container">
                 <ng-container *ngIf="allowToggleSelectAll">
                     <button [hidden]="nextToggleState === DESELECT" (click)="onSelectAll()"
-                        class="dropdown-item filterable-dropdown-item">
+                        class="dropdown-item filterable-dropdown-item px-2">
                         <icon-all></icon-all>
                         Select All
                     </button>
                     <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
-                        class="dropdown-item filterable-dropdown-item">
+                        class="dropdown-item filterable-dropdown-item px-2">
                         <icon-none></icon-none>
                         Select None
                     </button>
                 </ng-container>
                 <ng-container *ngIf="allowToggleSelectMultiple">
                     <button [hidden]="nextToggleState === DESELECT" (click)="onSelectMultiple()"
-                        class="dropdown-item filterable-dropdown-item">
+                        class="dropdown-item filterable-dropdown-item px-2">
                         <icon-all></icon-all>
                         Select Multiple
                     </button>
                     <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
-                        class="dropdown-item filterable-dropdown-item">
+                        class="dropdown-item filterable-dropdown-item px-2">
                         <icon-none></icon-none>
                         Select None
                     </button>
                 </ng-container>
                 <button [hidden]="!showCreateItem" id="create-item"
-                    class="dropdown-item filterable-dropdown-item action-button icon-fix" (click)="onCreateItem()">
+                    class="dropdown-item filterable-dropdown-item px-2" (click)="onCreateItem()">
                     <icon-plus></icon-plus>
                     Create {{searchInputValue}}
                 </button>
