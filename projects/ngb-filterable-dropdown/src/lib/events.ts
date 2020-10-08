@@ -1,9 +1,13 @@
 
-export interface ItemCreatedEvent extends ItemsSelectedEvent {
+export interface ItemCreatedEvent extends SelectionChangedEvent {
     created: string;
     items: Array<string>;
 }
 
-export interface ItemsSelectedEvent {
+export interface SelectionChangedEvent {
     selectedItems: string | Array<string>;
+}
+
+export interface OpenChangedEvent {
+    open: boolean;
 }
