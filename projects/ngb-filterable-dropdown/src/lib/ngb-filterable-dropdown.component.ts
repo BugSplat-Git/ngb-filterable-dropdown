@@ -21,7 +21,13 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   @Input() disabled: boolean = false;
   @Input() placeholder: string = "No Items Selected";
   @Input() set loading(value: boolean) {
-    value ? this.searchInput.disable() : this.searchInput.enable();
+    if (value) {
+      this.searchInput.disable();
+    } else {
+      this.searchInput.enable();
+      this.focusSearchInput();
+    }
+
     this._loading = value;
   }
   get loading(): boolean {
@@ -181,7 +187,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   onOpenChange(open: boolean): void {
     if (open) {
-      setTimeout(() => this.search.nativeElement.focus());
+      this.focusSearchInput();
       this.onOpen.next();
     } else {
       this.resetFilterInput();
@@ -218,6 +224,10 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
     }
 
     this._items = [...this._items, item];
+  }
+
+  private focusSearchInput(): void {
+    setTimeout(() => this.search.nativeElement.focus());
   }
 
   private selectMultiple(): void {
