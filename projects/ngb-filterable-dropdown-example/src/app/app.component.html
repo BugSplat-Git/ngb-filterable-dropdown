@@ -41,7 +41,7 @@
         <div class="col-12 col-xl-6">
             <h3>Bugs</h3>
             <ngb-filterable-dropdown [autoClose]="autoClose" [items]="items" [disabled]="disabled"
-                [selectedItems]="selectedItems" [allowCreateItem]="allowCreateItem"
+                [selection]="selection" [allowCreateItem]="allowCreateItem"
                 [allowMultiSelect]="allowMultiSelect" (itemCreated)="onItemCreated($event)"
                 (selectionChanged)="onSelectionChanged($event)" (openChanged)="onOpenChanged($event)">
             </ngb-filterable-dropdown>

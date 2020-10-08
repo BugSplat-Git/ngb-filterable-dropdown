@@ -124,10 +124,10 @@ describe("NgbFilterableDropdownComponent", () => {
 
         component.onCreateItem();
 
-        expect(component.selectedItems).toEqual(item);
+        expect(component.selection).toEqual(item);
       });
 
-      it("should emit created item, selectedItems and items", async () => {
+      it("should emit created item, selection and items", async () => {
         const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
         const item = "🎃";
         component.searchInput.setValue(item);
@@ -137,7 +137,7 @@ describe("NgbFilterableDropdownComponent", () => {
 
         expect(result).toEqual(jasmine.objectContaining({
           created: item,
-          selectedItems: item,
+          selection: item,
           items: [...items, item]
         }));
       });
@@ -150,19 +150,19 @@ describe("NgbFilterableDropdownComponent", () => {
       it("should add created item to selection", () => {
         const item = "🎃";
         component.searchInput.setValue(item);
-        component.selectedItems = items;
+        component.selection = items;
         component.filtered = new Set(items);
 
         component.onCreateItem();
 
-        expect(component.selectedItems).toEqual([...items, item])
+        expect(component.selection).toEqual([...items, item])
       });
 
-      it("should emit created item, selectedItems and items", async () => {
+      it("should emit created item, selection and items", async () => {
         const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
         const item = "🎃";
         component.searchInput.setValue(item);
-        component.selectedItems = items;
+        component.selection = items;
         component.filtered = new Set(items);
 
         component.onCreateItem();
@@ -170,7 +170,7 @@ describe("NgbFilterableDropdownComponent", () => {
 
         expect(result).toEqual(jasmine.objectContaining({
           created: item,
-          selectedItems: [...items, item],
+          selection: [...items, item],
           items: [...items, item]
         }));
       });
@@ -186,22 +186,22 @@ describe("NgbFilterableDropdownComponent", () => {
         beforeEach(() => component.allowMultiSelect = false);
 
         it("should select the first entry if filtered is not empty", () => {
-          component.selectedItems = "";
+          component.selection = "";
 
           component.onEnterKeyPressed();
 
-          expect(component.selectedItems).toEqual(items[0]);
+          expect(component.selection).toEqual(items[0]);
         });
 
-        it("should emit selectedItems", async () => {
+        it("should emit selection", async () => {
           const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
-          component.selectedItems = "";
+          component.selection = "";
 
           component.onEnterKeyPressed();
           const result = await resultPromise;
 
           expect(result).toEqual(jasmine.objectContaining({
-            selectedItems: items[0]
+            selection: items[0]
           }));
         });
       });
@@ -210,16 +210,16 @@ describe("NgbFilterableDropdownComponent", () => {
         beforeEach(() => component.allowMultiSelect = true);
 
         it("should add items to selection if filtered is not empty", () => {
-          component.selectedItems = [];
+          component.selection = [];
 
           component.onEnterKeyPressed();
 
-          expect(component.selectedItems).toEqual(items);
+          expect(component.selection).toEqual(items);
         });
 
-        it("should emit selectedItems", async () => {
+        it("should emit selection", async () => {
           const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
-          component.selectedItems = [];
+          component.selection = [];
 
           component.onEnterKeyPressed();
           const result = await resultPromise;
@@ -252,10 +252,10 @@ describe("NgbFilterableDropdownComponent", () => {
 
           component.onEnterKeyPressed();
 
-          expect(component.selectedItems).toEqual(item);
+          expect(component.selection).toEqual(item);
         });
 
-        it("should emit created selectedItems and items", async () => {
+        it("should emit created selection and items", async () => {
           const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
           const item = "🎃";
           component.filtered = new Set([]);
@@ -266,7 +266,7 @@ describe("NgbFilterableDropdownComponent", () => {
 
           expect(result).toEqual(jasmine.objectContaining({
             created: item,
-            selectedItems: item,
+            selection: item,
             items: [...items, item]
           }));
         });
@@ -292,10 +292,10 @@ describe("NgbFilterableDropdownComponent", () => {
 
           component.onEnterKeyPressed();
 
-          expect(component.selectedItems).toEqual([item]);
+          expect(component.selection).toEqual([item]);
         });
 
-        it("should emit created, selectedItems and items", async () => {
+        it("should emit created, selection and items", async () => {
           const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
           const item = "🎃";
           component.filtered = new Set([]);
@@ -306,7 +306,7 @@ describe("NgbFilterableDropdownComponent", () => {
 
           expect(result).toEqual(jasmine.objectContaining({
             created: item,
-            selectedItems: [item],
+            selection: [item],
             items: [...items, item]
           }));
         });
@@ -341,23 +341,23 @@ describe("NgbFilterableDropdownComponent", () => {
       
       it("should set item as selected", () => {
         const item = "🎃";
-        component.selectedItems = "";
+        component.selection = "";
 
         component.onItemSelect(item);
 
-        expect(component.selectedItems).toEqual(item);
+        expect(component.selection).toEqual(item);
       });
 
       it("should emit selected item as a string", async () => {
         const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
         const item = "🎃";
-        component.selectedItems = "";
+        component.selection = "";
 
         component.onItemSelect(item);
         const result = await resultPromise;
 
         expect(result).toEqual(jasmine.objectContaining({
-          selectedItems: item
+          selection: item
         }));
       });
     });
@@ -367,32 +367,32 @@ describe("NgbFilterableDropdownComponent", () => {
 
       it("should add item to selected items if not selected", () => {
         const item = "🎃";
-        component.selectedItems = [];
+        component.selection = [];
 
         component.onItemSelect(item);
 
-        expect(component.selectedItems).toEqual([item]);
+        expect(component.selection).toEqual([item]);
       });
 
       it("should remove item from selected items if selected", () => {
         const item = "🎃";
-        component.selectedItems = [item];
+        component.selection = [item];
 
         component.onItemSelect(item);
 
-        expect(component.selectedItems).toEqual([]);
+        expect(component.selection).toEqual([]);
       });
 
       it("should emit selected items as an array", async () => {
         const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
         const item = "🎃";
-        component.selectedItems = [];
+        component.selection = [];
 
         component.onItemSelect(item);
         const result = await resultPromise;
 
         expect(result).toEqual(jasmine.objectContaining({
-          selectedItems: [item]
+          selection: [item]
         }));
       });
     });
@@ -436,7 +436,7 @@ describe("NgbFilterableDropdownComponent", () => {
     it("should set selected items to all items", () => {
       component.onSelectAll();
 
-      expect(component.selectedItems).toEqual(items);
+      expect(component.selection).toEqual(items);
     });
 
     it("should emit selected items as an array", async () => {
@@ -446,7 +446,7 @@ describe("NgbFilterableDropdownComponent", () => {
       const result = await resultPromise;
 
       expect(result).toEqual(jasmine.objectContaining({
-        selectedItems: items
+        selection: items
       }));
     });
   });
@@ -463,7 +463,7 @@ describe("NgbFilterableDropdownComponent", () => {
     it("should set selected items to filtered items", () => {
       component.onSelectMultiple();
 
-      expect(component.selectedItems).toEqual(items);
+      expect(component.selection).toEqual(items);
     });
 
     it("should emit selected items", async () => {
@@ -473,7 +473,7 @@ describe("NgbFilterableDropdownComponent", () => {
       const result = await resultPromise;
 
       expect(result).toEqual(jasmine.objectContaining({
-        selectedItems: items
+        selection: items
       }));
     });
   });
@@ -490,7 +490,7 @@ describe("NgbFilterableDropdownComponent", () => {
     it("should set selected items to empty array", () => {
       component.onSelectNone();
 
-      expect(component.selectedItems).toEqual([]);
+      expect(component.selection).toEqual([]);
     });
 
     it("should emit empty array", async () => {
@@ -500,7 +500,7 @@ describe("NgbFilterableDropdownComponent", () => {
       const result = await resultPromise;
 
       expect(result).toEqual(jasmine.objectContaining({
-        selectedItems: []
+        selection: []
       }));
     });
   });

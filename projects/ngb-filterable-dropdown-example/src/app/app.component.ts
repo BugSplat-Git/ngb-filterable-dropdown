@@ -15,7 +15,7 @@ export class AppComponent {
   allowMultiSelect: boolean = false;
   autoClose: boolean | "inside" | "outside" = false;
   disabled: boolean = false;
-  selectedItems: string | Array<string> = "Moth";
+  selection: string | Array<string> = "Moth";
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem = event.target.checked;
@@ -23,7 +23,7 @@ export class AppComponent {
 
   allowMultiSelectClick(event: CheckboxClickEvent): void {
     this.allowMultiSelect = event.target.checked;
-    this.selectedItems = [];
+    this.selection = [];
   }
 
   autoCloseClick(event: CheckboxClickEvent): void {
@@ -36,7 +36,7 @@ export class AppComponent {
  
   onItemCreated(event: ItemCreatedEvent): void {
     this.items = event.items;
-    this.selectedItems = event.selection;
+    this.selection = event.selection;
     console.log(event);
   }
    
@@ -45,7 +45,7 @@ export class AppComponent {
   }
 
   onSelectionChanged(event: SelectionChangedEvent): void {
-    this.selectedItems = event.selection;
+    this.selection = event.selection;
     console.log(event)
   }
 }
