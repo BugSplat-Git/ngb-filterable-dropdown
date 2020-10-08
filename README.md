@@ -21,7 +21,7 @@ import { NgbFilterableDropdownModule } from '@bugsplat/ngb-filterable-dropdown'
 The component takes two main inputs, a list of strings that are selectable and a sub-list of strings that are already selected. 
 ```ts
 items: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'];
-selected: Array<string> = ['Moth'];
+selection: Array<string> = ['Moth'];
 ```
 
 You can specify whether or not to allow new items to be created. By default, the component does not allow new items to be created.
@@ -70,7 +70,7 @@ Add ngb-filterable-dropdown to your component's template:
 <ngb-filterable-dropdown [allowCreateItem]="allowCreateItem" 
   [allowMultiSelect]="allowMultiSelect" [autoClose]="autoClose"
   [disabled]="disabled" [loading]="loading"
-  [items]="items" [selectedItems]="selectedItems"
+  [items]="items" [selection]="selection"
   (itemCreated)="onItemCreated($event)" (openChanged)="onOpenChanged($event)"
   (selectionChanged)="onSelectionChanged($event)" >
 </ngb-filterable-dropdown>
