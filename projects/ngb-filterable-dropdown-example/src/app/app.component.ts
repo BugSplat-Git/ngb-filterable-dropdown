@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { ItemCreatedEvent, ItemsSelectedEvent } from 'projects/ngb-filterable-dropdown/src';
+import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from 'projects/ngb-filterable-dropdown/src';
 
 @Component({
   selector: "app-root",
@@ -33,18 +33,18 @@ export class AppComponent {
   disabledClick(event: CheckboxClickEvent): void {
     this.disabled = event.target.checked;
   }
-  
-  onDropdownOpen(): void {
-    console.log("Dropdown opened!");
-  }
-  
+ 
   onItemCreated(event: ItemCreatedEvent): void {
     this.bugs = event.items;
     this.selected = event.selectedItems;
     console.log(event.created);
   }
+   
+  onOpenChanged(event: OpenChangedEvent): void {
+    console.log("Dropdown open:", event.open);
+  }
 
-  onItemsSelected(event: ItemsSelectedEvent): void {
+  onSelectionChanged(event: SelectionChangedEvent): void {
     this.selected = event.selectedItems;
     console.log(event.selectedItems)
   }

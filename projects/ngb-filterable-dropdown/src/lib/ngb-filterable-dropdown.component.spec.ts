@@ -128,7 +128,7 @@ describe("NgbFilterableDropdownComponent", () => {
       });
 
       it("should emit created item, selectedItems and items", async () => {
-        const resultPromise = component.onItemCreated.pipe(take(1)).toPromise();
+        const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
         const item = "🎃";
         component.searchInput.setValue(item);
 
@@ -159,7 +159,7 @@ describe("NgbFilterableDropdownComponent", () => {
       });
 
       it("should emit created item, selectedItems and items", async () => {
-        const resultPromise = component.onItemCreated.pipe(take(1)).toPromise();
+        const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
         const item = "🎃";
         component.searchInput.setValue(item);
         component.selectedItems = items;
@@ -194,7 +194,7 @@ describe("NgbFilterableDropdownComponent", () => {
         });
 
         it("should emit selectedItems", async () => {
-          const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
+          const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
           component.selectedItems = "";
 
           component.onEnterKeyPressed();
@@ -218,7 +218,7 @@ describe("NgbFilterableDropdownComponent", () => {
         });
 
         it("should emit selectedItems", async () => {
-          const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
+          const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
           component.selectedItems = [];
 
           component.onEnterKeyPressed();
@@ -256,7 +256,7 @@ describe("NgbFilterableDropdownComponent", () => {
         });
 
         it("should emit created selectedItems and items", async () => {
-          const resultPromise = component.onItemCreated.pipe(take(1)).toPromise();
+          const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
           const item = "🎃";
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
@@ -296,7 +296,7 @@ describe("NgbFilterableDropdownComponent", () => {
         });
 
         it("should emit created, selectedItems and items", async () => {
-          const resultPromise = component.onItemCreated.pipe(take(1)).toPromise();
+          const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
           const item = "🎃";
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
@@ -349,7 +349,7 @@ describe("NgbFilterableDropdownComponent", () => {
       });
 
       it("should emit selected item as a string", async () => {
-        const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
+        const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
         const item = "🎃";
         component.selectedItems = "";
 
@@ -384,7 +384,7 @@ describe("NgbFilterableDropdownComponent", () => {
       });
 
       it("should emit selected items as an array", async () => {
-        const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
+        const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
         const item = "🎃";
         component.selectedItems = [];
 
@@ -399,14 +399,22 @@ describe("NgbFilterableDropdownComponent", () => {
   });
 
   describe("onOpenChange", () => {
-    it("should emit event if dialog is being opened", async () => {
-      let emitted = false;
-      const resultPromise = component.onOpen.pipe(tap(() => emitted = true), take(1)).toPromise();
+    it("should emit event with open true if dialog is being opened", async () => {
+      const resultPromise = component.openChanged.pipe(take(1)).toPromise();
 
       component.onOpenChange(true);
-      await resultPromise;
+      const result = await resultPromise;
 
-      expect(emitted).toEqual(true);
+      expect(result.open).toEqual(true);
+    });
+
+    it("should emit event with open false if dialog is being closed", async () => {
+      const resultPromise = component.openChanged.pipe(take(1)).toPromise();
+
+      component.onOpenChange(false);
+      const result = await resultPromise;
+
+      expect(result.open).toEqual(false);
     });
 
     it("should clear filter text if dialog is being closed", () => {
@@ -432,7 +440,7 @@ describe("NgbFilterableDropdownComponent", () => {
     });
 
     it("should emit selected items as an array", async () => {
-      const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
+      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
 
       component.onSelectAll();
       const result = await resultPromise;
@@ -459,7 +467,7 @@ describe("NgbFilterableDropdownComponent", () => {
     });
 
     it("should emit selected items", async () => {
-      const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
+      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
 
       component.onSelectMultiple();
       const result = await resultPromise;
@@ -486,7 +494,7 @@ describe("NgbFilterableDropdownComponent", () => {
     });
 
     it("should emit empty array", async () => {
-      const resultPromise = component.onItemsSelected.pipe(take(1)).toPromise();
+      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
 
       component.onSelectNone();
       const result = await resultPromise;

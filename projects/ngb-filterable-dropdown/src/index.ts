@@ -4,4 +4,4 @@
 
 export * from './lib/ngb-filterable-dropdown.component';
 export * from './lib/ngb-filterable-dropdown.module';
-export { ItemCreatedEvent, ItemsSelectedEvent } from './lib/events';
+export { ItemCreatedEvent, SelectionChangedEvent, OpenChangedEvent } from './lib/events';
