@@ -11,34 +11,34 @@
             <div class="scroll-container">
                 <ng-container *ngIf="allowToggleSelectAll">
                     <button [hidden]="nextToggleState === DESELECT" (click)="onSelectAll()"
-                        class="dropdown-item filterable-dropdown-item"> 
+                        class="dropdown-item filterable-dropdown-item">
                         <icon-all></icon-all>
-                        Select All 
+                        Select All
                     </button>
                     <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
-                        class="dropdown-item filterable-dropdown-item"> 
+                        class="dropdown-item filterable-dropdown-item">
                         <icon-none></icon-none>
-                        Select None 
+                        Select None
                     </button>
                 </ng-container>
                 <ng-container *ngIf="allowToggleSelectMultiple">
                     <button [hidden]="nextToggleState === DESELECT" (click)="onSelectMultiple()"
-                        class="dropdown-item filterable-dropdown-item"> 
+                        class="dropdown-item filterable-dropdown-item">
                         <icon-all></icon-all>
-                        Select Multiple 
+                        Select Multiple
                     </button>
                     <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
-                        class="dropdown-item filterable-dropdown-item"> 
+                        class="dropdown-item filterable-dropdown-item">
                         <icon-none></icon-none>
-                        Select None 
+                        Select None
                     </button>
                 </ng-container>
-                <button [hidden]="!showCreateItem" class="dropdown-item filterable-dropdown-item action-button icon-fix"
-                    (click)="onCreateItem()">
+                <button [hidden]="!showCreateItem" id="create-item"
+                    class="dropdown-item filterable-dropdown-item action-button icon-fix" (click)="onCreateItem()">
                     <icon-plus></icon-plus>
                     Create {{searchInputValue}}
                 </button>
-                <div *ngFor="let item of items">
+                <div *ngFor="let item of items" [hidden]="loading">
                     <button class="dropdown-item filterable-dropdown-item px-2" [hidden]="!isFiltered(item)"
                         (click)="onItemSelect(item)">
                         <div class="d-flex flex-row">
@@ -49,14 +49,16 @@
                         </div>
                     </button>
                 </div>
-                <div [hidden]="!noItemsToDisplay" class="dropdown-item no-items">
+                <div [hidden]="!noItemsToDisplay" id="no-items" class="dropdown-item">
                     No items to display.
                 </div>
-                <div [hidden]="!typeToCreateItem" class="dropdown-item no-items">
+                <div [hidden]="!typeToCreateItem" id="type-to-create" class="dropdown-item">
                     Start typing to create a new item
+                </div>
+                <div [hidden]="!loading" id="loading" class="dropdown-item">
+                    Loading...
                 </div>
             </div>
         </div>
     </div>
 </div>
-

@@ -497,16 +497,50 @@ describe("NgbFilterableDropdownComponent", () => {
     });
   });
 
+  describe("loading", () => {
+    it("should be hidden if loading false", () => {
+      component.loading = false;
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector("#loading").hidden).toEqual(true);
+    });
+
+    it("should not disable searchInput if loading false", () => {
+      component.loading = false;
+
+      fixture.detectChanges();
+
+      expect(component.searchInput.disabled).toEqual(false);
+    });
+
+    it("should not be hidden if loading true", () => {
+      component.loading = true;
+
+      fixture.detectChanges();
+
+      expect(fixture.nativeElement.querySelector("#loading").hidden).toEqual(false);
+    });
+
+    it("should disable searchInput if loading false", () => {
+      component.loading = true;
+
+      fixture.detectChanges();
+
+      expect(component.searchInput.disabled).toEqual(true);
+    });
+  });
+
   describe("noItemsToDisplay", () => {
     it("should not be hidden if filteredItems length is 0", () => {
       component.disabled = false;
       component.items = ["🍔"];
-
       component.searchInput.setValue("alsdkjfals");
+
       fixture.detectChanges();
 
       expect(component.noItemsToDisplay).toEqual(true);
-      expect(fixture.nativeElement.querySelector(".no-items").hidden).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(false);
     });
 
     it("should be hidden if filteredItems length is not 0", () => {
@@ -518,7 +552,20 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.noItemsToDisplay).toEqual(false);
-      expect(fixture.nativeElement.querySelector(".no-items").hidden).toEqual(true);
+      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(true);
+    });
+
+    it('should be hidden if loading is true', () => {
+      const item = "🍕";
+      component.disabled = false;
+      component.items = [item];
+      component.searchInput.setValue("");
+      component.loading = true;
+
+      fixture.detectChanges();
+
+      expect(component.noItemsToDisplay).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(true);
     });
   });
 
@@ -526,14 +573,20 @@ describe("NgbFilterableDropdownComponent", () => {
     it("should return false if searchInputValue length is 0", () => {
       component.searchInput.setValue("");
 
+      fixture.detectChanges();
+
       expect(component.showCreateItem).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(true);
     });
 
     it("should return false if allowCreateItem is false", () => {
       component.searchInput.setValue("🎃");
       component.allowCreateItem = false;
 
+      fixture.detectChanges();
+
       expect(component.showCreateItem).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(true);
     });
 
     it("should return false if items contains searchInputValue", () => {
@@ -541,31 +594,56 @@ describe("NgbFilterableDropdownComponent", () => {
       component.searchInput.setValue(item);
       component.items = [...items, item];
       component.allowCreateItem = true;
+
+      fixture.detectChanges();
       
       expect(component.showCreateItem).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(true);
     });
 
-    it("should return true if searchInputValue length is greater than 0, allowCreateItem is true and items does not contain searchInputValue", () => {
+    it("should return false if loading is true", () => {
       const item = "🎃";
       component.searchInput.setValue(item);
       component.allowCreateItem = true;
+      component.loading = true;
+
+      fixture.detectChanges();
+      
+      expect(component.showCreateItem).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(true);
+    });
+
+    it("should return true if searchInputValue length is greater than 0, allowCreateItem is true, loading is false and items does not contain searchInputValue", () => {
+      const item = "🎃";
+      component.searchInput.setValue(item);
+      component.allowCreateItem = true;
+      component.loading = false;
+
+      fixture.detectChanges();
       
       expect(component.showCreateItem).toEqual(true);
+      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(false);
     });
   });
 
   describe("typeToCreateItem", () => {
     it("should return false if filtered length is not 0", () => {
       component.items = items;
+
+      fixture.detectChanges();
       
       expect(component.typeToCreateItem).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(true);
     });
 
     it("should return false if searchInputValue length is not 0", () => {
       component.items = [];
       component.searchInput.setValue("🎃");
 
+      fixture.detectChanges();
+
       expect(component.typeToCreateItem).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(true);
     });
 
     it("should return false if allowCreateItem is false", () => {
@@ -573,15 +651,34 @@ describe("NgbFilterableDropdownComponent", () => {
       component.searchInput.setValue("");
       component.allowCreateItem = false;
 
+      fixture.detectChanges();
+
       expect(component.typeToCreateItem).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(true);
     });
 
-    it("should return true if filtered length is 0, searchInputValue length is 0 and allowCreateItem is true", () => {
+    it("should return false if loading is true", () => {
       component.items = [];
       component.searchInput.setValue("");
       component.allowCreateItem = true;
+      component.loading = true;
+
+      fixture.detectChanges();
+
+      expect(component.typeToCreateItem).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(true);
+    });
+
+    it("should return true if filtered length is 0, searchInputValue length is 0, loading is false and allowCreateItem is true", () => {
+      component.items = [];
+      component.searchInput.setValue("");
+      component.allowCreateItem = true;
+      component.loading = false;
+      
+      fixture.detectChanges();
 
       expect(component.typeToCreateItem).toEqual(true);
+      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(false);
     });
   });
 });
