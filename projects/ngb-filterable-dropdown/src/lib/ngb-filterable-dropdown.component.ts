@@ -20,6 +20,14 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   @Input() allowMultiSelect: boolean = true;
   @Input() disabled: boolean = false;
   @Input() placeholder: string = "No Items Selected";
+  @Input() set loading(value: boolean) {
+    value ? this.searchInput.disable() : this.searchInput.enable();
+    this._loading = value;
+  }
+  get loading(): boolean {
+    return this._loading;
+  }
+  
   @Input() set items(value: Array<string>) {
     this.filtered = new Set(value);
     this._itemsSet = new Set(value);
@@ -68,22 +76,23 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   private _itemsSet: Set<string> = new Set();
   private _items: Array<string> = [];
+  private _loading: boolean = false;
   private _valueChangesSubscription: Subscription;
 
   get allowToggleSelectAll(): boolean {
-    return (this.allowMultiSelect && this.searchInputValue.length === 0);
+    return (this.allowMultiSelect && this.searchInputValue.length === 0) && !this.loading;
   }
 
   get allowToggleSelectMultiple(): boolean {
-    return (this.allowMultiSelect && this.searchInputValue.length > 0 && this.filtered.size > 0);
+    return (this.allowMultiSelect && this.searchInputValue.length > 0 && this.filtered.size > 0) && !this.loading;
   }
 
   get noItemsToDisplay(): boolean {
-    return this.filtered.size === 0 && !this.allowCreateItem;
+    return this.filtered.size === 0 && !this.allowCreateItem  && !this.loading;
   }
 
   get showCreateItem(): boolean {
-    return this.searchInputValue.length > 0 && this.allowCreateItem && !this._itemsSet.has(this.searchInputValue);
+    return this.searchInputValue.length > 0 && this.allowCreateItem && !this._itemsSet.has(this.searchInputValue) && !this.loading;
   }
 
   get searchInput(): AbstractControl {
@@ -95,7 +104,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get typeToCreateItem(): boolean {
-    return this.filtered.size === 0 && this.searchInputValue.length === 0 && this.allowCreateItem;
+    return this.filtered.size === 0 && this.searchInputValue.length === 0 && this.allowCreateItem && !this.loading;
   }
 
   ngOnInit(): void {
