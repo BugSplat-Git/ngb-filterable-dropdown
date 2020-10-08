@@ -5,7 +5,7 @@ export interface ItemCreatedEvent extends SelectionChangedEvent {
 }
 
 export interface SelectionChangedEvent {
-    selectedItems: string | Array<string>;
+    selection: string | Array<string>;
 }
 
 export interface OpenChangedEvent {

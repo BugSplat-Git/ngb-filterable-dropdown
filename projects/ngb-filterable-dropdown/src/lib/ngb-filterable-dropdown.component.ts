@@ -143,7 +143,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   onCreateItem(): void {
     const item = this.searchInputValue;
     this.createItem(item);
-    this.itemCreated.next({ created: item, items: this.items, selectedItems: this.selectedItems });
+    this.itemCreated.next({ created: item, items: this.items, selection: this.selectedItems });
     this.resetFilterInput();
   }
 
@@ -159,12 +159,12 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
     if (this.allowCreateItem && !this.filtered?.size) {
       const item = this.searchInputValue;
       this.createItem(item);
-      this.itemCreated.next({ created: item, items: this.items, selectedItems: this.selectedItems });
+      this.itemCreated.next({ created: item, items: this.items, selection: this.selectedItems });
       this.resetFilterInput();
     }
 
     if (!this.allowCreateItem) {
-      this.selectionChanged.next({ selectedItems: this.selectedItems });
+      this.selectionChanged.next({ selection: this.selectedItems });
     }
 
     if (this.autoClose) {
@@ -182,7 +182,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
     } else {
       this._selectedSet = new Set([item]);
     }
-    this.selectionChanged.next({ selectedItems: this.selectedItems });
+    this.selectionChanged.next({ selection: this.selectedItems });
   }
 
   onOpenChange(open: boolean): void {
@@ -198,19 +198,19 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   onSelectAll(): void {
     this.nextToggleState = this.DESELECT;
     this._selectedSet = new Set(this.items);
-    this.selectionChanged.next({ selectedItems: this.selectedItems });
+    this.selectionChanged.next({ selection: this.selectedItems });
   }
 
   onSelectMultiple(): void {
     this.nextToggleState = this.DESELECT
     this.selectMultiple();
-    this.selectionChanged.next({ selectedItems: this.selectedItems });
+    this.selectionChanged.next({ selection: this.selectedItems });
   }
 
   onSelectNone(): void {
     this.nextToggleState = this.SELECT;
     this._selectedSet = new Set([]);
-    this.selectionChanged.next({ selectedItems: this.selectedItems });
+    this.selectionChanged.next({ selection: this.selectedItems });
   }
 
   private resetFilterInput(): void {

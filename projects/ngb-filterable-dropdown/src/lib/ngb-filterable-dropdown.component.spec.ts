@@ -224,7 +224,7 @@ describe("NgbFilterableDropdownComponent", () => {
           component.onEnterKeyPressed();
           const result = await resultPromise;
 
-          expect(result.selectedItems).toEqual(items);
+          expect(result.selection).toEqual(items);
         });
       });
     });

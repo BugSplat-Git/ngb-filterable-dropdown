@@ -20,11 +20,16 @@ import { NgbFilterableDropdownModule } from '@bugsplat/ngb-filterable-dropdown'
 
 The component takes two main inputs, a list of strings that are selectable and a sub-list of strings that are already selected. 
 ```ts
-readonly bugs: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'] 
+items: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'];
 selected: Array<string> = ['Moth'];
 ```
 
-You can specify whether or not to allow multiple items to be selected. By default, the component allows one item to be selected.
+You can specify whether or not to allow new items to be created. By default, the component does not allow new items to be created.
+```ts
+allowCreateItem: boolean = false;
+```
+
+You can also specify whether or not to allow multiple items to be selected. By default, the component allows one item to be selected.
 ```ts
 allowMultiSelect: boolean = false;
 ```
@@ -33,30 +38,41 @@ Additional inputs are provided for further dropdown customization. Auto close ca
 ```ts
 autoClose: boolean | 'inside' | 'outside' = false;
 disabled: boolean = false;
+loading: boolean = false;
 placeholder: string = 'No Items Selected';
 ```
 
-The component provides the selected data back to the parent through the onItemsSelected event and returns a list of selected strings.
+The component provides the selected data back to the parent through the selectionChanged event.
 ```ts
-onItemsSelected(selected: Array<string>) {
-  // Do something
+onSelectionChanged(event: SelectionChangedEvent) {
+  const selection = event.selection;
 }
 ```
 
-The component also provides an event when the dropdown is opened through the onOpen event.
+When an item is created the component outputs an event with the properties created, items, and selection.
 ```ts
-onDropdownOpen() {
-  // Do something
+onItemCreated(event: ItemCreatedEvent) {
+  const created = event.created;
+  const selection = event.selection;
+  const items = event.items;
+}
+```
+
+The component also provides an event when the dropdown is opened or closed through the openChanged event.
+```ts
+onOpenChanged(event: OpenChangedEvent) {
+  const open = event.open;
 }
 ```
 
 Add ngb-filterable-dropdown to your component's template:
 ```html
-<ngb-filterable-dropdown [allowMultiSelect]="allowMultiSelect" 
-    [autoClose]="autoClose" [disabled]="disabled"
-    [items]="bugs" [selectedItems]="selected"
-    (onItemsSelected)="onItemsSelected($event)" 
-    (onOpen)="onDropdownOpen()">
+<ngb-filterable-dropdown [allowCreateItem]="allowCreateItem" 
+  [allowMultiSelect]="allowMultiSelect" [autoClose]="autoClose"
+  [disabled]="disabled" [loading]="loading"
+  [items]="items" [selectedItems]="selectedItems"
+  (itemCreated)="onItemCreated($event)" (openChanged)="onOpenChanged($event)"
+  (selectionChanged)="onSelectionChanged($event)" >
 </ngb-filterable-dropdown>
 ```
 
