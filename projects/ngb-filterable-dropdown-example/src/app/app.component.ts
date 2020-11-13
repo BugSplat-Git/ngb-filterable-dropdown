@@ -16,6 +16,7 @@ export class AppComponent {
   autoClose: boolean | "inside" | "outside" = false;
   disabled: boolean = false;
   selection: string | Array<string> = "Moth";
+  dropdownTitle: string = '';
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem = event.target.checked;
@@ -47,6 +48,10 @@ export class AppComponent {
   onSelectionChanged(event: SelectionChangedEvent): void {
     this.selection = event.selection;
     console.log(event)
+  }
+
+  staticTitleClick(event: CheckboxClickEvent) {
+    this.dropdownTitle = event.target.checked ? 'Pick a Bug': '';
   }
 }
 

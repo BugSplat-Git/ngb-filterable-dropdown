@@ -37,12 +37,18 @@
             <label class="ml-4 mb-0" for="disabled">Disabled</label>
         </div>
     </div>
+    <div class="row mt-2">
+        <div class="col-12 col-xl-6">
+            <input id="disabled" (click)="staticTitleClick($event)" type="checkbox">
+            <label class="ml-4 mb-0" for="disabled">Static Title</label>
+        </div>
+    </div>
     <div class="row mt-4">
         <div class="col-12 col-xl-6">
             <h3>Bugs</h3>
             <ngb-filterable-dropdown [autoClose]="autoClose" [items]="items" [disabled]="disabled"
-                [selection]="selection" [allowCreateItem]="allowCreateItem"
-                [allowMultiSelect]="allowMultiSelect" (itemCreated)="onItemCreated($event)"
+                [selection]="selection" [allowCreateItem]="allowCreateItem" [placeholder]="'No Bugs Selected'"
+                [title]="dropdownTitle" [allowMultiSelect]="allowMultiSelect" (itemCreated)="onItemCreated($event)"
                 (selectionChanged)="onSelectionChanged($event)" (openChanged)="onOpenChanged($event)">
             </ngb-filterable-dropdown>
         </div>
