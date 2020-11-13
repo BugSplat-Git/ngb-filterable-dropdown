@@ -180,6 +180,8 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
       } else {
         this._selectedSet.add(item);
       }
+
+      this.nextToggleState = this._selectedSet.size > 0 ? this.DESELECT : this.SELECT;
     } else {
       this._selectedSet = new Set([item]);
     }
@@ -203,7 +205,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   onSelectMultiple(): void {
-    this.nextToggleState = this.DESELECT
+    this.nextToggleState = this.DESELECT;
     this.selectMultiple();
     this.selectionChanged.next({ selection: this.selection });
   }
