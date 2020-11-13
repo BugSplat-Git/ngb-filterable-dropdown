@@ -19,6 +19,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   @Input() allowCreateItem: boolean = false;
   @Input() allowMultiSelect: boolean = true;
   @Input() disabled: boolean = false;
+  @Input() title: string = '';
   @Input() placeholder: string = "No Items Selected";
   @Input() set loading(value: boolean) {
     if (value) {
