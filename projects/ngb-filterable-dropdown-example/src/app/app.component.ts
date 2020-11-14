@@ -14,9 +14,9 @@ export class AppComponent {
   allowCreateItem: boolean = false;
   allowMultiSelect: boolean = false;
   autoClose: boolean | "inside" | "outside" = false;
+  customToggleText: boolean = false;
   disabled: boolean = false;
   selection: string | Array<string> = "Moth";
-  dropdownTitle: string = '';
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem = event.target.checked;
@@ -29,6 +29,10 @@ export class AppComponent {
 
   autoCloseClick(event: CheckboxClickEvent): void {
     this.autoClose = event.target.checked ? "inside" : false;
+  }
+
+  customToggleTextClick(event: CheckboxClickEvent) {
+    this.customToggleText = event.target.checked;
   }
 
   disabledClick(event: CheckboxClickEvent): void {
@@ -48,10 +52,6 @@ export class AppComponent {
   onSelectionChanged(event: SelectionChangedEvent): void {
     this.selection = event.selection;
     console.log(event)
-  }
-
-  staticTitleClick(event: CheckboxClickEvent) {
-    this.dropdownTitle = event.target.checked ? 'Pick a Bug': '';
   }
 }
 
