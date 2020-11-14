@@ -97,6 +97,16 @@ $grey: #e6eaee;
   min-width: 90%
 }
 
+
+.ng-content-wrapper, .default-content-wrapper {
+  display: inline;
+}
+
+// Hide the default toggle button text if ng-content is provided
+.ng-content-wrapper:not(:empty) + .default-content-wrapper {
+  display: none;
+}
+
 #no-items, #type-to-create, #loading {
   text-align: left;
   padding-top: 10px;
