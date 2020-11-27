@@ -20,11 +20,6 @@
                         <icon-all></icon-all>
                         Select All
                     </button>
-                    <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
-                        class="dropdown-item filterable-dropdown-item px-2">
-                        <icon-none></icon-none>
-                        Select None
-                    </button>
                 </ng-container>
                 <ng-container *ngIf="allowToggleSelectMultiple">
                     <button [hidden]="nextToggleState === DESELECT" (click)="onSelectMultiple()"
@@ -32,6 +27,8 @@
                         <icon-all></icon-all>
                         Select Multiple
                     </button>
+                </ng-container>
+                <ng-container *ngIf="allowToggleSelectNone">
                     <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
                         class="dropdown-item filterable-dropdown-item px-2">
                         <icon-none></icon-none>
