@@ -8,7 +8,7 @@ import { CheckmarkComponent } from './icons/checkmark.component';
 import { NoneComponent } from './icons/none.component';
 import { PlusComponent } from './icons/plus.component';
 import { MultiSelectPipe } from "./multi-select-pipe/multi-select-pipe";
-import { NgbFilterableDropdownComponent } from "./ngb-filterable-dropdown.component";
+import { NgbFilterableDropdownComponent, NgbFilterableDropdownSelectionMode } from "./ngb-filterable-dropdown.component";
 
 describe("NgbFilterableDropdownComponent", () => {
   let component: NgbFilterableDropdownComponent;
@@ -78,12 +78,13 @@ describe("NgbFilterableDropdownComponent", () => {
     expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(currentItem);
   });
 
-  it("should display Multiple as currentItem if more than one item is selected", fakeAsync(() => {
+  it("should display Multiple as currentItem if more than one item is selected", () => {
+    component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone;
     component.onItemSelect(filterItem);
     component.onItemSelect("bar");
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual("Multiple");
-  }));
+  });
 
   describe("isFiltered", () => {
     beforeEach(() => {
@@ -114,9 +115,9 @@ describe("NgbFilterableDropdownComponent", () => {
   });
 
   describe("onCreateItem", () => {
-    describe("when allowMultiSelect is false", () => {
+    describe("when in mode that does not allow multi select", () => {
 
-      beforeEach(() => component.allowMultiSelect = false);
+      beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect);
 
       it("should select created item", () => {
         const item = "🎃";
@@ -143,9 +144,9 @@ describe("NgbFilterableDropdownComponent", () => {
       });
     });
 
-    describe("when allowMultiSelect is true", () => {
+    describe("when in mode that allows multi select", () => {
 
-      beforeEach(() => component.allowMultiSelect = true);
+      beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
 
       it("should add created item to selection", () => {
         const item = "🎃";
@@ -182,8 +183,8 @@ describe("NgbFilterableDropdownComponent", () => {
     describe("when allowCreateItem is false", () => {
       beforeEach(() => component.allowCreateItem = false);
 
-      describe("and allowMultiSelect is false", () => {
-        beforeEach(() => component.allowMultiSelect = false);
+      describe("and in mode that does not allow multi select", () => {
+        beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect);
 
         it("should select the first entry if filtered is not empty", () => {
           component.selection = "";
@@ -206,8 +207,8 @@ describe("NgbFilterableDropdownComponent", () => {
         });
       });
 
-      describe("and allowMultiSelect is true", () => {
-        beforeEach(() => component.allowMultiSelect = true);
+      describe("and in mode that allows multi select", () => {
+        beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
 
         it("should add items to selection if filtered is not empty", () => {
           component.selection = [];
@@ -232,8 +233,8 @@ describe("NgbFilterableDropdownComponent", () => {
     describe("when allowCreateItem is true", () => {
       beforeEach(() => component.allowCreateItem = true);
 
-      describe("and allowMultiSelect is false", () => {
-        beforeEach(() => component.allowMultiSelect = false);
+      describe("and in mode that does not allow multi select", () => {
+        beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect);
 
         it("should create item if filtered is empty", () => {
           const item = "🎃";
@@ -272,8 +273,8 @@ describe("NgbFilterableDropdownComponent", () => {
         });
       });
 
-      describe("and allowMultiSelect is true", () => {
-        beforeEach(() => component.allowMultiSelect = true);
+      describe("and in mode that allows multi select", () => {
+        beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
 
         it("should create item if filtered is empty", () => {
           const item = "🎃";
@@ -336,8 +337,8 @@ describe("NgbFilterableDropdownComponent", () => {
 
   describe("onItemSelect", () => {
     
-    describe("when allowMultiSelect is false", () => {
-      beforeEach(() => component.allowMultiSelect = false);
+    describe("when in mode that does not allow multi select", () => {
+      beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect);
       
       it("should set item as selected", () => {
         const item = "🎃";
@@ -362,8 +363,8 @@ describe("NgbFilterableDropdownComponent", () => {
       });
     });
 
-    describe("when allowMultiSelect is true", () => {
-      beforeEach(() => component.allowMultiSelect = true);
+    describe("when in mode that supports multi select", () => {
+      beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
 
       it("should add item to selected items if not selected", () => {
         const item = "🎃";
@@ -425,6 +426,9 @@ describe("NgbFilterableDropdownComponent", () => {
   });
 
   describe("onSelectAll", () => {
+    
+    beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+
     it("should set nextToggleState to DESELECT", () => {
       component.nextToggleState = component.SELECT;
 
@@ -452,6 +456,8 @@ describe("NgbFilterableDropdownComponent", () => {
   });
 
   describe("onSelectMultiple", () => {
+    beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+
     it("should set nextToggleState to DESELECT", () => {
       component.nextToggleState = component.SELECT;
 
@@ -479,6 +485,9 @@ describe("NgbFilterableDropdownComponent", () => {
   });
 
   describe("onSelectNone", () => {
+
+    beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+
     it("should set nextToggledState to SELECT", () => {
       component.nextToggleState = component.DESELECT;
 

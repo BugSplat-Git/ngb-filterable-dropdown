@@ -21,20 +21,14 @@
     </div>
     <div class="row mt-2">
         <div class="col-12 col-xl-6">
-            <input id="allow-multi-select" (click)="allowMultiSelectClick($event)" type="checkbox">
-            <label class="ml-4 mb-0" for="allow-multi-select">Allow Multi-Select</label>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12 col-xl-6">
             <input id="auto-close" (click)="autoCloseClick($event)" type="checkbox">
             <label class="ml-4 mb-0" for="auto-close">Auto Close</label>
         </div>
     </div>
     <div class="row mt-2">
         <div class="col-12 col-xl-6">
-            <input id="disabled" (click)="customToggleTextClick($event)" type="checkbox">
-            <label class="ml-4 mb-0" for="disabled">Custom Toggle Text</label>
+            <input id="custom-toggle-text" (click)="customToggleTextClick($event)" type="checkbox">
+            <label class="ml-4 mb-0" for="custom-toggle-text">Custom Toggle Text</label>
         </div>
     </div>
     <div class="row mt-2">
@@ -44,19 +38,27 @@
         </div>
     </div>
     <div class="row mt-4">
+        <div class="col-12 col-xl-3">
+            <select id="selection-mode" class="form-control" (change)="onSelectionModeChange($event.target.value)">
+                <option *ngFor="let mode of selectionModes" [value]="mode">
+                    {{ mode }}
+                </option>
+              </select>
+        </div>
+    </div>
+    <div class="row mt-4">
         <div class="col-12 col-xl-6">
             <h3>Bugs</h3>
             <ngb-filterable-dropdown *ngIf="customToggleText" [autoClose]="autoClose" [items]="items"
                 [disabled]="disabled" [selection]="selection" [allowCreateItem]="allowCreateItem"
-                [allowMultiSelect]="allowMultiSelect" (itemCreated)="onItemCreated($event)"
+                [selectionMode]="selectionMode" (itemCreated)="onItemCreated($event)"
                 (selectionChanged)="onSelectionChanged($event)" (openChanged)="onOpenChanged($event)">
                 Select a Bug 🐛
             </ngb-filterable-dropdown>
             <ngb-filterable-dropdown *ngIf="!customToggleText" [autoClose]="autoClose" [items]="items"
                 [disabled]="disabled" [selection]="selection" [allowCreateItem]="allowCreateItem"
-                [placeholder]="'No Bugs Selected'" [allowMultiSelect]="allowMultiSelect"
-                (itemCreated)="onItemCreated($event)" (selectionChanged)="onSelectionChanged($event)"
-                (openChanged)="onOpenChanged($event)">
+                [placeholder]="'No Bugs Selected'" [selectionMode]="selectionMode" (itemCreated)="onItemCreated($event)"
+                (selectionChanged)="onSelectionChanged($event)" (openChanged)="onOpenChanged($event)">
             </ngb-filterable-dropdown>
         </div>
     </div>
