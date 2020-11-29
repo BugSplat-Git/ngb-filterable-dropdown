@@ -33,7 +33,7 @@ describe("AppComponent", () => {
 });
 
 @Component({
-  selector: "ngb-filterable-dropdown",
+  selector: "ngb-filterable-dropdown", // tslint:disable-line component-selector
   template: ""
 })
 class MockFilterableDropdownComponent {

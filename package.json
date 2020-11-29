@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "pretest": "npm run lint",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "lib:build": "ng build ngb-filterable-dropdown",

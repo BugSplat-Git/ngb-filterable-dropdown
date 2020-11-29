@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { ItemCreatedEvent, NgbFilterableDropdownSelectionMode, OpenChangedEvent, SelectionChangedEvent } from 'projects/ngb-filterable-dropdown/src';
+import { ItemCreatedEvent, NgbFilterableDropdownSelectionMode, OpenChangedEvent, SelectionChangedEvent } from "projects/ngb-filterable-dropdown/src";
 
 @Component({
   selector: "app-root",
@@ -8,15 +8,15 @@ import { ItemCreatedEvent, NgbFilterableDropdownSelectionMode, OpenChangedEvent,
 })
 export class AppComponent {
   title = "ngb-filterable-dropdown-example";
-  
+
   selectionModes: Array<string> = Object.values(NgbFilterableDropdownSelectionMode);
 
-  items: Array<string> = ["Beetle", "Ant", "Moth", "Fire Ant", "Dung Beetle", "Grass Ant"] 
+  items: Array<string> = ["Beetle", "Ant", "Moth", "Fire Ant", "Dung Beetle", "Grass Ant"];
 
-  allowCreateItem: boolean = false;
+  allowCreateItem = false;
   autoClose: boolean | "inside" | "outside" = false;
-  customToggleText: boolean = false;
-  disabled: boolean = false;
+  customToggleText = false;
+  disabled = false;
   selection: string | Array<string> = "Moth";
   selectionMode: NgbFilterableDropdownSelectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
 
@@ -35,20 +35,20 @@ export class AppComponent {
   disabledClick(event: CheckboxClickEvent): void {
     this.disabled = event.target.checked;
   }
- 
+
   onItemCreated(event: ItemCreatedEvent): void {
     this.items = event.items;
     this.selection = event.selection;
     console.log(event);
   }
-   
+
   onOpenChanged(event: OpenChangedEvent): void {
     console.log(event);
   }
 
   onSelectionChanged(event: SelectionChangedEvent): void {
     this.selection = event.selection;
-    console.log(event)
+    console.log(event);
   }
 
   onSelectionModeChange(value: NgbFilterableDropdownSelectionMode): void {
@@ -58,5 +58,5 @@ export class AppComponent {
 }
 
 interface CheckboxClickEvent {
-  target: { checked: boolean }
+  target: { checked: boolean };
 }

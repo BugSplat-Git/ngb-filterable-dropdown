@@ -6,7 +6,7 @@ import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from "./eve
 import { SelectionType } from "./selection-type";
 
 @Component({
-  selector: "ngb-filterable-dropdown",
+  selector: "ngb-filterable-dropdown", // tslint:disable-line component-selector
   templateUrl: "./ngb-filterable-dropdown.component.html",
   styleUrls: ["./ngb-filterable-dropdown.component.scss"]
 })
@@ -17,17 +17,38 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
   @Input() allowCreateItem: boolean;
-  @Input() disabled: boolean = false;
-  @Input() placeholder: string = "No Items Selected";
+  @Input() disabled = false;
+  @Input() placeholder = "No Items Selected";
   @Input() set items(value: Array<string>) {
     this.setItems(value);
   }
+  get items(): Array<string> {
+    return this._items;
+  }
+
   @Input() set loading(value: boolean) {
     this.setLoading(value);
   }
+  get loading(): boolean {
+    return this._loading;
+  }
+
   @Input() set selection(value: string | Array<string>) {
     this.setSelection(value);
   }
+  get selection(): Array<string> | string {
+    const arr: Array<any> = Array.from(this._selectedSet);
+    if (this._allowMultiSelect) {
+      return arr;
+    }
+
+    if (arr) {
+      return arr[0];
+    }
+
+    return "";
+  }
+
   @Input() set selectionMode(value: NgbFilterableDropdownSelectionMode) {
     this.setSelectionMode(value);
   }
@@ -42,10 +63,10 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   public filtered: Set<string> = new Set();
   public nextToggleState: SelectionType = this.SELECT;
   public searchForm = new FormGroup({ searchInput: new FormControl() });
-  
+
   private _itemsSet: Set<string> = new Set();
   private _items: Array<string> = [];
-  private _loading: boolean = false;
+  private _loading = false;
   private _selectionMode: NgbFilterableDropdownSelectionMode;
   private _selectedSet: Set<string> = new Set();
   private _valueChangesSubscription: Subscription;
@@ -54,28 +75,22 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 
   get allowToggleSelectAll(): boolean {
     return (this._allowMultiSelect && this.searchInputValue.length === 0)
-      && (this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll || this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+      && (this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll
+        || this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
       && !this.loading;
   }
 
   get allowToggleSelectMultiple(): boolean {
-    return (this._allowMultiSelect && this.searchInputValue.length > 0 && this.filtered.size > 0) 
+    return (this._allowMultiSelect && this.searchInputValue.length > 0 && this.filtered.size > 0)
       && this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone
       && !this.loading;
   }
 
   get allowToggleSelectNone(): boolean {
-    return (this._allowMultiSelect && this._selectedSet.size > 0) 
-      && (this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone || this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+    return (this._allowMultiSelect && this._selectedSet.size > 0)
+      && (this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone
+        || this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
       && !this.loading;
-  }
-
-  get items(): Array<string> {
-    return this._items;
-  }
-
-  get loading(): boolean {
-    return this._loading;
   }
 
   get noItemsToDisplay(): boolean {
@@ -87,24 +102,11 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get searchInput(): AbstractControl {
-    return this.searchForm.controls["searchInput"];
+    return this.searchForm.controls["searchInput"]; // tslint:disable-line no-string-literal
   }
 
   get searchInputValue(): string {
     return this.searchInput.value || "";
-  }
-
-  get selection(): Array<string> | string {
-    let arr: Array<any> = Array.from(this._selectedSet);
-    if (this._allowMultiSelect) {
-      return arr;
-    }
-
-    if (arr) {
-      return arr[0]
-    }
-
-    return "";
   }
 
   get typeToCreateItem(): boolean {
@@ -273,7 +275,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
       this._selectedSet = new Set([value]);
       return;
     }
-    
+
     this._selectedSet = new Set(value);
   }
 
@@ -289,9 +291,9 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
 }
 
 export enum NgbFilterableDropdownSelectionMode {
-  SingleSelect = 'Single Select',
-  MultiSelectWithSelectAllSelectNone = 'Multi-Select with Select All and Select None',
-  MultiSelectWithSelectAll = 'Multi-Select with Select All',
-  MultiSelectWithSelectNone = 'Multi-Select with Select None',
-  MultiSelect = 'Multi-Select'
+  SingleSelect = "Single Select",
+  MultiSelectWithSelectAllSelectNone = "Multi-Select with Select All and Select None",
+  MultiSelectWithSelectAll = "Multi-Select with Select All",
+  MultiSelectWithSelectNone = "Multi-Select with Select None",
+  MultiSelect = "Multi-Select"
 }
