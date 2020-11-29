@@ -7,7 +7,8 @@ describe("AppComponent", () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        MockFilterableDropdownComponent
+        MockFilterableDropdownComponent,
+        MockCustomFilterableDropdownComponent
       ],
     }).compileComponents();
   });
@@ -38,10 +39,27 @@ describe("AppComponent", () => {
 })
 class MockFilterableDropdownComponent {
   @Input() allowCreateItem: any;
-  @Input() allowMultiSelect: any;
   @Input() autoClose: any;
   @Input() items: any;
   @Input() selection: any;
+  @Input() selectionMode: any;
+  @Input() disabled: any;
+  @Input() placeholder: any;
+  @Output() itemCreated = new EventEmitter<any>();
+  @Output() selectionChanged = new EventEmitter<any>();
+  @Output() openChanged = new EventEmitter<any>();
+}
+
+@Component({
+  selector: "ngb-custom-filterable-dropdown", // tslint:disable-line component-selector
+  template: ""
+})
+class MockCustomFilterableDropdownComponent {
+  @Input() allowCreateItem: any;
+  @Input() autoClose: any;
+  @Input() items: any;
+  @Input() selection: any;
+  @Input() selectionMode: any;
   @Input() disabled: any;
   @Input() placeholder: any;
   @Output() itemCreated = new EventEmitter<any>();
