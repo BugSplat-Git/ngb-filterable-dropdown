@@ -97,9 +97,22 @@ $grey: #e6eaee;
   min-width: 90%
 }
 
-
 .ng-content-wrapper, .default-content-wrapper {
-  display: inline;
+  display: block;
+  width: 100%;
+}
+
+.default-content-wrapper:after {
+  text-align: right;
+  border-bottom: 0;
+  border-left: .3em solid transparent;
+  border-right: .3em solid transparent;
+  border-top: .3em solid;
+  content: "";
+  display: inline-block;
+  position: absolute;
+  top: calc(50% - .15em);
+  right: 1em;
 }
 
 // Hide the default toggle button text if ng-content is provided
