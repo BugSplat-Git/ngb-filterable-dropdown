@@ -1,14 +1,11 @@
 import { CommonModule } from "@angular/common";
-import { ComponentFixture, fakeAsync, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { take, tap } from "rxjs/operators";
-import { AllComponent } from "./icons/all.component";
-import { CheckmarkComponent } from "./icons/checkmark.component";
-import { NoneComponent } from "./icons/none.component";
-import { PlusComponent } from "./icons/plus.component";
-import { MultiSelectPipe } from "./multi-select-pipe/multi-select-pipe";
-import { NgbFilterableDropdownComponent, NgbFilterableDropdownSelectionMode } from "./ngb-filterable-dropdown.component";
+import { NgbFilterableDropdownComponent } from "./ngb-filterable-dropdown.component";
+import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
+import { InternalsModule } from "../internals/internals.module";
 
 describe("NgbFilterableDropdownComponent", () => {
   let component: NgbFilterableDropdownComponent;
@@ -19,21 +16,9 @@ describe("NgbFilterableDropdownComponent", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgbModule,
-        ReactiveFormsModule,
-        CommonModule
-      ],
-      declarations: [
-        NgbFilterableDropdownComponent,
-        MultiSelectPipe,
-        AllComponent,
-        CheckmarkComponent,
-        NoneComponent,
-        PlusComponent
-      ]
-    })
-      .compileComponents();
+      imports: [NgbModule, ReactiveFormsModule, CommonModule, InternalsModule],
+      declarations: [NgbFilterableDropdownComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NgbFilterableDropdownComponent);
     component = fixture.componentInstance;
@@ -55,19 +40,25 @@ describe("NgbFilterableDropdownComponent", () => {
 
   it("should display list of items", () => {
     fixture.detectChanges();
-    items.forEach(item => expect(fixture.nativeElement.textContent).toContain(item));
+    items.forEach((item) =>
+      expect(fixture.nativeElement.textContent).toContain(item)
+    );
   });
 
   it("should be disabled if disabled input is true", () => {
     component.disabled = true;
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector("button[disabled]")).toBeTruthy();
+    expect(
+      fixture.nativeElement.querySelector("button[disabled]")
+    ).toBeTruthy();
   });
 
   it("should display placeholder as currentItem if no items are selected", () => {
     component.items = ["it's a living"];
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(component.placeholder);
+    expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(
+      component.placeholder
+    );
   });
 
   it("should display currentItem if one item is selected", () => {
@@ -75,15 +66,20 @@ describe("NgbFilterableDropdownComponent", () => {
     component.items = [currentItem];
     component.onItemSelect(currentItem);
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(currentItem);
+    expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(
+      currentItem
+    );
   });
 
   it("should display Multiple as currentItem if more than one item is selected", () => {
-    component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone;
+    component.selectionMode =
+      NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone;
     component.onItemSelect(filterItem);
     component.onItemSelect("bar");
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual("Multiple");
+    expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(
+      "Multiple"
+    );
   });
 
   describe("isFiltered", () => {
@@ -116,8 +112,11 @@ describe("NgbFilterableDropdownComponent", () => {
 
   describe("onCreateItem", () => {
     describe("when in mode that does not allow multi select", () => {
-
-      beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect);
+      beforeEach(
+        () =>
+          (component.selectionMode =
+            NgbFilterableDropdownSelectionMode.SingleSelect)
+      );
 
       it("should select created item", () => {
         const item = "🎃";
@@ -136,17 +135,22 @@ describe("NgbFilterableDropdownComponent", () => {
         component.onCreateItem();
         const result = await resultPromise;
 
-        expect(result).toEqual(jasmine.objectContaining({
-          created: item,
-          selection: item,
-          items: [...items, item]
-        }));
+        expect(result).toEqual(
+          jasmine.objectContaining({
+            created: item,
+            selection: item,
+            items: [...items, item],
+          })
+        );
       });
     });
 
     describe("when in mode that allows multi select", () => {
-
-      beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+      beforeEach(
+        () =>
+          (component.selectionMode =
+            NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+      );
 
       it("should add created item to selection", () => {
         const item = "🎃";
@@ -169,22 +173,27 @@ describe("NgbFilterableDropdownComponent", () => {
         component.onCreateItem();
         const result = await resultPromise;
 
-        expect(result).toEqual(jasmine.objectContaining({
-          created: item,
-          selection: [...items, item],
-          items: [...items, item]
-        }));
+        expect(result).toEqual(
+          jasmine.objectContaining({
+            created: item,
+            selection: [...items, item],
+            items: [...items, item],
+          })
+        );
       });
     });
   });
 
   describe("onEnterKeyPressed", () => {
-
     describe("when allowCreateItem is false", () => {
-      beforeEach(() => component.allowCreateItem = false);
+      beforeEach(() => (component.allowCreateItem = false));
 
       describe("and in mode that does not allow multi select", () => {
-        beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect);
+        beforeEach(
+          () =>
+            (component.selectionMode =
+              NgbFilterableDropdownSelectionMode.SingleSelect)
+        );
 
         it("should select the first entry if filtered is not empty", () => {
           component.selection = "";
@@ -195,20 +204,28 @@ describe("NgbFilterableDropdownComponent", () => {
         });
 
         it("should emit selection", async () => {
-          const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+          const resultPromise = component.selectionChanged
+            .pipe(take(1))
+            .toPromise();
           component.selection = "";
 
           component.onEnterKeyPressed();
           const result = await resultPromise;
 
-          expect(result).toEqual(jasmine.objectContaining({
-            selection: items[0]
-          }));
+          expect(result).toEqual(
+            jasmine.objectContaining({
+              selection: items[0],
+            })
+          );
         });
       });
 
       describe("and in mode that allows multi select", () => {
-        beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+        beforeEach(
+          () =>
+            (component.selectionMode =
+              NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+        );
 
         it("should add items to selection if filtered is not empty", () => {
           component.selection = [];
@@ -219,7 +236,9 @@ describe("NgbFilterableDropdownComponent", () => {
         });
 
         it("should emit selection", async () => {
-          const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+          const resultPromise = component.selectionChanged
+            .pipe(take(1))
+            .toPromise();
           component.selection = [];
 
           component.onEnterKeyPressed();
@@ -231,10 +250,14 @@ describe("NgbFilterableDropdownComponent", () => {
     });
 
     describe("when allowCreateItem is true", () => {
-      beforeEach(() => component.allowCreateItem = true);
+      beforeEach(() => (component.allowCreateItem = true));
 
       describe("and in mode that does not allow multi select", () => {
-        beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect);
+        beforeEach(
+          () =>
+            (component.selectionMode =
+              NgbFilterableDropdownSelectionMode.SingleSelect)
+        );
 
         it("should create item if filtered is empty", () => {
           const item = "🎃";
@@ -265,16 +288,22 @@ describe("NgbFilterableDropdownComponent", () => {
           component.onEnterKeyPressed();
           const result = await resultPromise;
 
-          expect(result).toEqual(jasmine.objectContaining({
-            created: item,
-            selection: item,
-            items: [...items, item]
-          }));
+          expect(result).toEqual(
+            jasmine.objectContaining({
+              created: item,
+              selection: item,
+              items: [...items, item],
+            })
+          );
         });
       });
 
       describe("and in mode that allows multi select", () => {
-        beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+        beforeEach(
+          () =>
+            (component.selectionMode =
+              NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+        );
 
         it("should create item if filtered is empty", () => {
           const item = "🎃";
@@ -305,17 +334,22 @@ describe("NgbFilterableDropdownComponent", () => {
           component.onEnterKeyPressed();
           const result = await resultPromise;
 
-          expect(result).toEqual(jasmine.objectContaining({
-            created: item,
-            selection: [item],
-            items: [...items, item]
-          }));
+          expect(result).toEqual(
+            jasmine.objectContaining({
+              created: item,
+              selection: [item],
+              items: [...items, item],
+            })
+          );
         });
       });
     });
 
     describe("autoClose", () => {
-      beforeEach(() => component.dropdown = jasmine.createSpyObj("NgbDropdown", ["close"]));
+      beforeEach(
+        () =>
+          (component.dropdown = jasmine.createSpyObj("NgbDropdown", ["close"]))
+      );
 
       it("should close dialog when enter key is pressed if autoClose is true", () => {
         component.autoClose = true;
@@ -336,9 +370,12 @@ describe("NgbFilterableDropdownComponent", () => {
   });
 
   describe("onItemSelect", () => {
-
     describe("when in mode that does not allow multi select", () => {
-      beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect);
+      beforeEach(
+        () =>
+          (component.selectionMode =
+            NgbFilterableDropdownSelectionMode.SingleSelect)
+      );
 
       it("should set item as selected", () => {
         const item = "🎃";
@@ -350,21 +387,29 @@ describe("NgbFilterableDropdownComponent", () => {
       });
 
       it("should emit selected item as a string", async () => {
-        const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+        const resultPromise = component.selectionChanged
+          .pipe(take(1))
+          .toPromise();
         const item = "🎃";
         component.selection = "";
 
         component.onItemSelect(item);
         const result = await resultPromise;
 
-        expect(result).toEqual(jasmine.objectContaining({
-          selection: item
-        }));
+        expect(result).toEqual(
+          jasmine.objectContaining({
+            selection: item,
+          })
+        );
       });
     });
 
     describe("when in mode that supports multi select", () => {
-      beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+      beforeEach(
+        () =>
+          (component.selectionMode =
+            NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+      );
 
       it("should add item to selected items if not selected", () => {
         const item = "🎃";
@@ -385,16 +430,20 @@ describe("NgbFilterableDropdownComponent", () => {
       });
 
       it("should emit selected items as an array", async () => {
-        const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+        const resultPromise = component.selectionChanged
+          .pipe(take(1))
+          .toPromise();
         const item = "🎃";
         component.selection = [];
 
         component.onItemSelect(item);
         const result = await resultPromise;
 
-        expect(result).toEqual(jasmine.objectContaining({
-          selection: [item]
-        }));
+        expect(result).toEqual(
+          jasmine.objectContaining({
+            selection: [item],
+          })
+        );
       });
     });
   });
@@ -421,13 +470,16 @@ describe("NgbFilterableDropdownComponent", () => {
     it("should clear filter text if dialog is being closed", () => {
       component.searchForm.controls["searchInput"].setValue(filterItem); // tslint:disable-line no-string-literal
       component.onOpenChange(false);
-      expect(component.searchForm.controls["searchInput"].value).toEqual("");  // tslint:disable-line no-string-literal
+      expect(component.searchForm.controls["searchInput"].value).toEqual(""); // tslint:disable-line no-string-literal
     });
   });
 
   describe("onSelectAll", () => {
-
-    beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+    beforeEach(
+      () =>
+        (component.selectionMode =
+          NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+    );
 
     it("should set nextToggleState to DESELECT", () => {
       component.nextToggleState = component.SELECT;
@@ -444,19 +496,27 @@ describe("NgbFilterableDropdownComponent", () => {
     });
 
     it("should emit selected items as an array", async () => {
-      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+      const resultPromise = component.selectionChanged
+        .pipe(take(1))
+        .toPromise();
 
       component.onSelectAll();
       const result = await resultPromise;
 
-      expect(result).toEqual(jasmine.objectContaining({
-        selection: items
-      }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          selection: items,
+        })
+      );
     });
   });
 
   describe("onSelectMultiple", () => {
-    beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+    beforeEach(
+      () =>
+        (component.selectionMode =
+          NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+    );
 
     it("should set nextToggleState to DESELECT", () => {
       component.nextToggleState = component.SELECT;
@@ -473,20 +533,27 @@ describe("NgbFilterableDropdownComponent", () => {
     });
 
     it("should emit selected items", async () => {
-      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+      const resultPromise = component.selectionChanged
+        .pipe(take(1))
+        .toPromise();
 
       component.onSelectMultiple();
       const result = await resultPromise;
 
-      expect(result).toEqual(jasmine.objectContaining({
-        selection: items
-      }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          selection: items,
+        })
+      );
     });
   });
 
   describe("onSelectNone", () => {
-
-    beforeEach(() => component.selectionMode = NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone);
+    beforeEach(
+      () =>
+        (component.selectionMode =
+          NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
+    );
 
     it("should set nextToggledState to SELECT", () => {
       component.nextToggleState = component.DESELECT;
@@ -503,14 +570,18 @@ describe("NgbFilterableDropdownComponent", () => {
     });
 
     it("should emit empty array", async () => {
-      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+      const resultPromise = component.selectionChanged
+        .pipe(take(1))
+        .toPromise();
 
       component.onSelectNone();
       const result = await resultPromise;
 
-      expect(result).toEqual(jasmine.objectContaining({
-        selection: []
-      }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          selection: [],
+        })
+      );
     });
   });
 
@@ -520,7 +591,9 @@ describe("NgbFilterableDropdownComponent", () => {
 
       fixture.detectChanges();
 
-      expect(fixture.nativeElement.querySelector("#loading").hidden).toEqual(true);
+      expect(fixture.nativeElement.querySelector("#loading").hidden).toEqual(
+        true
+      );
     });
 
     it("should not disable searchInput if loading false", () => {
@@ -536,7 +609,9 @@ describe("NgbFilterableDropdownComponent", () => {
 
       fixture.detectChanges();
 
-      expect(fixture.nativeElement.querySelector("#loading").hidden).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#loading").hidden).toEqual(
+        false
+      );
     });
 
     it("should disable searchInput if loading false", () => {
@@ -557,7 +632,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.noItemsToDisplay).toEqual(true);
-      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(false);
+      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(
+        false
+      );
     });
 
     it("should be hidden if filteredItems length is not 0", () => {
@@ -569,7 +646,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.noItemsToDisplay).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(true);
+      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(
+        true
+      );
     });
 
     it("should be hidden if loading is true", () => {
@@ -582,7 +661,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.noItemsToDisplay).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(true);
+      expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(
+        true
+      );
     });
   });
 
@@ -593,7 +674,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.showCreateItem).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(true);
+      expect(
+        fixture.nativeElement.querySelector("#create-item").hidden
+      ).toEqual(true);
     });
 
     it("should return false if allowCreateItem is false", () => {
@@ -603,7 +686,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.showCreateItem).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(true);
+      expect(
+        fixture.nativeElement.querySelector("#create-item").hidden
+      ).toEqual(true);
     });
 
     it("should return false if items contains searchInputValue", () => {
@@ -615,7 +700,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.showCreateItem).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(true);
+      expect(
+        fixture.nativeElement.querySelector("#create-item").hidden
+      ).toEqual(true);
     });
 
     it("should return false if loading is true", () => {
@@ -627,7 +714,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.showCreateItem).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(true);
+      expect(
+        fixture.nativeElement.querySelector("#create-item").hidden
+      ).toEqual(true);
     });
 
     it("should return true if searchInputValue length is greater than 0, allowCreateItem is true, loading is false and items does not contain searchInputValue", () => {
@@ -639,7 +728,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.showCreateItem).toEqual(true);
-      expect(fixture.nativeElement.querySelector("#create-item").hidden).toEqual(false);
+      expect(
+        fixture.nativeElement.querySelector("#create-item").hidden
+      ).toEqual(false);
     });
   });
 
@@ -650,7 +741,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.typeToCreateItem).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(true);
+      expect(
+        fixture.nativeElement.querySelector("#type-to-create").hidden
+      ).toEqual(true);
     });
 
     it("should return false if searchInputValue length is not 0", () => {
@@ -660,7 +753,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.typeToCreateItem).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(true);
+      expect(
+        fixture.nativeElement.querySelector("#type-to-create").hidden
+      ).toEqual(true);
     });
 
     it("should return false if allowCreateItem is false", () => {
@@ -671,7 +766,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.typeToCreateItem).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(true);
+      expect(
+        fixture.nativeElement.querySelector("#type-to-create").hidden
+      ).toEqual(true);
     });
 
     it("should return false if loading is true", () => {
@@ -683,7 +780,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.typeToCreateItem).toEqual(false);
-      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(true);
+      expect(
+        fixture.nativeElement.querySelector("#type-to-create").hidden
+      ).toEqual(true);
     });
 
     it("should return true if filtered length is 0, searchInputValue length is 0, loading is false and allowCreateItem is true", () => {
@@ -695,7 +794,9 @@ describe("NgbFilterableDropdownComponent", () => {
       fixture.detectChanges();
 
       expect(component.typeToCreateItem).toEqual(true);
-      expect(fixture.nativeElement.querySelector("#type-to-create").hidden).toEqual(false);
+      expect(
+        fixture.nativeElement.querySelector("#type-to-create").hidden
+      ).toEqual(false);
     });
   });
 });

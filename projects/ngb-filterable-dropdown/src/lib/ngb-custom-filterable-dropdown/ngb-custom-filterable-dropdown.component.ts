@@ -2,23 +2,21 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, 
 import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
 import { NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
 import { Subscription } from "rxjs";
-import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from "./events";
-import { SelectionType } from "./selection-type";
+import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from "../events";
+import { SelectionType } from "../selection-type";
 
 @Component({
-  selector: "ngb-filterable-dropdown", // tslint:disable-line component-selector
-  templateUrl: "./ngb-filterable-dropdown.component.html",
-  styleUrls: ["./ngb-filterable-dropdown.component.scss"]
+  selector: "ngb-custom-filterable-dropdown", // tslint:disable-line component-selector
+  templateUrl: "./ngb-custom-filterable-dropdown.component.html",
+  styleUrls: ["./ngb-custom-filterable-dropdown.component.scss"],
 })
-export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
-
+export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly SELECT = SelectionType.All;
   public readonly DESELECT = SelectionType.None;
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
   @Input() allowCreateItem: boolean;
-  @Input() disabled = false;
-  @Input() placeholder = "No Items Selected";
+  @Input() customClickHandle = false;
   @Input() set items(value: Array<string>) {
     this.setItems(value);
   }
@@ -53,9 +51,12 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
     this.setSelectionMode(value);
   }
 
-  @Output() itemCreated: EventEmitter<ItemCreatedEvent> = new EventEmitter<ItemCreatedEvent>();
-  @Output() selectionChanged: EventEmitter<SelectionChangedEvent> = new EventEmitter<SelectionChangedEvent>();
-  @Output() openChanged: EventEmitter<OpenChangedEvent> = new EventEmitter<OpenChangedEvent>();
+  @Output()
+  itemCreated: EventEmitter<ItemCreatedEvent> = new EventEmitter<ItemCreatedEvent>();
+  @Output()
+  selectionChanged: EventEmitter<SelectionChangedEvent> = new EventEmitter<SelectionChangedEvent>();
+  @Output()
+  openChanged: EventEmitter<OpenChangedEvent> = new EventEmitter<OpenChangedEvent>();
 
   @ViewChild("search", { static: true }) search: ElementRef;
   @ViewChild("dropdown", { static: true }) dropdown: NgbDropdown;
@@ -74,31 +75,51 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   private _allowMultiSelect: boolean;
 
   get allowToggleSelectAll(): boolean {
-    return (this._allowMultiSelect && this.searchInputValue.length === 0)
-      && (this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll
-        || this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
-      && !this.loading;
+    return (
+      this._allowMultiSelect &&
+      this.searchInputValue.length === 0 &&
+      (this._selectionMode ===
+        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll ||
+        this._selectionMode ===
+          NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) &&
+      !this.loading
+    );
   }
 
   get allowToggleSelectMultiple(): boolean {
-    return (this._allowMultiSelect && this.searchInputValue.length > 0 && this.filtered.size > 0)
-      && this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone
-      && !this.loading;
+    return (
+      this._allowMultiSelect &&
+      this.searchInputValue.length > 0 &&
+      this.filtered.size > 0 &&
+      this._selectionMode ===
+        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone &&
+      !this.loading
+    );
   }
 
   get allowToggleSelectNone(): boolean {
-    return (this._allowMultiSelect && this._selectedSet.size > 0)
-      && (this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone
-        || this._selectionMode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
-      && !this.loading;
+    return (
+      this._allowMultiSelect &&
+      this._selectedSet.size > 0 &&
+      (this._selectionMode ===
+        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone ||
+        this._selectionMode ===
+          NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) &&
+      !this.loading
+    );
   }
 
   get noItemsToDisplay(): boolean {
-    return this.filtered.size === 0 && !this.allowCreateItem  && !this.loading;
+    return this.filtered.size === 0 && !this.allowCreateItem && !this.loading;
   }
 
   get showCreateItem(): boolean {
-    return this.searchInputValue.length > 0 && this.allowCreateItem && !this._itemsSet.has(this.searchInputValue) && !this.loading;
+    return (
+      this.searchInputValue.length > 0 &&
+      this.allowCreateItem &&
+      !this._itemsSet.has(this.searchInputValue) &&
+      !this.loading
+    );
   }
 
   get searchInput(): AbstractControl {
@@ -110,19 +131,27 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get typeToCreateItem(): boolean {
-    return this.filtered.size === 0 && this.searchInputValue.length === 0 && this.allowCreateItem && !this.loading;
+    return (
+      this.filtered.size === 0 &&
+      this.searchInputValue.length === 0 &&
+      this.allowCreateItem &&
+      !this.loading
+    );
   }
 
   ngOnInit(): void {
-    this._valueChangesSubscription = this.searchForm.get("searchInput").valueChanges
-      .subscribe(value => {
+    this._valueChangesSubscription = this.searchForm
+      .get("searchInput")
+      .valueChanges.subscribe((value) => {
         if (!value) {
           this.filtered = new Set(this.items);
           return;
         }
 
         const lowerCaseSearchInputValue = value.toLowerCase();
-        const filteredValues = this.items.filter(item => item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1);
+        const filteredValues = this.items.filter(
+          (item) => item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1
+        );
 
         this.filtered = new Set(filteredValues);
       });
@@ -143,7 +172,11 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   onCreateItem(): void {
     const item = this.searchInputValue;
     this.createItem(item);
-    this.itemCreated.next({ created: item, items: this.items, selection: this.selection });
+    this.itemCreated.next({
+      created: item,
+      items: this.items,
+      selection: this.selection,
+    });
     this.resetFilterInput();
   }
 
@@ -159,7 +192,11 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
     if (this.allowCreateItem && !this.filtered?.size) {
       const item = this.searchInputValue;
       this.createItem(item);
-      this.itemCreated.next({ created: item, items: this.items, selection: this.selection });
+      this.itemCreated.next({
+        created: item,
+        items: this.items,
+        selection: this.selection,
+      });
       this.resetFilterInput();
     }
 
@@ -180,7 +217,8 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
         this._selectedSet.add(item);
       }
 
-      this.nextToggleState = this._selectedSet.size > 0 ? this.DESELECT : this.SELECT;
+      this.nextToggleState =
+        this._selectedSet.size > 0 ? this.DESELECT : this.SELECT;
     } else {
       this._selectedSet = new Set([item]);
     }
@@ -252,11 +290,18 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   private setSelectionMode(value: NgbFilterableDropdownSelectionMode) {
     if (value === NgbFilterableDropdownSelectionMode.MultiSelect) {
       this._allowMultiSelect = true;
-    } else if (value === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll) {
+    } else if (
+      value === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll
+    ) {
       this._allowMultiSelect = true;
-    } else if (value === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) {
+    } else if (
+      value ===
+      NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone
+    ) {
       this._allowMultiSelect = true;
-    } else if (value === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone) {
+    } else if (
+      value === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone
+    ) {
       this._allowMultiSelect = true;
     } else {
       this._allowMultiSelect = false;
@@ -280,7 +325,7 @@ export class NgbFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   private selectMultiple(): void {
-    this.filtered.forEach(item => {
+    this.filtered.forEach((item) => {
       if (!this._selectedSet.has(item)) {
         this._selectedSet.add(item);
       }

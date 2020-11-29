@@ -7,7 +7,7 @@ import { ItemCreatedEvent, NgbFilterableDropdownSelectionMode, OpenChangedEvent,
   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-  title = "ngb-filterable-dropdown-example";
+  title = "ngb-filterable-dropdown-examples";
 
   selectionModes: Array<string> = Object.values(NgbFilterableDropdownSelectionMode);
 
@@ -17,6 +17,9 @@ export class AppComponent {
   autoClose: boolean | "inside" | "outside" = false;
   customToggleText = false;
   disabled = false;
+  genericHandleUseCustomHandle = true;
+  genericHandleSelection: string | Array<string> = "nothing";
+  isGenericHandleDropdownOpen = false;
   selection: string | Array<string> = "Moth";
   selectionMode: NgbFilterableDropdownSelectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
 
@@ -34,6 +37,15 @@ export class AppComponent {
 
   disabledClick(event: CheckboxClickEvent): void {
     this.disabled = event.target.checked;
+  }
+
+  genericHandleOpenChanged($event: OpenChangedEvent): void {
+    console.log($event);
+    this.isGenericHandleDropdownOpen = $event.open;
+  }
+
+  genericHandlerOnSelectionChanged($event: SelectionChangedEvent): void {
+    this.genericHandleSelection = $event.selection;
   }
 
   onItemCreated(event: ItemCreatedEvent): void {
