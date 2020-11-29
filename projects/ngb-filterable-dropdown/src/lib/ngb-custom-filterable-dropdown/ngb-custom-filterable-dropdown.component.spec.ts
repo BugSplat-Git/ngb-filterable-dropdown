@@ -51,6 +51,22 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     items.forEach(item => expect(fixture.nativeElement.textContent).toContain(item));
   });
 
+  describe('selection', () => {
+    describe('set', () => {
+      it('should set nextToggleState to SELECT if input length is 0', () => {
+        component.selection = [];
+        
+        expect(component.nextToggleState).toEqual(component.SELECT);
+      });
+
+      it('should set nextToggleState to DESELECT if input length is greater than 0', () => {
+        component.selection = [filterItem];
+        
+        expect(component.nextToggleState).toEqual(component.DESELECT);
+      });
+    });
+  });
+
   describe("isFiltered", () => {
     beforeEach(() => {
       component.searchInput.setValue(filterItem);
