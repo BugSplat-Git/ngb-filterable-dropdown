@@ -311,8 +311,9 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   private setSelection(value: string | Array<string>): void {
-    if (!value) {
+    if (!value || value?.length === 0) {
       this._selectedSet = new Set([]);
+      this.nextToggleState = this.SELECT;
       return;
     }
 
@@ -321,6 +322,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
       return;
     }
 
+    this.nextToggleState = this.DESELECT;
     this._selectedSet = new Set(value);
   }
 
