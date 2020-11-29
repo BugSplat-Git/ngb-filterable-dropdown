@@ -10,7 +10,7 @@ describe("NgbFilterableDropdownExample", () => {
 
   it("should display welcome message", () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual("ngb-filterable-dropdown-example");
+    expect(page.getTitleText()).toEqual("ngb-filterable-dropdown-examples");
   });
 
   afterEach(async () => {

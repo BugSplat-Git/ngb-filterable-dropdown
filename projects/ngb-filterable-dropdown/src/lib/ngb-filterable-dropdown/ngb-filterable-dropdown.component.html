@@ -1,0 +1,19 @@
+<ngb-custom-filterable-dropdown
+    [allowCreateItem]="allowCreateItem"
+    [autoClose]="autoClose"
+    [items]="items"
+    [selection]="selection"
+    [selectionMode]="selectionMode"
+    (itemCreated)="onItemCreated($event)"
+    (openChanged)="onOpenChanged($event)"
+    (selectionChanged)="onSelectionChanged($event)"
+  >
+  <button class="btn btn-dropdown-toggle" id="toggle" [disabled]="disabled">
+    <div class="ng-content-wrapper">
+      <ng-content></ng-content>
+    </div>
+    <div class="default-content-wrapper">
+        {{ selection | multiSelect: placeholder }}
+    </div>
+  </button>
+</ngb-custom-filterable-dropdown>

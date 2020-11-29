@@ -49,17 +49,70 @@
     <div class="row mt-4">
         <div class="col-12 col-xl-6">
             <h3>Bugs</h3>
-            <ngb-filterable-dropdown *ngIf="customToggleText" [autoClose]="autoClose" [items]="items"
-                [disabled]="disabled" [selection]="selection" [allowCreateItem]="allowCreateItem"
-                [selectionMode]="selectionMode" (itemCreated)="onItemCreated($event)"
-                (selectionChanged)="onSelectionChanged($event)" (openChanged)="onOpenChanged($event)">
+            <ngb-filterable-dropdown
+              *ngIf="customToggleText"
+              [allowCreateItem]="allowCreateItem"
+              [autoClose]="autoClose"
+              [items]="items"
+              [disabled]="disabled"
+              [selection]="selection"
+              [selectionMode]="selectionMode"
+              (itemCreated)="onItemCreated($event)"
+              (openChanged)="onOpenChanged($event)"
+              (selectionChanged)="onSelectionChanged($event)"
+            >
                 Select a Bug 🐛
             </ngb-filterable-dropdown>
-            <ngb-filterable-dropdown *ngIf="!customToggleText" [autoClose]="autoClose" [items]="items"
-                [disabled]="disabled" [selection]="selection" [allowCreateItem]="allowCreateItem"
-                [placeholder]="'No Bugs Selected'" [selectionMode]="selectionMode" (itemCreated)="onItemCreated($event)"
-                (selectionChanged)="onSelectionChanged($event)" (openChanged)="onOpenChanged($event)">
-            </ngb-filterable-dropdown>
+            <ngb-filterable-dropdown
+              *ngIf="!customToggleText"
+              [allowCreateItem]="allowCreateItem"
+              [autoClose]="autoClose"
+              [items]="items"
+              [disabled]="disabled"
+              [placeholder]="'No Bugs Selected'"
+              [selection]="selection"
+              [selectionMode]="selectionMode"
+              (itemCreated)="onItemCreated($event)"
+              (openChanged)="onOpenChanged($event)"
+              (selectionChanged)="onSelectionChanged($event)"
+            ></ngb-filterable-dropdown>
         </div>
+    </div>
+    <hr />
+    <div class="row mt-4">
+      <div class="col-12 col-xl-6">
+        <h3>Custom Click Handle</h3>
+        <ngb-custom-filterable-dropdown
+          [allowCreateItem]="allowCreateItem"
+          [autoClose]="autoClose"
+          [items]="items"
+          [selection]="genericHandleSelection"
+          [selectionMode]="selectionMode"
+          (itemCreated)="onItemCreated($event)"
+          (openChanged)="genericHandleOpenChanged($event)"
+          (selectionChanged)="genericHandlerOnSelectionChanged($event)"
+        >
+          <span>A generic click handle. -- Selected: {{ genericHandleSelection }} -- isOpen: {{isGenericHandleDropdownOpen}}</span>
+        </ngb-custom-filterable-dropdown>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-12 col-xl-6">
+        <h3>Styled Custom Click Handle</h3>
+        <ngb-custom-filterable-dropdown
+          [allowCreateItem]="allowCreateItem"
+          [autoClose]="autoClose"
+          [items]="items"
+          [selection]="genericHandleSelection"
+          [selectionMode]="selectionMode"
+          (itemCreated)="onItemCreated($event)"
+          (openChanged)="genericHandleOpenChanged($event)"
+          (selectionChanged)="genericHandlerOnSelectionChanged($event)"
+        >
+          <div class="alert alert-dark">
+            Heavily styled handle -- Selected: {{ genericHandleSelection }} -- isOpen: {{isGenericHandleDropdownOpen}}
+          </div>
+        </ngb-custom-filterable-dropdown>
+      </div>
     </div>
 </div>

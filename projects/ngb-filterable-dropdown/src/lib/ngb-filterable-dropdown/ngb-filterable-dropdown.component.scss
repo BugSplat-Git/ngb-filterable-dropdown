@@ -1,0 +1,135 @@
+@import "../../../../../node_modules/bootstrap/scss/bootstrap";
+
+$blue-grey: #7f8fa4;
+$border-light-grey: #dfe2e5;
+$dark-grey-blue: #354052;
+$light-blue-grey: #dae9fc;
+$light-grey: #afb7c8;
+$grey: #e6eaee;
+
+* {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  color: $dark-grey-blue;
+}
+
+.btn-dropdown-toggle {
+  width: 100%;
+  height: 37px;
+  border: solid 1px $border-light-grey;
+  border-radius: 4px;
+  background-image: none;
+  background-color: #ffffff;
+  line-height: 1.36;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
+    -webkit-box-shadow: none !important;
+    box-sizing: none;
+    box-shadow: none !important;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:after {
+    margin-top: 8px;
+    position: absolute;
+    right: 15px;
+  }
+}
+
+.dropdown-menu {
+  width: 100%;
+  height: auto;
+  min-height: 86px;
+  padding-top: 0 !important;
+}
+
+.dropdown-menu-inner {
+  display: flex;
+  flex-direction: column;
+  max-height: 231px;
+  min-height: 76px;
+  height: auto;
+}
+
+.filterable-dropdown-item {
+  position: relative;
+  height: 37px;
+  width: 100%;
+  box-shadow: inset 0 -1px 0 0 #dfe3e9;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
+    -webkit-box-shadow: none !important;
+    box-sizing: none;
+    outline: none !important;
+    background-color: #f8f9fa;
+    box-shadow: none !important;
+    text-decoration: none;
+  }
+}
+
+.form-control {
+  text-align: left;
+}
+
+.form-search {
+  height: fit-content;
+  margin: 4px;
+}
+
+.item-text-container {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 90%
+}
+
+
+.ng-content-wrapper, .default-content-wrapper {
+  display: inline;
+}
+
+// Hide the default toggle button text if ng-content is provided
+.ng-content-wrapper:not(:empty) + .default-content-wrapper {
+  display: none;
+}
+
+#no-items, #type-to-create, #loading {
+  text-align: left;
+  padding-top: 10px;
+  padding-left: 16px;
+
+  &:hover,
+  &:active {
+    background-color: transparent !important;
+    color: $dark-grey-blue !important;
+  }
+}
+
+.scroll-container {
+  width: 100%;
+  min-height: 30px;
+  overflow-y: scroll;
+}
+
+icon-all, icon-none, icon-checkmark {
+  padding-right: 7px;
+}
+
+icon-plus {
+  margin-left: -1px;
+  padding-right: 6px;
+}

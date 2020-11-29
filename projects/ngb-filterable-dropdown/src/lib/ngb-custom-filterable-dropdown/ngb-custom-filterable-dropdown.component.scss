@@ -1,4 +1,4 @@
-@import "../../../../node_modules/bootstrap/scss/bootstrap";
+@import "../../../../../node_modules/bootstrap/scss/bootstrap";
 
 $blue-grey: #7f8fa4;
 $border-light-grey: #dfe2e5;
@@ -132,4 +132,12 @@ icon-all, icon-none, icon-checkmark {
 icon-plus {
   margin-left: -1px;
   padding-right: 6px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.custom-click-handle.dropdown-toggle:after {
+  display: none !important;
 }

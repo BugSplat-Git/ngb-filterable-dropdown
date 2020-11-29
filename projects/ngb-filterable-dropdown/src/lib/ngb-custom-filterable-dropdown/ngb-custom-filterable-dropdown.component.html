@@ -1,12 +1,7 @@
 <div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (openChange)="onOpenChange($event)">
-    <button ngbDropdownToggle class="btn btn-dropdown-toggle" id="toggle" [disabled]="disabled">
-        <div class="ng-content-wrapper">
-            <ng-content></ng-content>
-        </div>
-        <div class="default-content-wrapper">
-            {{ selection | multiSelect: placeholder }}
-        </div>
-    </button>
+    <div class="custom-click-handle cursor-pointer" ngbDropdownToggle>
+      <ng-content></ng-content>
+    </div>
     <div ngbDropdownMenu aria-labelledby="toggle">
         <div class="dropdown-menu-inner">
             <form class="form-search" [formGroup]="searchForm">
