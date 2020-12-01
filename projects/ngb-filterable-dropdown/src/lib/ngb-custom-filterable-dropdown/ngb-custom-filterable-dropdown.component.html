@@ -1,6 +1,6 @@
-<div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (openChange)="onOpenChange($event)">
-    <div class="custom-click-handle cursor-pointer" ngbDropdownToggle>
-      <ng-content></ng-content>
+<div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (click)="onDropdownClick($event)" (openChange)="onOpenChange($event)">
+    <div class="custom-click-handle cursor-pointer" ngbDropdownAnchor>
+        <ng-content></ng-content>
     </div>
     <div ngbDropdownMenu aria-labelledby="toggle">
         <div class="dropdown-menu-inner">
