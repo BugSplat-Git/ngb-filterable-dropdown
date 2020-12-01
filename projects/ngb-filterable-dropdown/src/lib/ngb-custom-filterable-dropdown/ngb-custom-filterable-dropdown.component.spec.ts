@@ -159,6 +159,47 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     });
   });
 
+  describe("onDropdownClick", () => {
+    let event;
+
+    beforeEach(() => {
+      component.dropdown = jasmine.createSpyObj("NgbDropdown", ["toggle"]);
+      event = jasmine.createSpyObj("MouseEvent", ["stopPropagation"]);
+    });
+
+    describe("when disabled is true", () => {
+
+      beforeEach(() => {
+        component.disabled = true;
+        component.onDropdownClick(event);
+      });
+
+      it("should call stopPropagation on click event", () => {
+        expect(event.stopPropagation).toHaveBeenCalled();
+      });
+
+      it("should not call toggle on dropdown", () => {
+        expect(component.dropdown.toggle).not.toHaveBeenCalled();
+      });
+    });
+
+    describe("when disabled is false", () => {
+
+      beforeEach(() => {
+        component.disabled = false;
+        component.onDropdownClick(event);
+      });
+
+      it("should not call stopPropagation on click event", () => {
+        expect(event.stopPropagation).not.toHaveBeenCalled();
+      });
+
+      it("should call toggle on dropdown", () => {
+        expect(component.dropdown.toggle).toHaveBeenCalled();
+      });
+    });
+  });
+
   describe("onEnterKeyPressed", () => {
 
     describe("when allowCreateItem is false", () => {

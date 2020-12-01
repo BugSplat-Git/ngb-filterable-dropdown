@@ -15,8 +15,9 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly DESELECT = SelectionType.None;
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
-  @Input() allowCreateItem: boolean;
+  @Input() allowCreateItem = false;
   @Input() customClickHandle = false;
+  @Input() disabled = false;
   @Input() set items(value: Array<string>) {
     this.setItems(value);
   }
@@ -178,6 +179,15 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
       selection: this.selection,
     });
     this.resetFilterInput();
+  }
+
+  onDropdownClick(event: MouseEvent): void {
+    if (this.disabled) {
+      event.stopPropagation();
+      return;
+    }
+
+    this.dropdown.toggle();
   }
 
   onEnterKeyPressed(): void {
