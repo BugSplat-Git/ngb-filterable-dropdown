@@ -31,15 +31,16 @@ allowCreateItem: boolean = false;
 
 You can also specify whether or not to allow multiple items to be selected. By default, the component allows one item to be selected.
 ```ts
-allowMultiSelect: boolean = false;
+selectionMode: NgbFilterableDropdownSelectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
 ```
 
-Additional inputs are provided for further dropdown customization. Auto close can be set to true or false; alternatively you can specify whether to close on an outside or inside click. Dropdowns may also be disabled at any time.
+Additional inputs are provided for further dropdown customization. The open/close behaviour of the dialog can be changed by setting autoClose to true or false; alternatively you can specify whether to close on an outside or inside click. Additionally, dropdowns can be disabled at any time by setting disabled to true. You can also display a loading placeholder by setting loading to true. If you'd like to specify the placeholder in the search input you can set the value of searchInputPlaceholder to a string of your choosing.
 ```ts
 autoClose: boolean | 'inside' | 'outside' = false;
 disabled: boolean = false;
 loading: boolean = false;
 placeholder: string = 'No Items Selected';
+searchInputPlaceholder: string = 'Search';
 ```
 
 The component provides the selected data back to the parent through the selectionChanged event.
@@ -67,12 +68,18 @@ onOpenChanged(event: OpenChangedEvent) {
 
 Add ngb-filterable-dropdown to your component's template:
 ```html
-<ngb-filterable-dropdown [allowCreateItem]="allowCreateItem" 
-  [allowMultiSelect]="allowMultiSelect" [autoClose]="autoClose"
-  [disabled]="disabled" [loading]="loading"
-  [items]="items" [selection]="selection"
-  (itemCreated)="onItemCreated($event)" (openChanged)="onOpenChanged($event)"
-  (selectionChanged)="onSelectionChanged($event)" >
+<ngb-filterable-dropdown
+  [allowCreateItem]="allowCreateItem"
+  [autoClose]="autoClose"
+  [items]="items"
+  [disabled]="disabled"
+  [placeholder]="placeholder"
+  [searchInputPlaceholder]="searchInputPlaceholder"
+  [selection]="selection"
+  [selectionMode]="selectionMode"
+  (itemCreated)="onItemCreated($event)"
+  (openChanged)="onOpenChanged($event)"
+  (selectionChanged)="onSelectionChanged($event)">
 </ngb-filterable-dropdown>
 ```
 

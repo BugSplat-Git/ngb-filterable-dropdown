@@ -45,6 +45,7 @@ class MockFilterableDropdownComponent {
   @Input() selectionMode: any;
   @Input() disabled: any;
   @Input() placeholder: any;
+  @Input() searchInputPlaceholder: any;
   @Output() itemCreated = new EventEmitter<any>();
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() openChanged = new EventEmitter<any>();
@@ -62,6 +63,7 @@ class MockCustomFilterableDropdownComponent {
   @Input() selectionMode: any;
   @Input() disabled: any;
   @Input() placeholder: any;
+  @Input() searchInputPlaceholder: any;
   @Output() itemCreated = new EventEmitter<any>();
   @Output() selectionChanged = new EventEmitter<any>();
   @Output() openChanged = new EventEmitter<any>();

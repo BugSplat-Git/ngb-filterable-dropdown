@@ -14,6 +14,7 @@ export class NgbFilterableDropdownComponent {
   @Input() items: Array<string> = [];
   @Input() loading = false;
   @Input() placeholder = "No Items Selected";
+  @Input() searchInputPlaceholder = "Search";
   @Input() selection: string | Array<string> = [];
   @Input() selectionMode: NgbFilterableDropdownSelectionMode;
 
