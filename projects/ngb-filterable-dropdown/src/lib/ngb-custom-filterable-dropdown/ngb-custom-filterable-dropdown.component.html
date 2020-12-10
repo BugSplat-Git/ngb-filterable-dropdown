@@ -1,11 +1,12 @@
-<div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (click)="onDropdownClick($event)" (openChange)="onOpenChange($event)">
+<div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (click)="onDropdownClick($event)"
+    (openChange)="onOpenChange($event)">
     <div class="custom-click-handle cursor-pointer" ngbDropdownAnchor>
         <ng-content></ng-content>
     </div>
     <div ngbDropdownMenu aria-labelledby="toggle">
         <div class="dropdown-menu-inner">
             <form class="form-search" [formGroup]="searchForm">
-                <input #search class="form-control" formControlName="searchInput" placeholder="Search"
+                <input #search class="form-control" formControlName="searchInput" [placeholder]="searchInputPlaceholder"
                     (click)="$event.stopPropagation()" (keyup.enter)="onEnterKeyPressed()">
             </form>
             <div class="scroll-container">
@@ -30,8 +31,8 @@
                         Select None
                     </button>
                 </ng-container>
-                <button [hidden]="!showCreateItem" id="create-item"
-                    class="dropdown-item filterable-dropdown-item px-2" (click)="onCreateItem()">
+                <button [hidden]="!showCreateItem" id="create-item" class="dropdown-item filterable-dropdown-item px-2"
+                    (click)="onCreateItem()">
                     <icon-plus></icon-plus>
                     Create {{searchInputValue}}
                 </button>

@@ -18,6 +18,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   @Input() allowCreateItem = false;
   @Input() customClickHandle = false;
   @Input() disabled = false;
+  @Input() searchInputPlaceholder = "Search";
   @Input() set items(value: Array<string>) {
     this.setItems(value);
   }
