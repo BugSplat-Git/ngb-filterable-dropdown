@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "lib:build": "ng build ngb-filterable-dropdown",
-    "build-prod": "ng build ngb-filterable-dropdown --prod && cp README.md dist/@bugsplat/ngb-filterable-dropdown",
+    "lib:build-prod": "ng build ngb-filterable-dropdown --configuration production && cp README.md dist/@bugsplat/ngb-filterable-dropdown",
     "release": "npm run build-prod && cd dist/@bugsplat/ngb-filterable-dropdown && npm publish"
   },
   "private": false,
