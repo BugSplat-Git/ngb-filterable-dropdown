@@ -1,3 +1,5 @@
+[![BugSplat](https://s3.amazonaws.com/bugsplat-public/npm/header.png)](https://www.bugsplat.com)
+
 # ngb-filterable-dropdown
 Powerful dropdown control for complicated filtering.
 
