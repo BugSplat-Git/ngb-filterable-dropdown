@@ -91,6 +91,3 @@ Add ngb-filterable-dropdown to your component's template:
 
 With :heart:  
 BugSplat
-
-## License
-MIT
