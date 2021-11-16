@@ -9,7 +9,7 @@ import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-
 })
 export class NgbFilterableDropdownComponent {
   @Input() allowCreateItem = false;
-  @Input() autoClose = false;
+  @Input() autoClose: boolean | 'outside' | 'inside' = false;
   @Input() disabled = false;
   @Input() items: Array<string> = [];
   @Input() loading = false;
