@@ -1,7 +1,7 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-    selector: "icon-all", // tslint:disable-line component-selector
+    selector: 'icon-all', // tslint:disable-line component-selector
     template: `
     <svg height="12px" width="12px" fill="#000000" version="1.1" x="0px" y="0px" viewBox="21.481 21.441 57.23 57.237" style="enable-background:new 0 0 100 100; padding-bottom: 1px;" xmlns="http://www.w3.org/2000/svg">
         <g>

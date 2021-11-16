@@ -1,24 +1,24 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from "@angular/core";
-import { AbstractControl, FormControl, FormGroup } from "@angular/forms";
-import { NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription } from "rxjs";
-import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from "../events";
-import { SelectionType } from "../selection-type";
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
+import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from '../events';
+import { SelectionType } from '../selection-type';
 
 @Component({
-  selector: "ngb-custom-filterable-dropdown", // tslint:disable-line component-selector
-  templateUrl: "./ngb-custom-filterable-dropdown.component.html",
-  styleUrls: ["./ngb-custom-filterable-dropdown.component.scss"],
+  selector: 'ngb-custom-filterable-dropdown', // tslint:disable-line component-selector
+  templateUrl: './ngb-custom-filterable-dropdown.component.html',
+  styleUrls: ['./ngb-custom-filterable-dropdown.component.scss'],
 })
 export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly SELECT = SelectionType.All;
   public readonly DESELECT = SelectionType.None;
 
-  @Input() autoClose: boolean | "outside" | "inside" = "outside";
+  @Input() autoClose: boolean | 'outside' | 'inside' = 'outside';
   @Input() allowCreateItem = false;
   @Input() customClickHandle = false;
   @Input() disabled = false;
-  @Input() searchInputPlaceholder = "Search";
+  @Input() searchInputPlaceholder = 'Search';
   @Input() set items(value: Array<string>) {
     this.setItems(value);
   }
@@ -46,7 +46,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
       return arr[0];
     }
 
-    return "";
+    return '';
   }
 
   @Input() set selectionMode(value: NgbFilterableDropdownSelectionMode) {
@@ -60,8 +60,8 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   @Output()
   openChanged: EventEmitter<OpenChangedEvent> = new EventEmitter<OpenChangedEvent>();
 
-  @ViewChild("search", { static: true }) search: ElementRef;
-  @ViewChild("dropdown", { static: true }) dropdown: NgbDropdown;
+  @ViewChild('search', { static: true }) search: ElementRef;
+  @ViewChild('dropdown', { static: true }) dropdown: NgbDropdown;
 
   public filtered: Set<string> = new Set();
   public nextToggleState: SelectionType = this.SELECT;
@@ -125,11 +125,11 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get searchInput(): AbstractControl {
-    return this.searchForm.controls["searchInput"]; // tslint:disable-line no-string-literal
+    return this.searchForm.controls['searchInput']; // tslint:disable-line no-string-literal
   }
 
   get searchInputValue(): string {
-    return this.searchInput.value || "";
+    return this.searchInput.value || '';
   }
 
   get typeToCreateItem(): boolean {
@@ -143,7 +143,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._valueChangesSubscription = this.searchForm
-      .get("searchInput")
+      .get('searchInput')
       .valueChanges.subscribe((value) => {
         if (!value) {
           this.filtered = new Set(this.items);
@@ -264,7 +264,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   private resetFilterInput(): void {
-    this.searchInput.setValue("");
+    this.searchInput.setValue('');
   }
 
   private createItem(item: string): void {
@@ -328,7 +328,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (typeof value === "string") {
+    if (typeof value === 'string') {
       this._selectedSet = new Set([value]);
       return;
     }
@@ -349,9 +349,9 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
 }
 
 export enum NgbFilterableDropdownSelectionMode {
-  SingleSelect = "Single Select",
-  MultiSelectWithSelectAllSelectNone = "Multi-Select with Select All and Select None",
-  MultiSelectWithSelectAll = "Multi-Select with Select All",
-  MultiSelectWithSelectNone = "Multi-Select with Select None",
-  MultiSelect = "Multi-Select"
+  SingleSelect = 'Single Select',
+  MultiSelectWithSelectAllSelectNone = 'Multi-Select with Select All and Select None',
+  MultiSelectWithSelectAll = 'Multi-Select with Select All',
+  MultiSelectWithSelectNone = 'Multi-Select with Select None',
+  MultiSelect = 'Multi-Select'
 }
