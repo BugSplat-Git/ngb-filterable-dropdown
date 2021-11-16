@@ -11,7 +11,7 @@ export class NgbFilterableDropdownComponent {
   @Input() allowCreateItem = false;
   @Input() autoClose: boolean | 'outside' | 'inside' = false;
   @Input() disabled = false;
-  @Input() items: Array<string> = [];
+  @Input() items: string | Array<string> = [];
   @Input() loading = false;
   @Input() placeholder = 'No Items Selected';
   @Input() searchInputPlaceholder = 'Search';
