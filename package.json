@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "pretest": "npm run lint",
-    "lint": "ng lint",
+    "lint": "ng lint --fix",
     "e2e": "ng e2e",
     "lib:build": "ng build ngb-filterable-dropdown",
     "lib:build-prod": "ng build ngb-filterable-dropdown --configuration production && cp README.md LICENSE.md dist/@bugsplat/ngb-filterable-dropdown",

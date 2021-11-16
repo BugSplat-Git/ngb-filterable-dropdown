@@ -1,27 +1,27 @@
-import { Component } from "@angular/core";
-import { ItemCreatedEvent, NgbFilterableDropdownSelectionMode, OpenChangedEvent, SelectionChangedEvent } from "projects/ngb-filterable-dropdown/src";
+import { Component } from '@angular/core';
+import { ItemCreatedEvent, NgbFilterableDropdownSelectionMode, OpenChangedEvent, SelectionChangedEvent } from 'projects/ngb-filterable-dropdown/src';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = "ngb-filterable-dropdown-examples";
+  title = 'ngb-filterable-dropdown-examples';
 
   selectionModes: Array<string> = Object.values(NgbFilterableDropdownSelectionMode);
 
-  items: Array<string> = ["Beetle", "Ant", "Moth", "Fire Ant", "Dung Beetle", "Grass Ant"];
+  items: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'];
 
   allowCreateItem = false;
-  autoClose: boolean | "inside" | "outside" = false;
+  autoClose: boolean | 'inside' | 'outside' = false;
   customToggleText = false;
   disabled = false;
   genericHandleUseCustomHandle = true;
-  genericHandleSelection: string | Array<string> = "nothing";
+  genericHandleSelection: string | Array<string> = 'nothing';
   isGenericHandleDropdownOpen = false;
-  searchInputPlaceholder: string = "Search Bugs";
-  selection: string | Array<string> = "Moth";
+  searchInputPlaceholder = 'Search Bugs';
+  selection: string | Array<string> = 'Moth';
   selectionMode: NgbFilterableDropdownSelectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
@@ -29,7 +29,7 @@ export class AppComponent {
   }
 
   autoCloseClick(event: CheckboxClickEvent): void {
-    this.autoClose = event.target.checked ? "inside" : false;
+    this.autoClose = event.target.checked ? 'inside' : false;
   }
 
   customToggleTextClick(event: CheckboxClickEvent) {
