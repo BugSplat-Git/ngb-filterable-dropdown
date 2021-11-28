@@ -10,8 +10,9 @@ export class AppComponent {
   title = 'ngb-filterable-dropdown-examples';
 
   selectionModes: Array<string> = Object.values(NgbFilterableDropdownSelectionMode);
+  autoCloseValues = ['inside', 'outside', true, false];
 
-  items: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'];
+  items = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'];
 
   allowCreateItem = false;
   autoClose: boolean | 'inside' | 'outside' = false;
@@ -22,14 +23,10 @@ export class AppComponent {
   isGenericHandleDropdownOpen = false;
   searchInputPlaceholder = 'Search Bugs';
   selection: string | Array<string> = 'Moth';
-  selectionMode: NgbFilterableDropdownSelectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
+  selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem = event.target.checked;
-  }
-
-  autoCloseClick(event: CheckboxClickEvent): void {
-    this.autoClose = event.target.checked ? 'inside' : false;
   }
 
   customToggleTextClick(event: CheckboxClickEvent) {
@@ -47,6 +44,10 @@ export class AppComponent {
 
   genericHandlerOnSelectionChanged($event: SelectionChangedEvent): void {
     this.genericHandleSelection = $event.selection;
+  }
+
+  onAutoCloseValueChanged(value: boolean | 'inside' | 'outside'): void {
+    this.autoClose = value;
   }
 
   onItemCreated(event: ItemCreatedEvent): void {

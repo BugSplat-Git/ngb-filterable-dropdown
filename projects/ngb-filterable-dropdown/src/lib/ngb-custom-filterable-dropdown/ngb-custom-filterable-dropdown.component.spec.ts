@@ -193,10 +193,6 @@ describe('NgbCustomFilterableDropdownComponent', () => {
       it('should not call stopPropagation on click event', () => {
         expect(event.stopPropagation).not.toHaveBeenCalled();
       });
-
-      it('should call toggle on dropdown', () => {
-        expect(component.dropdown.toggle).toHaveBeenCalled();
-      });
     });
   });
 

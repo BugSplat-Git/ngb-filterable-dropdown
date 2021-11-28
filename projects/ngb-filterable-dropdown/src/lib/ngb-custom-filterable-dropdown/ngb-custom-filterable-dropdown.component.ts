@@ -187,8 +187,6 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
       event.stopPropagation();
       return;
     }
-
-    this.dropdown.toggle();
   }
 
   onEnterKeyPressed(): void {

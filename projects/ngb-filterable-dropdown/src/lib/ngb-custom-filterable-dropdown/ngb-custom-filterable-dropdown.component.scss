@@ -135,3 +135,10 @@ icon-plus {
 .custom-click-handle.dropdown-toggle:after {
   display: none !important;
 }
+
+.custom-click-handle {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+}

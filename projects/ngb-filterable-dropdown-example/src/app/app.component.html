@@ -1,122 +1,96 @@
 <div class="p-2">
-    <div class="row">
-        <div class="col-12 col-xl-4">
-            <a href="https://www.bugsplat.com">
-                <img style="max-width:350px" src="./assets/logo-bugsplat-color.png">
-            </a>
+  <div class="row">
+    <div class="col-12 col-xl-4">
+      <a href="https://www.bugsplat.com">
+        <img style="max-width:350px" src="./assets/logo-bugsplat-color.png">
+      </a>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12">
+      <h2>
+        <a href="https://github.com/BugSplat-Git/ngb-filterable-dropdown">{{title}}</a>
+      </h2>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-xl-6">
+      <input id="allow-create-item" (click)="allowCreateItemClick($event)" type="checkbox">
+      <label class="ml-4 mb-0" for="allow-create-item">Allow Create Item</label>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-12 col-xl-6">
+      <input id="custom-toggle-text" (click)="customToggleTextClick($event)" type="checkbox">
+      <label class="ml-4 mb-0" for="custom-toggle-text">Custom Toggle Text</label>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-12 col-xl-6">
+      <input id="disabled" (click)="disabledClick($event)" type="checkbox">
+      <label class="ml-4 mb-0" for="disabled">Disabled</label>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-xl-3">
+      <label for="selection-mode">Selection Mode</label>
+      <select id="selection-mode" class="form-control" (change)="onSelectionModeChange($event.target.value)">
+        <option *ngFor="let mode of selectionModes" [value]="mode">
+          {{ mode }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-xl-3">
+      <label for="auto-close-value">Auto Close</label>
+      <select id="auto-close-value" class="form-control" (change)="onAutoCloseValueChanged($event.target.value)">
+        <option *ngFor="let value of autoCloseValues" [value]="value">
+          {{ value }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-xl-6">
+      <h3>Bugs</h3>
+      <ngb-filterable-dropdown *ngIf="customToggleText" [allowCreateItem]="allowCreateItem" [autoClose]="autoClose"
+        [items]="items" [disabled]="disabled" [searchInputPlaceholder]="searchInputPlaceholder" [selection]="selection"
+        [selectionMode]="selectionMode" (itemCreated)="onItemCreated($event)" (openChanged)="onOpenChanged($event)"
+        (selectionChanged)="onSelectionChanged($event)">
+        Select a Bug 🐛
+      </ngb-filterable-dropdown>
+      <ngb-filterable-dropdown *ngIf="!customToggleText" [allowCreateItem]="allowCreateItem" [autoClose]="autoClose"
+        [items]="items" [disabled]="disabled" [placeholder]="'No Bugs Selected'"
+        [searchInputPlaceholder]="searchInputPlaceholder" [selection]="selection" [selectionMode]="selectionMode"
+        (itemCreated)="onItemCreated($event)" (openChanged)="onOpenChanged($event)"
+        (selectionChanged)="onSelectionChanged($event)"></ngb-filterable-dropdown>
+    </div>
+  </div>
+  <hr />
+  <div class="row mt-4">
+    <div class="col-12 col-xl-6">
+      <h3>Custom Click Handle</h3>
+      <ngb-custom-filterable-dropdown [allowCreateItem]="allowCreateItem" [autoClose]="autoClose" [items]="items"
+        [searchInputPlaceholder]="searchInputPlaceholder" [selection]="genericHandleSelection"
+        [selectionMode]="selectionMode" (itemCreated)="onItemCreated($event)"
+        (openChanged)="genericHandleOpenChanged($event)" (selectionChanged)="genericHandlerOnSelectionChanged($event)">
+        <span>A generic click handle. -- Selected: {{ genericHandleSelection }} -- isOpen:
+          {{isGenericHandleDropdownOpen}}</span>
+      </ngb-custom-filterable-dropdown>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-xl-6">
+      <h3>Styled Custom Click Handle</h3>
+      <ngb-custom-filterable-dropdown [allowCreateItem]="allowCreateItem" [autoClose]="autoClose" [items]="items"
+        [searchInputPlaceholder]="searchInputPlaceholder" [selection]="genericHandleSelection"
+        [selectionMode]="selectionMode" (itemCreated)="onItemCreated($event)"
+        (openChanged)="genericHandleOpenChanged($event)" (selectionChanged)="genericHandlerOnSelectionChanged($event)">
+        <div class="alert alert-dark">
+          Heavily styled handle -- Selected: {{ genericHandleSelection }} -- isOpen: {{isGenericHandleDropdownOpen}}
         </div>
+      </ngb-custom-filterable-dropdown>
     </div>
-    <div class="row mt-4">
-        <div class="col-12">
-            <h2>
-                <a href="https://github.com/BugSplat-Git/ngb-filterable-dropdown">{{title}}</a>
-            </h2>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-12 col-xl-6">
-            <input id="allow-create-item" (click)="allowCreateItemClick($event)" type="checkbox">
-            <label class="ml-4 mb-0" for="allow-create-item">Allow Create Item</label>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12 col-xl-6">
-            <input id="auto-close" (click)="autoCloseClick($event)" type="checkbox">
-            <label class="ml-4 mb-0" for="auto-close">Auto Close</label>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12 col-xl-6">
-            <input id="custom-toggle-text" (click)="customToggleTextClick($event)" type="checkbox">
-            <label class="ml-4 mb-0" for="custom-toggle-text">Custom Toggle Text</label>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12 col-xl-6">
-            <input id="disabled" (click)="disabledClick($event)" type="checkbox">
-            <label class="ml-4 mb-0" for="disabled">Disabled</label>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-12 col-xl-3">
-            <select id="selection-mode" class="form-control" (change)="onSelectionModeChange($event.target.value)">
-                <option *ngFor="let mode of selectionModes" [value]="mode">
-                    {{ mode }}
-                </option>
-              </select>
-        </div>
-    </div>
-    <div class="row mt-4">
-        <div class="col-12 col-xl-6">
-            <h3>Bugs</h3>
-            <ngb-filterable-dropdown
-              *ngIf="customToggleText"
-              [allowCreateItem]="allowCreateItem"
-              [autoClose]="autoClose"
-              [items]="items"
-              [disabled]="disabled"
-              [searchInputPlaceholder]="searchInputPlaceholder"
-              [selection]="selection"
-              [selectionMode]="selectionMode"
-              (itemCreated)="onItemCreated($event)"
-              (openChanged)="onOpenChanged($event)"
-              (selectionChanged)="onSelectionChanged($event)"
-            >
-                Select a Bug 🐛
-            </ngb-filterable-dropdown>
-            <ngb-filterable-dropdown
-              *ngIf="!customToggleText"
-              [allowCreateItem]="allowCreateItem"
-              [autoClose]="autoClose"
-              [items]="items"
-              [disabled]="disabled"
-              [placeholder]="'No Bugs Selected'"
-              [searchInputPlaceholder]="searchInputPlaceholder"
-              [selection]="selection"
-              [selectionMode]="selectionMode"
-              (itemCreated)="onItemCreated($event)"
-              (openChanged)="onOpenChanged($event)"
-              (selectionChanged)="onSelectionChanged($event)"
-            ></ngb-filterable-dropdown>
-        </div>
-    </div>
-    <hr />
-    <div class="row mt-4">
-      <div class="col-12 col-xl-6">
-        <h3>Custom Click Handle</h3>
-        <ngb-custom-filterable-dropdown
-          [allowCreateItem]="allowCreateItem"
-          [autoClose]="autoClose"
-          [items]="items"
-          [searchInputPlaceholder]="searchInputPlaceholder"
-          [selection]="genericHandleSelection"
-          [selectionMode]="selectionMode"
-          (itemCreated)="onItemCreated($event)"
-          (openChanged)="genericHandleOpenChanged($event)"
-          (selectionChanged)="genericHandlerOnSelectionChanged($event)"
-        >
-          <span>A generic click handle. -- Selected: {{ genericHandleSelection }} -- isOpen: {{isGenericHandleDropdownOpen}}</span>
-        </ngb-custom-filterable-dropdown>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-12 col-xl-6">
-        <h3>Styled Custom Click Handle</h3>
-        <ngb-custom-filterable-dropdown
-          [allowCreateItem]="allowCreateItem"
-          [autoClose]="autoClose"
-          [items]="items"
-          [searchInputPlaceholder]="searchInputPlaceholder"
-          [selection]="genericHandleSelection"
-          [selectionMode]="selectionMode"
-          (itemCreated)="onItemCreated($event)"
-          (openChanged)="genericHandleOpenChanged($event)"
-          (selectionChanged)="genericHandlerOnSelectionChanged($event)"
-        >
-          <div class="alert alert-dark">
-            Heavily styled handle -- Selected: {{ genericHandleSelection }} -- isOpen: {{isGenericHandleDropdownOpen}}
-          </div>
-        </ngb-custom-filterable-dropdown>
-      </div>
-    </div>
+  </div>
 </div>
