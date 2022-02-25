@@ -34,7 +34,7 @@ describe('AppComponent', () => {
 });
 
 @Component({
-  selector: 'ngb-filterable-dropdown', // tslint:disable-line component-selector
+  selector: 'ngb-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
   template: ''
 })
 class MockFilterableDropdownComponent {
@@ -52,7 +52,7 @@ class MockFilterableDropdownComponent {
 }
 
 @Component({
-  selector: 'ngb-custom-filterable-dropdown', // tslint:disable-line component-selector
+  selector: 'ngb-custom-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
   template: ''
 })
 class MockCustomFilterableDropdownComponent {

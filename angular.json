@@ -30,14 +30,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngb-filterable-dropdown/tsconfig.lib.json",
-              "projects/ngb-filterable-dropdown/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngb-filterable-dropdown/**/*.ts",
+              "projects/ngb-filterable-dropdown/**/*.html"
             ]
           }
         }
@@ -142,15 +139,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngb-filterable-dropdown-example/tsconfig.app.json",
-              "projects/ngb-filterable-dropdown-example/tsconfig.spec.json",
-              "projects/ngb-filterable-dropdown-example/e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngb-filterable-dropdown-example/**/*.ts",
+              "projects/ngb-filterable-dropdown-example/**/*.html"
             ]
           }
         },
@@ -171,6 +164,7 @@
   },
   "defaultProject": "ngb-filterable-dropdown",
   "cli": {
-    "analytics": "1ab62040-0915-43d4-b0a8-54f25681e13e"
+    "analytics": "1ab62040-0915-43d4-b0a8-54f25681e13e",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

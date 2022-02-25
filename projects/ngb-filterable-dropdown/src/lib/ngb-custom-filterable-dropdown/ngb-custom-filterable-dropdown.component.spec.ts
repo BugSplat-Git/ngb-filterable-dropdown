@@ -437,9 +437,9 @@ describe('NgbCustomFilterableDropdownComponent', () => {
     });
 
     it('should clear filter text if dialog is being closed', () => {
-      component.searchForm.controls['searchInput'].setValue(filterItem); // tslint:disable-line no-string-literal
+      component.searchForm.controls['searchInput'].setValue(filterItem); // eslint-disable-line  @typescript-eslint/dot-notation
       component.onOpenChange(false);
-      expect(component.searchForm.controls['searchInput'].value).toEqual('');  // tslint:disable-line no-string-literal
+      expect(component.searchForm.controls['searchInput'].value).toEqual('');  // eslint-disable-line  @typescript-eslint/dot-notation
     });
   });
 

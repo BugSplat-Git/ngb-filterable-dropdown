@@ -3,7 +3,7 @@ import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from '../ev
 import { NgbFilterableDropdownSelectionMode } from '../ngb-filterable-drop-down-selection-mode';
 
 @Component({
-  selector: 'ngb-filterable-dropdown', // tslint:disable-line component-selector
+  selector: 'ngb-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
   templateUrl: './ngb-filterable-dropdown.component.html',
   styleUrls: ['./ngb-filterable-dropdown.component.scss'],
 })
