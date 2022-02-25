@@ -28,6 +28,15 @@
             "tsConfig": "projects/ngb-filterable-dropdown/tsconfig.spec.json",
             "karmaConfig": "projects/ngb-filterable-dropdown/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngb-filterable-dropdown/**/*.ts",
+              "projects/ngb-filterable-dropdown/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -129,6 +138,15 @@
             "scripts": []
           }
         },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngb-filterable-dropdown-example/**/*.ts",
+              "projects/ngb-filterable-dropdown-example/**/*.html"
+            ]
+          }
+        },
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
@@ -146,6 +164,7 @@
   },
   "defaultProject": "ngb-filterable-dropdown",
   "cli": {
-    "analytics": "1ab62040-0915-43d4-b0a8-54f25681e13e"
+    "analytics": "1ab62040-0915-43d4-b0a8-54f25681e13e",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

@@ -6,7 +6,7 @@ import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from '../ev
 import { SelectionType } from '../selection-type';
 
 @Component({
-  selector: 'ngb-custom-filterable-dropdown', // tslint:disable-line component-selector
+  selector: 'ngb-custom-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
   templateUrl: './ngb-custom-filterable-dropdown.component.html',
   styleUrls: ['./ngb-custom-filterable-dropdown.component.scss'],
 })
@@ -125,7 +125,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get searchInput(): AbstractControl {
-    return this.searchForm.controls['searchInput']; // tslint:disable-line no-string-literal
+    return this.searchForm.controls['searchInput']; // eslint-disable-line  @typescript-eslint/dot-notation
   }
 
   get searchInputValue(): string {

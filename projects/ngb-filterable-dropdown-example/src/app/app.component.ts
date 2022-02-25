@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ItemCreatedEvent, NgbFilterableDropdownSelectionMode, OpenChangedEvent, SelectionChangedEvent } from 'projects/ngb-filterable-dropdown/src';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-root', // eslint-disable-line  @angular-eslint/component-selector
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
