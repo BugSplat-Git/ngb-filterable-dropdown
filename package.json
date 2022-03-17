@@ -32,7 +32,7 @@
     "@angular/platform-browser-dynamic": "~13.2.4",
     "@angular/router": "~13.2.4",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "bootstrap": "^4.5.2",
+    "bootstrap": "^4.6.1",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
