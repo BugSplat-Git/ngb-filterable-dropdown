@@ -1,61 +1,96 @@
-<div ngbDropdown #dropdown="ngbDropdown" [autoClose]="autoClose" (openChange)="onOpenChange($event)">
-    <button class="custom-click-handle cursor-pointer" ngbDropdownToggle [disabled]="disabled">
-        <ng-content></ng-content>
-    </button>
-    <div ngbDropdownMenu aria-labelledby="toggle">
-        <div class="dropdown-menu-inner">
-            <form class="form-search" [formGroup]="searchForm">
-                <input #search class="form-control" formControlName="searchInput" [placeholder]="searchInputPlaceholder"
-                    (click)="$event.stopPropagation()" (keyup.enter)="onEnterKeyPressed()">
-            </form>
-            <div class="scroll-container">
-                <ng-container *ngIf="allowToggleSelectAll">
-                    <button [hidden]="nextToggleState === DESELECT" (click)="onSelectAll()"
-                        class="dropdown-item filterable-dropdown-item px-2">
-                        <icon-all></icon-all>
-                        Select All
-                    </button>
-                </ng-container>
-                <ng-container *ngIf="allowToggleSelectMultiple">
-                    <button [hidden]="nextToggleState === DESELECT" (click)="onSelectMultiple()"
-                        class="dropdown-item filterable-dropdown-item px-2">
-                        <icon-all></icon-all>
-                        Select Multiple
-                    </button>
-                </ng-container>
-                <ng-container *ngIf="allowToggleSelectNone">
-                    <button [hidden]="nextToggleState === SELECT" (click)="onSelectNone()"
-                        class="dropdown-item filterable-dropdown-item px-2">
-                        <icon-none></icon-none>
-                        Select None
-                    </button>
-                </ng-container>
-                <button [hidden]="!showCreateItem" id="create-item" class="dropdown-item filterable-dropdown-item px-2"
-                    (click)="onCreateItem()">
-                    <icon-plus></icon-plus>
-                    Create {{searchInputValue}}
-                </button>
-                <div *ngFor="let item of items" [hidden]="loading">
-                    <button class="dropdown-item filterable-dropdown-item px-2" [hidden]="!isFiltered(item)"
-                        (click)="onItemSelect(item)">
-                        <div class="d-flex flex-row">
-                            <div class="item-text-container">{{item}}</div>
-                            <div class="w-100 text-right" [hidden]="!isSelected(item)">
-                                <icon-checkmark></icon-checkmark>
-                            </div>
-                        </div>
-                    </button>
-                </div>
-                <div [hidden]="!noItemsToDisplay" id="no-items" class="dropdown-item">
-                    No items to display.
-                </div>
-                <div [hidden]="!typeToCreateItem" id="type-to-create" class="dropdown-item">
-                    Start typing to create a new item
-                </div>
-                <div [hidden]="!loading" id="loading" class="dropdown-item">
-                    Loading...
-                </div>
+<div
+  ngbDropdown
+  #dropdown="ngbDropdown"
+  [autoClose]="autoClose"
+  (openChange)="onOpenChange($event)"
+>
+  <button
+    class="custom-click-handle cursor-pointer"
+    ngbDropdownToggle
+    [disabled]="disabled"
+  >
+    <ng-content></ng-content>
+  </button>
+  <div ngbDropdownMenu aria-labelledby="toggle">
+    <div class="dropdown-menu-inner">
+      <form class="form-search" [formGroup]="searchForm">
+        <input
+          #search
+          class="form-control"
+          formControlName="searchInput"
+          [placeholder]="searchInputPlaceholder"
+          (click)="$event.stopPropagation()"
+          (keyup.enter)="onEnterKeyPressed()"
+        />
+      </form>
+      <div class="scroll-container">
+        <ng-container *ngIf="allowToggleSelectAll">
+          <button
+            [hidden]="nextToggleState === DESELECT"
+            (click)="onSelectAll()"
+            class="dropdown-item filterable-dropdown-item px-2"
+          >
+            <icon-all></icon-all>
+            Select All
+          </button>
+        </ng-container>
+        <ng-container *ngIf="allowToggleSelectMultiple">
+          <button
+            [hidden]="nextToggleState === DESELECT"
+            (click)="onSelectMultiple()"
+            class="dropdown-item filterable-dropdown-item px-2"
+          >
+            <icon-all></icon-all>
+            Select Multiple
+          </button>
+        </ng-container>
+        <ng-container *ngIf="allowToggleSelectNone">
+          <button
+            [hidden]="nextToggleState === SELECT"
+            (click)="onSelectNone()"
+            class="dropdown-item filterable-dropdown-item px-2"
+          >
+            <icon-none></icon-none>
+            Select None
+          </button>
+        </ng-container>
+        <button
+          [hidden]="!showCreateItem"
+          id="create-item"
+          class="dropdown-item filterable-dropdown-item px-2"
+          (click)="onCreateItem()"
+        >
+          <icon-plus></icon-plus>
+          Create {{ searchInputValue }}
+        </button>
+        <div *ngFor="let item of items" [hidden]="loading">
+          <button
+            class="dropdown-item filterable-dropdown-item px-2"
+            [hidden]="!isFiltered(item)"
+            (click)="onItemSelect(item)"
+          >
+            <div class="d-flex flex-row">
+              <div class="item-text-container">{{ item }}</div>
+              <div class="w-100 text-right" [hidden]="!isSelected(item)">
+                <icon-checkmark></icon-checkmark>
+              </div>
             </div>
+          </button>
         </div>
+        <div [hidden]="!noItemsToDisplay" id="no-items" class="dropdown-item">
+          No items to display.
+        </div>
+        <div
+          [hidden]="!typeToCreateItem"
+          id="type-to-create"
+          class="dropdown-item"
+        >
+          Start typing to create a new item
+        </div>
+        <div [hidden]="!loading" id="loading" class="dropdown-item">
+          Loading...
+        </div>
+      </div>
     </div>
+  </div>
 </div>

@@ -88,10 +88,11 @@ $grey: #e6eaee;
 .item-text-container {
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 90%
+  min-width: 90%;
 }
 
-.ng-content-wrapper, .default-content-wrapper {
+.ng-content-wrapper,
+.default-content-wrapper {
   display: block;
   width: 100%;
 }
@@ -99,13 +100,13 @@ $grey: #e6eaee;
 .default-content-wrapper:after {
   text-align: right;
   border-bottom: 0;
-  border-left: .3em solid transparent;
-  border-right: .3em solid transparent;
-  border-top: .3em solid;
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+  border-top: 0.3em solid;
   content: "";
   display: inline-block;
   position: absolute;
-  top: calc(50% - .15em);
+  top: calc(50% - 0.15em);
   right: 1em;
 }
 
@@ -114,7 +115,9 @@ $grey: #e6eaee;
   display: none;
 }
 
-#no-items, #type-to-create, #loading {
+#no-items,
+#type-to-create,
+#loading {
   text-align: left;
   padding-top: 10px;
   padding-left: 16px;
@@ -132,7 +135,9 @@ $grey: #e6eaee;
   overflow-y: scroll;
 }
 
-icon-all, icon-none, icon-checkmark {
+icon-all,
+icon-none,
+icon-checkmark {
   padding-right: 7px;
 }
 
