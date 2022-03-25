@@ -1,22 +1,22 @@
 <ngb-custom-filterable-dropdown
-    [allowCreateItem]="allowCreateItem"
-    [autoClose]="autoClose"
-    [disabled]="disabled"
-    [items]="items"
-    [loading]="loading"
-    [searchInputPlaceholder]="searchInputPlaceholder"
-    [selection]="selection"
-    [selectionMode]="selectionMode"
-    (itemCreated)="onItemCreated($event)"
-    (openChanged)="onOpenChanged($event)"
-    (selectionChanged)="onSelectionChanged($event)"
-  >
+  [allowCreateItem]="allowCreateItem"
+  [autoClose]="autoClose"
+  [disabled]="disabled"
+  [items]="items"
+  [loading]="loading"
+  [searchInputPlaceholder]="searchInputPlaceholder"
+  [selection]="selection"
+  [selectionMode]="selectionMode"
+  (itemCreated)="onItemCreated($event)"
+  (openChanged)="onOpenChanged($event)"
+  (selectionChanged)="onSelectionChanged($event)"
+>
   <button class="btn btn-dropdown-toggle" id="toggle" [disabled]="disabled">
     <div class="ng-content-wrapper">
       <ng-content></ng-content>
     </div>
     <div class="default-content-wrapper">
-        {{ selection | multiSelect: placeholder }}
+      {{ selection | multiSelect: placeholder }}
     </div>
   </button>
 </ngb-custom-filterable-dropdown>

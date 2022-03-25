@@ -1,43 +1,4 @@
-@import "../../../../../node_modules/bootstrap/scss/bootstrap";
-
-$blue-grey: #7f8fa4;
-$border-light-grey: #dfe2e5;
-$dark-grey-blue: #354052;
-$light-blue-grey: #dae9fc;
-$light-grey: #afb7c8;
-$grey: #e6eaee;
-
-.btn-dropdown-toggle {
-  width: 100%;
-  height: 37px;
-  border: solid 1px $border-light-grey;
-  border-radius: 4px;
-  background-image: none;
-  background-color: #ffffff;
-  line-height: 1.36;
-  text-align: left;
-  text-overflow: ellipsis;
-  overflow: hidden;
-
-  &:active,
-  &:focus,
-  &:hover,
-  &:visited {
-    -webkit-box-shadow: none !important;
-    box-sizing: none;
-    box-shadow: none !important;
-  }
-
-  &:disabled {
-    cursor: default;
-  }
-
-  &:after {
-    margin-top: 8px;
-    position: absolute;
-    right: 15px;
-  }
-}
+@import "../colors.scss";
 
 .dropdown-menu {
   width: 100%;
@@ -88,20 +49,12 @@ $grey: #e6eaee;
 .item-text-container {
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 90%
+  min-width: 90%;
 }
 
-
-.ng-content-wrapper, .default-content-wrapper {
-  display: inline;
-}
-
-// Hide the default toggle button text if ng-content is provided
-.ng-content-wrapper:not(:empty) + .default-content-wrapper {
-  display: none;
-}
-
-#no-items, #type-to-create, #loading {
+#no-items,
+#type-to-create,
+#loading {
   text-align: left;
   padding-top: 10px;
   padding-left: 16px;
@@ -119,7 +72,9 @@ $grey: #e6eaee;
   overflow-y: scroll;
 }
 
-icon-all, icon-none, icon-checkmark {
+icon-all,
+icon-none,
+icon-checkmark {
   padding-right: 7px;
 }
 
