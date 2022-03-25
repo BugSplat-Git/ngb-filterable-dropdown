@@ -51,17 +51,7 @@
   right: 1em;
 }
 
-Hide
-  the
-  default
-  toggle
-  button
-  text
-  if
-  ng-content
-  is
-  provided
-  .ng-content-wrapper:not(:empty)
-  + .default-content-wrapper {
+// Hide the default toggle button text if ng-contentis provided
+.ng-content-wrapper:not(:empty)+.default-content-wrapper {
   display: none;
 }
