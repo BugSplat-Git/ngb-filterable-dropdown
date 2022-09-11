@@ -146,25 +146,14 @@
               "projects/ngb-filterable-dropdown-example/**/*.html"
             ]
           }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/ngb-filterable-dropdown-example/e2e/protractor.conf.js",
-            "devServerTarget": "ngb-filterable-dropdown-example:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ngb-filterable-dropdown-example:serve:production"
-            }
-          }
         }
       }
     }
   },
-  "defaultProject": "ngb-filterable-dropdown",
   "cli": {
     "analytics": "1ab62040-0915-43d4-b0a8-54f25681e13e",
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
