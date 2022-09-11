@@ -56,6 +56,8 @@ Add `ngb-filterable-dropdown` to your component's template:
 </ngb-filterable-dropdown>
 ```
 
+## 🧩 API
+
 The component takes two main inputs, a list of strings that are selectable and a sub-list of strings that are already selected.
 
 ```ts
@@ -126,11 +128,6 @@ onOpenChanged(event: OpenChangedEvent) {
   const open = event.open;
 }
 ```
-
-## 🧩 Compatibility
-
-@bugsplat/ngb-filterable-dropdown is compatible with Angular`>=14.1.0`.
-
 ## 🐛 About
 
 [@bugsplat/ngb-filterable-dropdown](https://github.com/BugSplat-git/ngb-filterable-dropdown) is an open source library developed by [BugSplat](https://www.bugsplat.com/)! BugSplat is a crash and error reporting tool used by developers to find, fix, and track errors in their applications.
