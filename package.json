@@ -12,7 +12,7 @@
     "lint": "ng lint --fix",
     "pretest": "npm run lint",
     "test": "ng test",
-    "test:ci": "npm run test:lib && npm run test:app",
+    "test:ci": "npm run test:lib && npm run test:sample",
     "test:lib": "ng test ngb-filterable-dropdown --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "test:sample": "ng test ngb-filterable-dropdown-example --no-watch --no-progress --browsers=ChromeHeadlessCI",
     "prerelease": "npm run build:lib",
