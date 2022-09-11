@@ -58,6 +58,10 @@ Add `ngb-filterable-dropdown` to your component's template:
 
 ## 🧩 API
 
+Customize your dropdown by leveraging the inputs and outputs of `@bugsplat/ngb-filterable-dropdown` as described below.
+
+### Selection
+
 The component takes two main inputs, a list of strings that are selectable and a sub-list of strings that are already selected.
 
 ```ts
@@ -65,11 +69,7 @@ items: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Gra
 selection: Array<string> = ['Moth'];
 ```
 
-You can specify whether or not to allow new items to be created. By default, the component does not allow new items to be created.
-
-```ts
-allowCreateItem: boolean = false;
-```
+### Selection Modes
 
 You can also specify whether or not to allow multiple items to be selected. By default, the component allows one item to be selected.
 
@@ -78,11 +78,23 @@ selectionMode: NgbFilterableDropdownSelectionMode =
   NgbFilterableDropdownSelectionMode.SingleSelect;
 ```
 
+### Create New Items
+
+You can specify whether or not to allow new items to be created. By default, the component does not allow new items to be created.
+
+```ts
+allowCreateItem: boolean = false;
+```
+
+### Opening and Closing
+
 The open/close behavior of the dialog can be changed by setting `autoClose` to `true` or `false`. Alternatively you can specify whether to close on an `outside` or `inside` click. 
 
 ```ts
 autoClose: boolean | 'inside' | 'outside' = false;
 ```
+
+### Disabling
 
 Dropdowns can be disabled at any time by setting `disabled` to `true`.
 
@@ -90,11 +102,15 @@ Dropdowns can be disabled at any time by setting `disabled` to `true`.
 disabled: boolean = false;
 ```
 
+### Loading
+
 You can also display a loading placeholder by setting `loading` to `true`.
 
 ```ts
 loading: boolean = false;
 ```
+
+### Placeholders
 
 If you'd like to specify the placeholder in the search input you can set the value of searchInputPlaceholder to a string of your choosing.
 
@@ -102,6 +118,8 @@ If you'd like to specify the placeholder in the search input you can set the val
 placeholder: string = 'No Items Selected';
 searchInputPlaceholder: string = 'Search';
 ```
+
+### Outputs
 
 The component provides the selected data back to the parent through the selectionChanged event.
 
