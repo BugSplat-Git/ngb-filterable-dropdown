@@ -7,7 +7,7 @@
     "build": "ng build",
     "build:ci": "npm run build:lib && npm run build:sample",
     "build:lib": "ng build ngb-filterable-dropdown --configuration=production",
-    "build:sample": "ng build ngb-filterable-dropdown-example --configuration=production --base-href=/ngb-filterable-dropdown/",
+    "build:sample": "ng build ngb-filterable-dropdown-example --configuration=production --base-href=/ngb-filterable-dropdown-example/",
     "postbuild:lib": "copyfiles README.md LICENSE.md dist/@bugsplat/ngb-filterable-dropdown",
     "lint": "ng lint --fix",
     "pretest": "npm run lint",
