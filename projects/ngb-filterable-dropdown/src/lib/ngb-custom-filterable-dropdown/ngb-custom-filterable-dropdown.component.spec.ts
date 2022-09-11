@@ -6,6 +6,7 @@ import { take, tap } from 'rxjs/operators';
 import { NgbCustomFilterableDropdownComponent } from './ngb-custom-filterable-dropdown.component';
 import { NgbFilterableDropdownSelectionMode } from '../ngb-filterable-drop-down-selection-mode';
 import { InternalsModule } from '../internals/internals.module';
+import { firstValueFrom } from 'rxjs';
 
 describe('NgbCustomFilterableDropdownComponent', () => {
   let component: NgbCustomFilterableDropdownComponent;
@@ -110,7 +111,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
       });
 
       it('should emit created item, selection and items', async () => {
-        const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
+        const resultPromise = firstValueFrom(component.itemCreated)
         const item = '🎃';
         component.searchInput.setValue(item);
 
@@ -141,7 +142,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
       });
 
       it('should emit created item, selection and items', async () => {
-        const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
+        const resultPromise = firstValueFrom(component.itemCreated)
         const item = '🎃';
         component.searchInput.setValue(item);
         component.selection = items;
@@ -213,7 +214,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
         });
 
         it('should emit selection', async () => {
-          const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+          const resultPromise = firstValueFrom(component.selectionChanged)
           component.selection = '';
 
           component.onEnterKeyPressed();
@@ -237,7 +238,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
         });
 
         it('should emit selection', async () => {
-          const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+          const resultPromise = firstValueFrom(component.selectionChanged)
           component.selection = [];
 
           component.onEnterKeyPressed();
@@ -275,7 +276,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
         });
 
         it('should emit created selection and items', async () => {
-          const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
+          const resultPromise = firstValueFrom(component.itemCreated)
           const item = '🎃';
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
@@ -315,7 +316,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
         });
 
         it('should emit created, selection and items', async () => {
-          const resultPromise = component.itemCreated.pipe(take(1)).toPromise();
+          const resultPromise = firstValueFrom(component.itemCreated)
           const item = '🎃';
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
@@ -368,7 +369,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
       });
 
       it('should emit selected item as a string', async () => {
-        const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+        const resultPromise = firstValueFrom(component.selectionChanged)
         const item = '🎃';
         component.selection = '';
 
@@ -403,7 +404,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
       });
 
       it('should emit selected items as an array', async () => {
-        const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+        const resultPromise = firstValueFrom(component.selectionChanged)
         const item = '🎃';
         component.selection = [];
 
@@ -419,7 +420,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
 
   describe('onOpenChange', () => {
     it('should emit event with open true if dialog is being opened', async () => {
-      const resultPromise = component.openChanged.pipe(take(1)).toPromise();
+      const resultPromise = firstValueFrom(component.openChanged)
 
       component.onOpenChange(true);
       const result = await resultPromise;
@@ -428,7 +429,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
     });
 
     it('should emit event with open false if dialog is being closed', async () => {
-      const resultPromise = component.openChanged.pipe(take(1)).toPromise();
+      const resultPromise = firstValueFrom(component.openChanged)
 
       component.onOpenChange(false);
       const result = await resultPromise;
@@ -462,7 +463,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
     });
 
     it('should emit selected items as an array', async () => {
-      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+      const resultPromise = firstValueFrom(component.selectionChanged)
 
       component.onSelectAll();
       const result = await resultPromise;
@@ -491,7 +492,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
     });
 
     it('should emit selected items', async () => {
-      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+      const resultPromise = firstValueFrom(component.selectionChanged)
 
       component.onSelectMultiple();
       const result = await resultPromise;
@@ -521,7 +522,7 @@ describe('NgbCustomFilterableDropdownComponent', () => {
     });
 
     it('should emit empty array', async () => {
-      const resultPromise = component.selectionChanged.pipe(take(1)).toPromise();
+      const resultPromise = firstValueFrom(component.selectionChanged)
 
       component.onSelectNone();
       const result = await resultPromise;

@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from '../events';
@@ -65,7 +65,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
 
   public filtered: Set<string> = new Set();
   public nextToggleState: SelectionType = this.SELECT;
-  public searchForm = new FormGroup({ searchInput: new FormControl() });
+  public searchForm = new UntypedFormGroup({ searchInput: new UntypedFormControl() });
 
   private _itemsSet: Set<string> = new Set();
   private _items: Array<string> = [];

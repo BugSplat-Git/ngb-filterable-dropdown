@@ -162,9 +162,10 @@
       }
     }
   },
-  "defaultProject": "ngb-filterable-dropdown",
   "cli": {
     "analytics": "1ab62040-0915-43d4-b0a8-54f25681e13e",
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
