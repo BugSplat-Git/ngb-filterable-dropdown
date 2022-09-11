@@ -1,0 +1,46 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node v${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install ⚙️
+        run: npm ci
+
+      - name: Build 🛠
+        run: npm run build:ci
+
+      - name: Test 📋
+        run: npm run test:ci
+
+      - name: Publish 📢
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          repository-name: BugSplat-Git/bugsplat-git.github.io
+          branch: gh-pages
+          folder: dist/ngb-filterable-dropdown-example
+          target-folder: ngb-filterable-dropdown-example
+          token: ${{ secrets.GH_TOKEN }}

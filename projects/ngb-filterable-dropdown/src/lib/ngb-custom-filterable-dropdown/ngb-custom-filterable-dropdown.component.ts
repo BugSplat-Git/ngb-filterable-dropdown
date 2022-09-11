@@ -182,13 +182,6 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
     this.resetFilterInput();
   }
 
-  onDropdownClick(event: MouseEvent): void {
-    if (this.disabled) {
-      event.stopPropagation();
-      return;
-    }
-  }
-
   onEnterKeyPressed(): void {
     if (this._allowMultiSelect && this.filtered?.size) {
       this.selectMultiple();
