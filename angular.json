@@ -146,18 +146,6 @@
               "projects/ngb-filterable-dropdown-example/**/*.html"
             ]
           }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/ngb-filterable-dropdown-example/e2e/protractor.conf.js",
-            "devServerTarget": "ngb-filterable-dropdown-example:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "ngb-filterable-dropdown-example:serve:production"
-            }
-          }
         }
       }
     }
