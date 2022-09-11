@@ -21,17 +21,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: 🏗 Install Dependencies
+      - name: Install ⚙️
         run: npm ci
 
-      - name: 👔 Run Lint
-        run: npm run lint
-
-      - name: 📚 Run Library Tests
-        run: npm run test:lib
-
-      - name: 🧑‍🏫 Run Sample Tests
-        run: npm run test:sample
-
-      - name: 📦 Build Package
-        run: npm run build:package
+      - name: Build 🛠
+        run: npm run build:ci
+        
+      - name: Test 📋
+        run: npm run test:ci
