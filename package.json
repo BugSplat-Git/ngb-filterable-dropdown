@@ -6,11 +6,12 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "test:lib": "ng test --project ngb-filterable-dropdown --watch false",
+    "test:sample": "ng test --project ngb-filterable-dropdown-example --watch false",
     "pretest": "npm run lint",
     "lint": "ng lint --fix",
-    "lib:build": "ng build ngb-filterable-dropdown",
-    "lib:build-prod": "ng build ngb-filterable-dropdown --configuration production && cp README.md LICENSE.md dist/@bugsplat/ngb-filterable-dropdown",
-    "lib:release": "npm run lib:build-prod && cd dist/@bugsplat/ngb-filterable-dropdown && npm publish"
+    "build:lib": "ng build ngb-filterable-dropdown --configuration production && copyfiles README.md LICENSE.md dist/@bugsplat/ngb-filterable-dropdown",
+    "release": "npm run build:lib && cd dist/@bugsplat/ngb-filterable-dropdown && npm publish"
   },
   "private": false,
   "license": "MIT",
@@ -33,6 +34,7 @@
     "@ng-bootstrap/ng-bootstrap": "^13.0.0",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.1",
+    "copyfiles": "^2.4.1",
     "rxjs": "^7.5.6",
     "tslib": "^2.0.0",
     "zone.js": "^0.11.8"
