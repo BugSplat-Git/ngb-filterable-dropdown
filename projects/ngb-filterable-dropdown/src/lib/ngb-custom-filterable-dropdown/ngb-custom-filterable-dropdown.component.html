@@ -6,6 +6,7 @@
 >
   <button
     class="custom-click-handle cursor-pointer"
+    type="button"
     ngbDropdownToggle
     [disabled]="disabled"
   >
@@ -13,7 +14,7 @@
   </button>
   <div ngbDropdownMenu aria-labelledby="toggle">
     <div class="dropdown-menu-inner">
-      <form class="form-search" [formGroup]="searchForm" (ngSubmit)="onSubmit($event)">
+      <form class="form-search" [formGroup]="searchForm">
         <input
           #search
           class="form-control"
@@ -26,9 +27,10 @@
       <div class="scroll-container">
         <ng-container *ngIf="allowToggleSelectAll">
           <button
+            class="dropdown-item filterable-dropdown-item px-2"
+            type="button"
             [hidden]="nextToggleState === DESELECT"
             (click)="onSelectAll()"
-            class="dropdown-item filterable-dropdown-item px-2"
           >
             <icon-all></icon-all>
             Select All
@@ -36,9 +38,10 @@
         </ng-container>
         <ng-container *ngIf="allowToggleSelectMultiple">
           <button
+            class="dropdown-item filterable-dropdown-item px-2"
+            type="button"
             [hidden]="nextToggleState === DESELECT"
             (click)="onSelectMultiple()"
-            class="dropdown-item filterable-dropdown-item px-2"
           >
             <icon-all></icon-all>
             Select Multiple
@@ -46,6 +49,7 @@
         </ng-container>
         <ng-container *ngIf="allowToggleSelectNone">
           <button
+            type="button"
             [hidden]="nextToggleState === SELECT"
             (click)="onSelectNone()"
             class="dropdown-item filterable-dropdown-item px-2"
@@ -55,9 +59,10 @@
           </button>
         </ng-container>
         <button
-          [hidden]="!showCreateItem"
           id="create-item"
           class="dropdown-item filterable-dropdown-item px-2"
+          type="button"
+          [hidden]="!showCreateItem"
           (click)="onCreateItem()"
         >
           <icon-plus></icon-plus>
@@ -66,6 +71,7 @@
         <div *ngFor="let item of items" [hidden]="loading">
           <button
             class="dropdown-item filterable-dropdown-item px-2"
+            type="button"
             [hidden]="!isFiltered(item)"
             (click)="onItemSelect(item)"
           >

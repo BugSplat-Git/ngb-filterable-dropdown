@@ -254,11 +254,6 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
     this.selectionChanged.next({ selection: this.selection });
   }
 
-  onSubmit(event: SubmitEvent): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
   private resetFilterInput(): void {
     this.searchInput.setValue('');
   }
