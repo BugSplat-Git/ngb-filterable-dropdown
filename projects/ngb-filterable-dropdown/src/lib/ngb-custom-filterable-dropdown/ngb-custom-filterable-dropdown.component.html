@@ -13,7 +13,7 @@
   </button>
   <div ngbDropdownMenu aria-labelledby="toggle">
     <div class="dropdown-menu-inner">
-      <form class="form-search" [formGroup]="searchForm">
+      <form class="form-search" [formGroup]="searchForm" (ngSubmit)="onSubmit($event)">
         <input
           #search
           class="form-control"
