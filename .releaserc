@@ -11,7 +11,6 @@
         "pkgRoot": "dist/@bugsplat/ngb-filterable-dropdown"
       }
     ],
-    "@semantic-release/git",
     "@semantic-release/github"
   ]
 }
