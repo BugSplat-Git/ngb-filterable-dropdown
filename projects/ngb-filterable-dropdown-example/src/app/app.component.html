@@ -34,7 +34,7 @@
   <div class="row mt-4">
     <div class="col-12 col-xl-3">
       <label for="selection-mode">Selection Mode</label>
-      <select id="selection-mode" class="form-control" (change)="onSelectionModeChange($event.target.value)">
+      <select id="selection-mode" class="form-select" (change)="onSelectionModeChange($event.target.value)">
         <option *ngFor="let mode of selectionModes" [value]="mode">
           {{ mode }}
         </option>
@@ -44,7 +44,7 @@
   <div class="row mt-4">
     <div class="col-12 col-xl-3">
       <label for="auto-close-value">Auto Close</label>
-      <select id="auto-close-value" class="form-control" (change)="onAutoCloseValueChanged($event.target.value)">
+      <select id="auto-close-value" class="form-select" (change)="onAutoCloseValueChanged($event.target.value)">
         <option *ngFor="let value of autoCloseValues" [value]="value">
           {{ value }}
         </option>
