@@ -107,18 +107,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngb-filterable-dropdown-example:build"
+            "buildTarget": "ngb-filterable-dropdown-example:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngb-filterable-dropdown-example:build:production"
+              "buildTarget": "ngb-filterable-dropdown-example:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngb-filterable-dropdown-example:build"
+            "buildTarget": "ngb-filterable-dropdown-example:build"
           }
         },
         "test": {
