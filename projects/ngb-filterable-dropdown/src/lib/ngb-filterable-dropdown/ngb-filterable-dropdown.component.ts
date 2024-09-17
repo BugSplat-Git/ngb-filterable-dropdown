@@ -17,6 +17,8 @@ export class NgbFilterableDropdownComponent {
   @Input() searchInputPlaceholder = 'Search';
   @Input() selection: string | Array<string> = [];
   @Input() selectionMode: NgbFilterableDropdownSelectionMode;
+  @Input() tooltips = false;
+  @Input() tooltipsOpenDelay = 0;
 
   @Output()
   itemCreated: EventEmitter<ItemCreatedEvent> = new EventEmitter<ItemCreatedEvent>();

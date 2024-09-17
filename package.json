@@ -73,6 +73,7 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "ng-mocks": "^14.13.1",
     "ng-packagr": "^18.1.0",
     "semantic-release": "^22.0.5",
     "semantic-release-cli": "^5.4.4",

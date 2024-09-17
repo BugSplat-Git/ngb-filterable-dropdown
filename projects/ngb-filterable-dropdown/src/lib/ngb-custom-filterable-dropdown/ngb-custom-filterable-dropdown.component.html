@@ -72,6 +72,9 @@
           <button
             class="dropdown-item filterable-dropdown-item px-2"
             type="button"
+            [ngbTooltip]="item"
+            [disableTooltip]="!tooltips"
+            [openDelay]="tooltipsOpenDelay"
             [hidden]="!isFiltered(item)"
             (click)="onItemSelect(item)"
           >
