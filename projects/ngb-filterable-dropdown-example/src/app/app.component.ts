@@ -12,7 +12,7 @@ export class AppComponent {
   selectionModes: Array<string> = Object.values(NgbFilterableDropdownSelectionMode);
   autoCloseValues = ['inside', 'outside', true, false];
 
-  items = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'];
+  items = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant', 'A Really Long Made Up Bug Name For Testing Tooltips Etc Etc Yadda Yadda Yadda'];
 
   allowCreateItem = false;
   autoClose: boolean | 'inside' | 'outside' = false;
@@ -24,6 +24,8 @@ export class AppComponent {
   searchInputPlaceholder = 'Search Bugs';
   selection: string | Array<string> = 'Moth';
   selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
+  tooltips = false;
+  tooltipsOpenDelay = 750;
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem = event.target.checked;
@@ -68,6 +70,10 @@ export class AppComponent {
   onSelectionModeChange(value: NgbFilterableDropdownSelectionMode): void {
     this.selectionMode = value;
     this.selection = [];
+  }
+
+  tooltipsClick(event: CheckboxClickEvent): void {
+    this.tooltips = event.target.checked;
   }
 }
 

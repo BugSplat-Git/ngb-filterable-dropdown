@@ -19,6 +19,8 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   @Input() customClickHandle = false;
   @Input() disabled = false;
   @Input() searchInputPlaceholder = 'Search';
+  @Input() tooltips = false;
+  @Input() tooltipsOpenDelay = 0;
   @Input() set items(value: Array<string>) {
     this.setItems(value);
   }
@@ -125,7 +127,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get searchInput(): AbstractControl {
-    return this.searchForm.controls['searchInput']; // eslint-disable-line  @typescript-eslint/dot-notation
+    return this.searchForm.controls['searchInput'];
   }
 
   get searchInputValue(): string {

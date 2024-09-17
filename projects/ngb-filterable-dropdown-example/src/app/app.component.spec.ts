@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { NgbCustomFilterableDropdownModule, NgbFilterableDropdownModule } from 'projects/ngb-filterable-dropdown/src';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -7,9 +7,11 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        MockFilterableDropdownComponent,
-        MockCustomFilterableDropdownComponent
       ],
+      imports: [
+        NgbCustomFilterableDropdownModule,
+        NgbFilterableDropdownModule
+      ]
     }).compileComponents();
   });
 
@@ -32,39 +34,3 @@ describe('AppComponent', () => {
     expect(compiled.querySelector('h2').textContent).toContain('ngb-filterable-dropdown-examples');
   });
 });
-
-@Component({
-  selector: 'ngb-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
-  template: ''
-})
-class MockFilterableDropdownComponent {
-  @Input() allowCreateItem: any;
-  @Input() autoClose: any;
-  @Input() items: any;
-  @Input() selection: any;
-  @Input() selectionMode: any;
-  @Input() disabled: any;
-  @Input() placeholder: any;
-  @Input() searchInputPlaceholder: any;
-  @Output() itemCreated = new EventEmitter<any>();
-  @Output() selectionChanged = new EventEmitter<any>();
-  @Output() openChanged = new EventEmitter<any>();
-}
-
-@Component({
-  selector: 'ngb-custom-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
-  template: ''
-})
-class MockCustomFilterableDropdownComponent {
-  @Input() allowCreateItem: any;
-  @Input() autoClose: any;
-  @Input() items: any;
-  @Input() selection: any;
-  @Input() selectionMode: any;
-  @Input() disabled: any;
-  @Input() placeholder: any;
-  @Input() searchInputPlaceholder: any;
-  @Output() itemCreated = new EventEmitter<any>();
-  @Output() selectionChanged = new EventEmitter<any>();
-  @Output() openChanged = new EventEmitter<any>();
-}
