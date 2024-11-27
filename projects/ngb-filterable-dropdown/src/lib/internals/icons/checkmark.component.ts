@@ -13,6 +13,7 @@ import { Component } from '@angular/core';
         <path class="fil0" d="M47 165c-20,-21 -52,11 -31,31 26,27 52,55 79,81 12,11 21,11 32,0l191 -190c20,-21 -11,-53 -32,-32l-174 174 -65 -64z"></path>
       </g>
     </svg>
-    `
+    `,
+    standalone: false
 })
 export class CheckmarkComponent { }

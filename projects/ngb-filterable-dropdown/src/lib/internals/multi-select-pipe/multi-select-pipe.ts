@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'multiSelect'
+    name: 'multiSelect',
+    standalone: false
 })
 export class MultiSelectPipe implements PipeTransform {
 

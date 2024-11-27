@@ -6,9 +6,10 @@ import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from '../ev
 import { SelectionType } from '../selection-type';
 
 @Component({
-  selector: 'ngb-custom-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
-  templateUrl: './ngb-custom-filterable-dropdown.component.html',
-  styleUrls: ['./ngb-custom-filterable-dropdown.component.scss'],
+    selector: 'ngb-custom-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
+    templateUrl: './ngb-custom-filterable-dropdown.component.html',
+    styleUrls: ['./ngb-custom-filterable-dropdown.component.scss'],
+    standalone: false
 })
 export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly SELECT = SelectionType.All;
