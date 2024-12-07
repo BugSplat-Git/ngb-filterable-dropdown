@@ -79,5 +79,8 @@
     "semantic-release-cli": "^5.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.28.1"
   }
 }
