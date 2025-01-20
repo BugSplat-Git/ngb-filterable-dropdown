@@ -1,25 +1,64 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
-import { ItemCreatedEvent, OpenChangedEvent, SelectionChangedEvent } from '../events';
-import { SelectionType } from '../selection-type';
+import { CommonModule } from "@angular/common";
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
+import {
+  AbstractControl,
+  ReactiveFormsModule,
+  UntypedFormControl,
+  UntypedFormGroup,
+} from "@angular/forms";
+import {
+  NgbDropdown,
+  NgbDropdownMenu,
+  NgbDropdownToggle,
+  NgbTooltip,
+} from "@ng-bootstrap/ng-bootstrap";
+import { Subscription } from "rxjs";
+import {
+  ItemCreatedEvent,
+  OpenChangedEvent,
+  SelectionChangedEvent,
+} from "../events";
+import { AllComponent } from "../internals/icons/all.component";
+import { CheckmarkComponent } from "../internals/icons/checkmark.component";
+import { NoneComponent } from "../internals/icons/none.component";
+import { PlusComponent } from "../internals/icons/plus.component";
+import { SelectionType } from "../selection-type";
 
 @Component({
-    selector: 'ngb-custom-filterable-dropdown', // eslint-disable-line  @angular-eslint/component-selector
-    templateUrl: './ngb-custom-filterable-dropdown.component.html',
-    styleUrls: ['./ngb-custom-filterable-dropdown.component.scss'],
-    standalone: false
+  selector: "ngb-custom-filterable-dropdown", // eslint-disable-line  @angular-eslint/component-selector
+  templateUrl: "./ngb-custom-filterable-dropdown.component.html",
+  styleUrls: ["./ngb-custom-filterable-dropdown.component.scss"],
+  imports: [
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbTooltip,
+    NgbDropdownMenu,
+    ReactiveFormsModule,
+    AllComponent,
+    NoneComponent,
+    PlusComponent,
+    CheckmarkComponent,
+    CommonModule,
+  ],
 })
 export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly SELECT = SelectionType.All;
   public readonly DESELECT = SelectionType.None;
 
-  @Input() autoClose: boolean | 'outside' | 'inside' = 'outside';
+  @Input() autoClose: boolean | "outside" | "inside" = "outside";
   @Input() allowCreateItem = false;
   @Input() customClickHandle = false;
   @Input() disabled = false;
-  @Input() searchInputPlaceholder = 'Search';
+  @Input() searchInputPlaceholder = "Search";
   @Input() tooltips = false;
   @Input() tooltipsOpenDelay = 0;
   @Input() set items(value: Array<string>) {
@@ -49,7 +88,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
       return arr[0];
     }
 
-    return '';
+    return "";
   }
 
   @Input() set selectionMode(value: NgbFilterableDropdownSelectionMode) {
@@ -57,18 +96,23 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   @Output()
-  itemCreated: EventEmitter<ItemCreatedEvent> = new EventEmitter<ItemCreatedEvent>();
+  itemCreated: EventEmitter<ItemCreatedEvent> =
+    new EventEmitter<ItemCreatedEvent>();
   @Output()
-  selectionChanged: EventEmitter<SelectionChangedEvent> = new EventEmitter<SelectionChangedEvent>();
+  selectionChanged: EventEmitter<SelectionChangedEvent> =
+    new EventEmitter<SelectionChangedEvent>();
   @Output()
-  openChanged: EventEmitter<OpenChangedEvent> = new EventEmitter<OpenChangedEvent>();
+  openChanged: EventEmitter<OpenChangedEvent> =
+    new EventEmitter<OpenChangedEvent>();
 
-  @ViewChild('search', { static: true }) search: ElementRef;
-  @ViewChild('dropdown', { static: true }) dropdown: NgbDropdown;
+  @ViewChild("search", { static: true }) search: ElementRef;
+  @ViewChild("dropdown", { static: true }) dropdown: NgbDropdown;
 
   public filtered: Set<string> = new Set();
   public nextToggleState: SelectionType = this.SELECT;
-  public searchForm = new UntypedFormGroup({ searchInput: new UntypedFormControl() });
+  public searchForm = new UntypedFormGroup({
+    searchInput: new UntypedFormControl(),
+  });
 
   private _itemsSet: Set<string> = new Set();
   private _items: Array<string> = [];
@@ -128,11 +172,11 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get searchInput(): AbstractControl {
-    return this.searchForm.controls['searchInput'];
+    return this.searchForm.controls["searchInput"];
   }
 
   get searchInputValue(): string {
-    return this.searchInput.value || '';
+    return this.searchInput.value || "";
   }
 
   get typeToCreateItem(): boolean {
@@ -146,7 +190,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._valueChangesSubscription = this.searchForm
-      .get('searchInput')
+      .get("searchInput")
       .valueChanges.subscribe((value) => {
         if (!value) {
           this.filtered = new Set(this.items);
@@ -258,7 +302,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   private resetFilterInput(): void {
-    this.searchInput.setValue('');
+    this.searchInput.setValue("");
   }
 
   private createItem(item: string): void {
@@ -322,7 +366,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       this._selectedSet = new Set([value]);
       return;
     }
@@ -343,9 +387,9 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
 }
 
 export enum NgbFilterableDropdownSelectionMode {
-  SingleSelect = 'Single Select',
-  MultiSelectWithSelectAllSelectNone = 'Multi-Select with Select All and Select None',
-  MultiSelectWithSelectAll = 'Multi-Select with Select All',
-  MultiSelectWithSelectNone = 'Multi-Select with Select None',
-  MultiSelect = 'Multi-Select'
+  SingleSelect = "Single Select",
+  MultiSelectWithSelectAllSelectNone = "Multi-Select with Select All and Select None",
+  MultiSelectWithSelectAll = "Multi-Select with Select All",
+  MultiSelectWithSelectNone = "Multi-Select with Select None",
+  MultiSelect = "Multi-Select",
 }
