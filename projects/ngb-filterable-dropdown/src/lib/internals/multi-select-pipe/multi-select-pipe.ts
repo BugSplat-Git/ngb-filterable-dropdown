@@ -1,23 +1,19 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
-    name: 'multiSelect',
-    standalone: false
+  name: "multiSelect",
 })
 export class MultiSelectPipe implements PipeTransform {
-
-  public static readonly MULTIPLE_ITEMS_STRING = 'Multiple';
+  public static readonly MULTIPLE_ITEMS_STRING = "Multiple";
 
   transform(val: Array<string> | string, placeholderText: string): string {
-    if (typeof val === 'string') {
+    if (typeof val === "string") {
       if (!val) {
         return placeholderText;
-      }
-      else {
+      } else {
         return val;
       }
-    }
-    else if (val instanceof Array) {
+    } else if (val instanceof Array) {
       if (val.length === 0) {
         return placeholderText;
       } else if (val.length === 1) {

@@ -1,29 +1,51 @@
-import { Component } from '@angular/core';
-import { ItemCreatedEvent, NgbFilterableDropdownSelectionMode, OpenChangedEvent, SelectionChangedEvent } from 'projects/ngb-filterable-dropdown/src';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import {
+  ItemCreatedEvent,
+  NgbCustomFilterableDropdownModule,
+  NgbFilterableDropdownModule,
+  NgbFilterableDropdownSelectionMode,
+  OpenChangedEvent,
+  SelectionChangedEvent,
+} from "projects/ngb-filterable-dropdown/src";
 
 @Component({
-    selector: 'app-root', // eslint-disable-line  @angular-eslint/component-selector
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: "app-root", // eslint-disable-line  @angular-eslint/component-selector
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
+  imports: [
+    NgbFilterableDropdownModule,
+    NgbCustomFilterableDropdownModule,
+    CommonModule,
+  ],
 })
 export class AppComponent {
-  title = 'ngb-filterable-dropdown-examples';
+  title = "ngb-filterable-dropdown-examples";
 
-  selectionModes: Array<string> = Object.values(NgbFilterableDropdownSelectionMode);
-  autoCloseValues = ['inside', 'outside', true, false];
+  selectionModes: Array<string> = Object.values(
+    NgbFilterableDropdownSelectionMode
+  );
+  autoCloseValues = ["inside", "outside", true, false];
 
-  items = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant', 'A Really Long Made Up Bug Name For Testing Tooltips Etc Etc Yadda Yadda Yadda'];
+  items = [
+    "Beetle",
+    "Ant",
+    "Moth",
+    "Fire Ant",
+    "Dung Beetle",
+    "Grass Ant",
+    "A Really Long Made Up Bug Name For Testing Tooltips Etc Etc Yadda Yadda Yadda",
+  ];
 
   allowCreateItem = false;
-  autoClose: boolean | 'inside' | 'outside' = false;
+  autoClose: boolean | "inside" | "outside" = false;
   customToggleText = false;
   disabled = false;
   genericHandleUseCustomHandle = true;
-  genericHandleSelection: string | Array<string> = 'nothing';
+  genericHandleSelection: string | Array<string> = "nothing";
   isGenericHandleDropdownOpen = false;
-  searchInputPlaceholder = 'Search Bugs';
-  selection: string | Array<string> = 'Moth';
+  searchInputPlaceholder = "Search Bugs";
+  selection: string | Array<string> = "Moth";
   selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
   tooltips = false;
   tooltipsOpenDelay = 750;
@@ -49,7 +71,7 @@ export class AppComponent {
     this.genericHandleSelection = $event.selection;
   }
 
-  onAutoCloseValueChanged(value: boolean | 'inside' | 'outside'): void {
+  onAutoCloseValueChanged(value: boolean | "inside" | "outside"): void {
     this.autoClose = value;
   }
 
