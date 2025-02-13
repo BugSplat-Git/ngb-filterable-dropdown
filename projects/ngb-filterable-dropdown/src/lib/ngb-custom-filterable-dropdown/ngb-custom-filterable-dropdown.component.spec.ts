@@ -1,5 +1,11 @@
+import { ScrollingModule } from "@angular/cdk/scrolling";
 import { CommonModule } from "@angular/common";
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { firstValueFrom } from "rxjs";
@@ -20,6 +26,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         CommonModule,
+        ScrollingModule,
       ],
     }).compileComponents();
 
@@ -35,11 +42,12 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should populate filtered with correct list of filtered items", () => {
+  it("should populate filtered with correct list of filtered items", fakeAsync(() => {
     component.searchInput.setValue("oo");
+    tick(300);
     expect(component.filtered.has(filterItem)).toEqual(true);
     expect(component.filtered.has("baz")).toEqual(false);
-  });
+  }));
 
   it("should display list of items", () => {
     fixture.detectChanges();
@@ -65,9 +73,10 @@ describe("NgbCustomFilterableDropdownComponent", () => {
   });
 
   describe("isFiltered", () => {
-    beforeEach(() => {
+    beforeEach(fakeAsync(() => {
       component.searchInput.setValue(filterItem);
-    });
+      tick(300);
+    }));
 
     it("should should return true if item is selected", () => {
       expect(component.isFiltered(filterItem)).toEqual(true);
@@ -100,19 +109,20 @@ describe("NgbCustomFilterableDropdownComponent", () => {
             NgbFilterableDropdownSelectionMode.SingleSelect)
       );
 
-      it("should select created item", () => {
+      it("should select created item", fakeAsync(() => {
         const item = "🎃";
         component.searchInput.setValue(item);
-
+        tick(300);
         component.onCreateItem();
 
         expect(component.selection).toEqual(item);
-      });
+      }));
 
-      it("should emit created item, selection and items", async () => {
+      it("should emit created item, selection and items", fakeAsync(async () => {
         const resultPromise = firstValueFrom(component.itemCreated);
         const item = "🎃";
         component.searchInput.setValue(item);
+        tick(300);
 
         component.onCreateItem();
         const result = await resultPromise;
@@ -124,7 +134,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
             items: [...items, item],
           })
         );
-      });
+      }));
     });
 
     describe("when in mode that allows multi select", () => {
@@ -134,23 +144,25 @@ describe("NgbCustomFilterableDropdownComponent", () => {
             NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
       );
 
-      it("should add created item to selection", () => {
+      it("should add created item to selection", fakeAsync(() => {
         const item = "🎃";
         component.searchInput.setValue(item);
         component.selection = items;
         component.filtered = new Set(items);
+        tick(300);
 
         component.onCreateItem();
 
         expect(component.selection).toEqual([...items, item]);
-      });
+      }));
 
-      it("should emit created item, selection and items", async () => {
+      it("should emit created item, selection and items", fakeAsync(async () => {
         const resultPromise = firstValueFrom(component.itemCreated);
         const item = "🎃";
         component.searchInput.setValue(item);
         component.selection = items;
         component.filtered = new Set(items);
+        tick(300);
 
         component.onCreateItem();
         const result = await resultPromise;
@@ -162,7 +174,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
             items: [...items, item],
           })
         );
-      });
+      }));
     });
   });
 
@@ -237,31 +249,34 @@ describe("NgbCustomFilterableDropdownComponent", () => {
               NgbFilterableDropdownSelectionMode.SingleSelect)
         );
 
-        it("should create item if filtered is empty", () => {
+        it("should create item if filtered is empty", fakeAsync(() => {
           const item = "🎃";
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
+          tick(300);
 
           component.onEnterKeyPressed();
 
           expect(component.items).toEqual([...items, item]);
-        });
+        }));
 
-        it("should select created item if filtered is empty", () => {
+        it("should select created item if filtered is empty", fakeAsync(() => {
           const item = "🎃";
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
+          tick(300);
 
           component.onEnterKeyPressed();
 
           expect(component.selection).toEqual(item);
-        });
+        }));
 
-        it("should emit created selection and items", async () => {
+        it("should emit created selection and items", fakeAsync(async () => {
           const resultPromise = firstValueFrom(component.itemCreated);
           const item = "🎃";
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
+          tick(300);
 
           component.onEnterKeyPressed();
           const result = await resultPromise;
@@ -273,7 +288,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
               items: [...items, item],
             })
           );
-        });
+        }));
       });
 
       describe("and in mode that allows multi select", () => {
@@ -283,31 +298,34 @@ describe("NgbCustomFilterableDropdownComponent", () => {
               NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone)
         );
 
-        it("should create item if filtered is empty", () => {
+        it("should create item if filtered is empty", fakeAsync(() => {
           const item = "🎃";
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
+          tick(300);
 
           component.onEnterKeyPressed();
 
           expect(component.items).toEqual([...items, item]);
-        });
+        }));
 
-        it("should add created item to selected items if filtered is empty", () => {
+        it("should add created item to selected items if filtered is empty", fakeAsync(() => {
           const item = "🎃";
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
+          tick(300);
 
           component.onEnterKeyPressed();
 
           expect(component.selection).toEqual([item]);
-        });
+        }));
 
-        it("should emit created, selection and items", async () => {
+        it("should emit created, selection and items", fakeAsync(async () => {
           const resultPromise = firstValueFrom(component.itemCreated);
           const item = "🎃";
           component.filtered = new Set([]);
           component.searchInput.setValue(item);
+          tick(300);
 
           component.onEnterKeyPressed();
           const result = await resultPromise;
@@ -319,7 +337,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
               items: [...items, item],
             })
           );
-        });
+        }));
       });
     });
 
@@ -441,11 +459,12 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(result.open).toEqual(false);
     });
 
-    it("should clear filter text if dialog is being closed", () => {
+    it("should clear filter text if dialog is being closed", fakeAsync(() => {
       component.searchForm.controls["searchInput"].setValue(filterItem);
+      tick(300);
       component.onOpenChange(false);
       expect(component.searchForm.controls["searchInput"].value).toEqual("");
-    });
+    }));
   });
 
   describe("onSelectAll", () => {
@@ -592,9 +611,10 @@ describe("NgbCustomFilterableDropdownComponent", () => {
   });
 
   describe("noItemsToDisplay", () => {
-    it("should not be hidden if filteredItems length is 0", () => {
+    it("should not be hidden if filteredItems length is 0", fakeAsync(() => {
       component.items = ["🍔"];
       component.searchInput.setValue("alsdkjfals");
+      tick(300);
 
       fixture.detectChanges();
 
@@ -602,26 +622,28 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(
         false
       );
-    });
+    }));
 
-    it("should be hidden if filteredItems length is not 0", () => {
+    it("should be hidden if filteredItems length is not 0", fakeAsync(() => {
       const item = "🍕";
       component.items = [item];
-
       component.searchInput.setValue(item);
+      tick(300);
+
       fixture.detectChanges();
 
       expect(component.noItemsToDisplay).toEqual(false);
       expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(
         true
       );
-    });
+    }));
 
-    it("should be hidden if loading is true", () => {
+    it("should be hidden if loading is true", fakeAsync(() => {
       const item = "🍕";
       component.items = [item];
       component.searchInput.setValue("");
       component.loading = true;
+      tick(300);
 
       fixture.detectChanges();
 
@@ -629,12 +651,13 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(
         true
       );
-    });
+    }));
   });
 
   describe("showCreateItem", () => {
-    it("should return false if searchInputValue length is 0", () => {
+    it("should return false if searchInputValue length is 0", fakeAsync(() => {
       component.searchInput.setValue("");
+      tick(300);
 
       fixture.detectChanges();
 
@@ -642,11 +665,12 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(
         fixture.nativeElement.querySelector("#create-item").hidden
       ).toEqual(true);
-    });
+    }));
 
-    it("should return false if allowCreateItem is false", () => {
+    it("should return false if allowCreateItem is false", fakeAsync(() => {
       component.searchInput.setValue("🎃");
       component.allowCreateItem = false;
+      tick(300);
 
       fixture.detectChanges();
 
@@ -654,13 +678,14 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(
         fixture.nativeElement.querySelector("#create-item").hidden
       ).toEqual(true);
-    });
+    }));
 
-    it("should return false if items contains searchInputValue", () => {
+    it("should return false if items contains searchInputValue", fakeAsync(() => {
       const item = "🎃";
       component.searchInput.setValue(item);
       component.items = [...items, item];
       component.allowCreateItem = true;
+      tick(300);
 
       fixture.detectChanges();
 
@@ -668,13 +693,14 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(
         fixture.nativeElement.querySelector("#create-item").hidden
       ).toEqual(true);
-    });
+    }));
 
-    it("should return false if loading is true", () => {
+    it("should return false if loading is true", fakeAsync(() => {
       const item = "🎃";
       component.searchInput.setValue(item);
       component.allowCreateItem = true;
       component.loading = true;
+      tick(300);
 
       fixture.detectChanges();
 
@@ -682,13 +708,14 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(
         fixture.nativeElement.querySelector("#create-item").hidden
       ).toEqual(true);
-    });
+    }));
 
-    it("should return true if searchInputValue length is greater than 0, allowCreateItem is true, loading is false and items does not contain searchInputValue", () => {
+    it("should return true if searchInputValue length is greater than 0, allowCreateItem is true, loading is false and items does not contain searchInputValue", fakeAsync(() => {
       const item = "🎃";
       component.searchInput.setValue(item);
       component.allowCreateItem = true;
       component.loading = false;
+      tick(300);
 
       fixture.detectChanges();
 
@@ -696,7 +723,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(
         fixture.nativeElement.querySelector("#create-item").hidden
       ).toEqual(false);
-    });
+    }));
   });
 
   describe("typeToCreateItem", () => {
@@ -711,22 +738,23 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       ).toEqual(true);
     });
 
-    it("should return false if searchInputValue length is not 0", () => {
+    it("should return false if searchInputValue length is not 0", fakeAsync(() => {
       component.items = [];
       component.searchInput.setValue("🎃");
-
       fixture.detectChanges();
+      tick(300);
 
       expect(component.typeToCreateItem).toEqual(false);
       expect(
         fixture.nativeElement.querySelector("#type-to-create").hidden
       ).toEqual(true);
-    });
+    }));
 
-    it("should return false if allowCreateItem is false", () => {
+    it("should return false if allowCreateItem is false", fakeAsync(() => {
       component.items = [];
       component.searchInput.setValue("");
       component.allowCreateItem = false;
+      tick(300);
 
       fixture.detectChanges();
 
@@ -734,13 +762,14 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(
         fixture.nativeElement.querySelector("#type-to-create").hidden
       ).toEqual(true);
-    });
+    }));
 
-    it("should return false if loading is true", () => {
+    it("should return false if loading is true", fakeAsync(() => {
       component.items = [];
       component.searchInput.setValue("");
       component.allowCreateItem = true;
       component.loading = true;
+      tick(300);
 
       fixture.detectChanges();
 
@@ -748,13 +777,14 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(
         fixture.nativeElement.querySelector("#type-to-create").hidden
       ).toEqual(true);
-    });
+    }));
 
-    it("should return true if filtered length is 0, searchInputValue length is 0, loading is false and allowCreateItem is true", () => {
+    it("should return true if filtered length is 0, searchInputValue length is 0, loading is false and allowCreateItem is true", fakeAsync(() => {
       component.items = [];
       component.searchInput.setValue("");
       component.allowCreateItem = true;
       component.loading = false;
+      tick(300);
 
       fixture.detectChanges();
 
@@ -762,6 +792,6 @@ describe("NgbCustomFilterableDropdownComponent", () => {
       expect(
         fixture.nativeElement.querySelector("#type-to-create").hidden
       ).toEqual(false);
-    });
+    }));
   });
 });
