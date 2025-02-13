@@ -197,12 +197,12 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get filteredItems(): Array<string> {
-    return this.items.filter(item => this.filtered.has(item));
+    return this.items.filter((item) => this.filtered.has(item));
   }
 
   get viewportHeight(): number {
-    return this.filteredItems.length * this.ITEM_SIZE > this.MAX_HEIGHT 
-      ? this.MAX_HEIGHT 
+    return this.filteredItems.length * this.ITEM_SIZE > this.MAX_HEIGHT
+      ? this.MAX_HEIGHT
       : this.filteredItems.length * this.ITEM_SIZE;
   }
 
