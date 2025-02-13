@@ -68,7 +68,26 @@
           <icon-plus></icon-plus>
           Create {{ searchInputValue }}
         </button>
-        <cdk-virtual-scroll-viewport #viewport itemSize="40" class="virtual-scroll-viewport">
+        <div [hidden]="!noItemsToDisplay" id="no-items" class="dropdown-item">
+          No items to display.
+        </div>
+        <div
+          [hidden]="!typeToCreateItem"
+          id="type-to-create"
+          class="dropdown-item"
+        >
+          Start typing to create a new item
+        </div>
+        <div [hidden]="!loading" id="loading" class="dropdown-item">
+          Loading...
+        </div>
+        <cdk-virtual-scroll-viewport 
+          #viewport 
+          [itemSize]="ITEM_SIZE" 
+          class="virtual-scroll-viewport"
+          [hidden]="!filteredItems.length"
+          [style.height.px]="viewportHeight"
+        >
           <div *cdkVirtualFor="let item of filteredItems">
             <button
               class="dropdown-item filterable-dropdown-item px-2"
@@ -87,19 +106,6 @@
             </button>
           </div>
         </cdk-virtual-scroll-viewport>
-        <div [hidden]="!noItemsToDisplay" id="no-items" class="dropdown-item">
-          No items to display.
-        </div>
-        <div
-          [hidden]="!typeToCreateItem"
-          id="type-to-create"
-          class="dropdown-item"
-        >
-          Start typing to create a new item
-        </div>
-        <div [hidden]="!loading" id="loading" class="dropdown-item">
-          Loading...
-        </div>
       </div>
     </div>
   </div>

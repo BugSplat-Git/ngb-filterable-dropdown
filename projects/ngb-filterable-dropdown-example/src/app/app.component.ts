@@ -49,7 +49,7 @@ export class AppComponent {
   genericHandleUseCustomHandle = true;
   genericHandleSelection: string | Array<string> = "nothing";
   isGenericHandleDropdownOpen = false;
-  lotsOfItemsSelection: string | Array<string> = "nothing";
+  lotsOfItemsSelection: string | Array<string> = "";
   searchInputPlaceholder = "Search Bugs";
   selection: string | Array<string> = "Moth";
   selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
