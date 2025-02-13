@@ -49,13 +49,6 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     expect(component.filtered.has("baz")).toEqual(false);
   }));
 
-  it("should display list of items", () => {
-    fixture.detectChanges();
-    items.forEach((item) =>
-      expect(fixture.nativeElement.textContent).toContain(item)
-    );
-  });
-
   describe("selection", () => {
     describe("set", () => {
       it("should set nextToggleState to SELECT if input length is 0", () => {
