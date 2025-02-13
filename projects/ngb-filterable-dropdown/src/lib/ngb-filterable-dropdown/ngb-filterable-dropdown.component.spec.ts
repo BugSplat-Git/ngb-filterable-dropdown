@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MultiSelectPipe } from "../internals/multi-select-pipe/multi-select-pipe";
-import { NgbCustomFilterableDropdownModule } from "../ngb-custom-filterable-dropdown/ngb-custom-filterable-dropdown.module";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { NgbFilterableDropdownComponent } from "./ngb-filterable-dropdown.component";
 
@@ -22,7 +21,6 @@ describe("NgbFilterableDropdownComponent", () => {
         NgbModule,
         ReactiveFormsModule,
         CommonModule,
-        NgbCustomFilterableDropdownModule,
       ],
     }).compileComponents();
 

@@ -1,7 +1,7 @@
 import { TestBed } from "@angular/core/testing";
 import {
-  NgbCustomFilterableDropdownModule,
-  NgbFilterableDropdownModule,
+  NgbCustomFilterableDropdownComponent,
+  NgbFilterableDropdownComponent,
 } from "projects/ngb-filterable-dropdown/src";
 import { AppComponent } from "./app.component";
 
@@ -10,8 +10,8 @@ describe("AppComponent", () => {
     await TestBed.configureTestingModule({
       imports: [
         AppComponent,
-        NgbCustomFilterableDropdownModule,
-        NgbFilterableDropdownModule,
+        NgbCustomFilterableDropdownComponent,
+        NgbFilterableDropdownComponent,
       ],
     }).compileComponents();
   });

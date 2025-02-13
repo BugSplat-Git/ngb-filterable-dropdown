@@ -3,3 +3,8 @@
   padding: 15px;
   min-height: 1200px;
 }
+
+.alert.alert-dark {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

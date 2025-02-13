@@ -118,6 +118,24 @@
   <hr />
   <div class="row mt-4">
     <div class="col-12 col-xl-6">
+      <h3>Lots and Lots of Items</h3>
+      <ngb-filterable-dropdown
+        [allowCreateItem]="allowCreateItem"
+        [autoClose]="autoClose"
+        [items]="lotsOfItems"
+        [searchInputPlaceholder]="searchInputPlaceholder"
+        [selection]="lotsOfItemsSelection"
+        [selectionMode]="selectionMode"
+        [tooltips]="tooltips"
+        [tooltipsOpenDelay]="tooltipsOpenDelay"
+        (itemCreated)="onItemCreated($event)"
+        (selectionChanged)="lotsOfItemsSelectionChanged($event)"
+      >
+      </ngb-filterable-dropdown>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-xl-6">
       <h3>Custom Click Handle</h3>
       <ngb-custom-filterable-dropdown
         [allowCreateItem]="allowCreateItem"
