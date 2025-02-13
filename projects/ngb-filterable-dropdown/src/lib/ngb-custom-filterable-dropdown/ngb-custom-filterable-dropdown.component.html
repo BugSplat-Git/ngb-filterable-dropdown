@@ -85,7 +85,7 @@
           #viewport 
           [itemSize]="ITEM_SIZE" 
           class="virtual-scroll-viewport"
-          [hidden]="!filteredItems.length"
+          [hidden]="!filteredItems.length || loading"
           [style.height.px]="viewportHeight"
         >
           <div *cdkVirtualFor="let item of filteredItems">

@@ -55,6 +55,7 @@ export class AppComponent {
   selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
   tooltips = false;
   tooltipsOpenDelay = 750;
+  loading = false;
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem = event.target.checked;
@@ -107,6 +108,10 @@ export class AppComponent {
 
   tooltipsClick(event: CheckboxClickEvent): void {
     this.tooltips = event.target.checked;
+  }
+
+  loadingClick(event: CheckboxClickEvent): void {
+    this.loading = event.target.checked;
   }
 
   private generateLotsOfItems(): Array<string> {
