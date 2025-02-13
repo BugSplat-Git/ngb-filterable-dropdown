@@ -1,3 +1,7 @@
+import {
+  CdkVirtualScrollViewport,
+  ScrollingModule,
+} from "@angular/cdk/scrolling";
 import { CommonModule } from "@angular/common";
 import {
   Component,
@@ -21,7 +25,7 @@ import {
   NgbDropdownToggle,
   NgbTooltip,
 } from "@ng-bootstrap/ng-bootstrap";
-import { Subscription } from "rxjs";
+import { debounceTime, Subscription } from "rxjs";
 import {
   ItemCreatedEvent,
   OpenChangedEvent,
@@ -48,6 +52,7 @@ import { SelectionType } from "../selection-type";
     PlusComponent,
     CheckmarkComponent,
     CommonModule,
+    ScrollingModule,
   ],
 })
 export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
@@ -107,6 +112,7 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
 
   @ViewChild("search", { static: true }) search: ElementRef;
   @ViewChild("dropdown", { static: true }) dropdown: NgbDropdown;
+  @ViewChild("viewport") viewport: CdkVirtualScrollViewport;
 
   public filtered: Set<string> = new Set();
   public nextToggleState: SelectionType = this.SELECT;
@@ -188,21 +194,30 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
     );
   }
 
+  get filteredItems(): Array<string> {
+    return this.items.filter(item => this.filtered.has(item));
+  }
+
   ngOnInit(): void {
     this._valueChangesSubscription = this.searchForm
       .get("searchInput")
-      .valueChanges.subscribe((value) => {
+      .valueChanges.pipe(debounceTime(300))
+      .subscribe((value) => {
         if (!value) {
           this.filtered = new Set(this.items);
-          return;
+        } else {
+          const lowerCaseSearchInputValue = value.toLowerCase();
+          const filteredValues = this.items.filter(
+            (item) =>
+              item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1
+          );
+
+          this.filtered = new Set(filteredValues);
         }
 
-        const lowerCaseSearchInputValue = value.toLowerCase();
-        const filteredValues = this.items.filter(
-          (item) => item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1
-        );
-
-        this.filtered = new Set(filteredValues);
+        setTimeout(() => {
+          this.viewport?.checkViewportSize();
+        });
       });
   }
 
@@ -277,6 +292,9 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   onOpenChange(open: boolean): void {
     if (open) {
       this.focusSearchInput();
+      setTimeout(() => {
+        this.viewport?.checkViewportSize();
+      });
     } else {
       this.resetFilterInput();
     }

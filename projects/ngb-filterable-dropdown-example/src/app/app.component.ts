@@ -110,7 +110,7 @@ export class AppComponent {
   }
 
   private generateLotsOfItems(): Array<string> {
-    return Array.from({ length: 10000 }, (_, i) => `Bug ${i}`);
+    return Array.from({ length: 100000 }, (_, i) => `Bug ${i}`);
   }
 }
 

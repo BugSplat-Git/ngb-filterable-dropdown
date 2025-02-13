@@ -70,6 +70,7 @@
   width: 100%;
   min-height: 30px;
   overflow-y: scroll;
+  max-height: 300px;
 }
 
 icon-all,
@@ -98,4 +99,10 @@ icon-plus {
   border: none;
   background-color: transparent;
   outline: none !important;
+}
+
+.virtual-scroll-viewport {
+  height: 200px;
+  width: 100%;
+  min-width: 100%;
 }
