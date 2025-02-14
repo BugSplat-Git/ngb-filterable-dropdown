@@ -2,8 +2,8 @@ import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import {
   ItemCreatedEvent,
-  NgbCustomFilterableDropdownModule,
-  NgbFilterableDropdownModule,
+  NgbCustomFilterableDropdownComponent,
+  NgbFilterableDropdownComponent,
   NgbFilterableDropdownSelectionMode,
   OpenChangedEvent,
   SelectionChangedEvent,
@@ -14,8 +14,8 @@ import {
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
   imports: [
-    NgbFilterableDropdownModule,
-    NgbCustomFilterableDropdownModule,
+    NgbFilterableDropdownComponent,
+    NgbCustomFilterableDropdownComponent,
     CommonModule,
   ],
 })
@@ -34,7 +34,12 @@ export class AppComponent {
     "Fire Ant",
     "Dung Beetle",
     "Grass Ant",
-    "A Really Long Made Up Bug Name For Testing Tooltips Etc Etc Yadda Yadda Yadda",
+    "A Really Long Made Up Bug Name For Testing Tooltips Etc Etc Yadda Yadda Yadda", 
+  ];
+
+  lotsOfItems = [
+    ...this.items,
+    ...this.generateLotsOfItems(),
   ];
 
   allowCreateItem = false;
@@ -44,11 +49,13 @@ export class AppComponent {
   genericHandleUseCustomHandle = true;
   genericHandleSelection: string | Array<string> = "nothing";
   isGenericHandleDropdownOpen = false;
+  lotsOfItemsSelection: string | Array<string> = "";
   searchInputPlaceholder = "Search Bugs";
   selection: string | Array<string> = "Moth";
   selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
   tooltips = false;
   tooltipsOpenDelay = 750;
+  loading = false;
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem = event.target.checked;
@@ -69,6 +76,10 @@ export class AppComponent {
 
   genericHandlerOnSelectionChanged($event: SelectionChangedEvent): void {
     this.genericHandleSelection = $event.selection;
+  }
+
+  lotsOfItemsSelectionChanged($event: SelectionChangedEvent): void {
+    this.lotsOfItemsSelection = $event.selection;
   }
 
   onAutoCloseValueChanged(value: boolean | "inside" | "outside"): void {
@@ -97,6 +108,14 @@ export class AppComponent {
 
   tooltipsClick(event: CheckboxClickEvent): void {
     this.tooltips = event.target.checked;
+  }
+
+  loadingClick(event: CheckboxClickEvent): void {
+    this.loading = event.target.checked;
+  }
+
+  private generateLotsOfItems(): Array<string> {
+    return Array.from({ length: 100000 }, (_, i) => `Bug ${i}`);
   }
 }
 

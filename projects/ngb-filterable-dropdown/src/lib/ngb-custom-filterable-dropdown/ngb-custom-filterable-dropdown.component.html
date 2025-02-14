@@ -68,24 +68,6 @@
           <icon-plus></icon-plus>
           Create {{ searchInputValue }}
         </button>
-        <div *ngFor="let item of items" [hidden]="loading">
-          <button
-            class="dropdown-item filterable-dropdown-item px-2"
-            type="button"
-            [ngbTooltip]="item"
-            [disableTooltip]="!tooltips"
-            [openDelay]="tooltipsOpenDelay"
-            [hidden]="!isFiltered(item)"
-            (click)="onItemSelect(item)"
-          >
-            <div class="d-flex flex-row">
-              <div class="item-text-container">{{ item }}</div>
-              <div class="w-100 text-end" [hidden]="!isSelected(item)">
-                <icon-checkmark></icon-checkmark>
-              </div>
-            </div>
-          </button>
-        </div>
         <div [hidden]="!noItemsToDisplay" id="no-items" class="dropdown-item">
           No items to display.
         </div>
@@ -99,6 +81,31 @@
         <div [hidden]="!loading" id="loading" class="dropdown-item">
           Loading...
         </div>
+        <cdk-virtual-scroll-viewport 
+          #viewport 
+          [itemSize]="ITEM_SIZE" 
+          class="virtual-scroll-viewport"
+          [hidden]="!filteredItems.length || loading"
+          [style.height.px]="viewportHeight"
+        >
+          <div *cdkVirtualFor="let item of filteredItems">
+            <button
+              class="dropdown-item filterable-dropdown-item px-2"
+              type="button"
+              [ngbTooltip]="item"
+              [disableTooltip]="!tooltips" 
+              [openDelay]="tooltipsOpenDelay"
+              (click)="onItemSelect(item)"
+            >
+              <div class="d-flex flex-row">
+                <div class="item-text-container">{{ item }}</div>
+                <div class="w-100 text-end" [hidden]="!isSelected(item)">
+                  <icon-checkmark></icon-checkmark>
+                </div>
+              </div>
+            </button>
+          </div>
+        </cdk-virtual-scroll-viewport>
       </div>
     </div>
   </div>

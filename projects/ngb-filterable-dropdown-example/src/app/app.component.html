@@ -49,6 +49,12 @@
       <label class="ms-4 mb-0" for="disabled">Disabled</label>
     </div>
   </div>
+  <div class="row mt-2">
+    <div class="col-12 col-xl-6">
+      <input id="loading" (click)="loadingClick($event)" type="checkbox" />
+      <label class="ms-4 mb-0" for="loading">Loading</label>
+    </div>
+  </div>
   <div class="row mt-4">
     <div class="col-12 col-xl-3">
       <label for="selection-mode">Selection Mode</label>
@@ -86,6 +92,7 @@
         [autoClose]="autoClose"
         [items]="items"
         [disabled]="disabled"
+        [loading]="loading"
         [searchInputPlaceholder]="searchInputPlaceholder"
         [selection]="selection"
         [selectionMode]="selectionMode"
@@ -103,6 +110,7 @@
         [autoClose]="autoClose"
         [items]="items"
         [disabled]="disabled"
+        [loading]="loading"
         [placeholder]="'No Bugs Selected'"
         [searchInputPlaceholder]="searchInputPlaceholder"
         [selection]="selection"
@@ -118,11 +126,33 @@
   <hr />
   <div class="row mt-4">
     <div class="col-12 col-xl-6">
+      <h3>Lots and Lots of Items</h3>
+      <ngb-filterable-dropdown
+        [allowCreateItem]="allowCreateItem"
+        [autoClose]="autoClose"
+        [disabled]="disabled"
+        [items]="lotsOfItems"
+        [loading]="loading"
+        [searchInputPlaceholder]="searchInputPlaceholder"
+        [selection]="lotsOfItemsSelection"
+        [selectionMode]="selectionMode"
+        [tooltips]="tooltips"
+        [tooltipsOpenDelay]="tooltipsOpenDelay"
+        (itemCreated)="onItemCreated($event)"
+        (selectionChanged)="lotsOfItemsSelectionChanged($event)"
+      >
+      </ngb-filterable-dropdown>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-12 col-xl-6">
       <h3>Custom Click Handle</h3>
       <ngb-custom-filterable-dropdown
         [allowCreateItem]="allowCreateItem"
         [autoClose]="autoClose"
+        [disabled]="disabled"
         [items]="items"
+        [loading]="loading"
         [searchInputPlaceholder]="searchInputPlaceholder"
         [selection]="genericHandleSelection"
         [selectionMode]="selectionMode"
@@ -145,7 +175,9 @@
       <ngb-custom-filterable-dropdown
         [allowCreateItem]="allowCreateItem"
         [autoClose]="autoClose"
+        [disabled]="disabled"
         [items]="items"
+        [loading]="loading"
         [searchInputPlaceholder]="searchInputPlaceholder"
         [selection]="genericHandleSelection"
         [selectionMode]="selectionMode"
