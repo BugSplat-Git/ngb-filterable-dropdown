@@ -24,6 +24,7 @@ export class NgbFilterableDropdownComponent {
   @Input() autoClose: boolean | "outside" | "inside" = false;
   @Input() disabled = false;
   @Input() items: string | Array<string> = [];
+  @Input() itemHeight = 37;
   @Input() loading = false;
   @Input() placeholder = "No Items Selected";
   @Input() searchInputPlaceholder = "Search";

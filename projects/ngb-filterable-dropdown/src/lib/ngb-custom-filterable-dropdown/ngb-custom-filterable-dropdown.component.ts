@@ -58,13 +58,13 @@ import { SelectionType } from "../selection-type";
 export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly SELECT = SelectionType.All;
   public readonly DESELECT = SelectionType.None;
-  public readonly ITEM_SIZE = 40;
   public readonly MAX_HEIGHT = 280;
 
   @Input() autoClose: boolean | "outside" | "inside" = "outside";
   @Input() allowCreateItem = false;
   @Input() customClickHandle = false;
   @Input() disabled = false;
+  @Input() itemHeight = 37;
   @Input() searchInputPlaceholder = "Search";
   @Input() tooltips = false;
   @Input() tooltipsOpenDelay = 0;
@@ -201,9 +201,9 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   get viewportHeight(): number {
-    return this.filteredItems.length * this.ITEM_SIZE > this.MAX_HEIGHT
+    return this.filteredItems.length * this.itemHeight > this.MAX_HEIGHT
       ? this.MAX_HEIGHT
-      : this.filteredItems.length * this.ITEM_SIZE;
+      : this.filteredItems.length * this.itemHeight;
   }
 
   ngOnInit(): void {

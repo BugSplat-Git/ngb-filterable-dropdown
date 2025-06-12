@@ -83,15 +83,16 @@
         </div>
         <cdk-virtual-scroll-viewport 
           #viewport 
-          [itemSize]="ITEM_SIZE" 
+          [itemSize]="itemHeight" 
           class="virtual-scroll-viewport"
           [hidden]="!filteredItems.length || loading"
           [style.height.px]="viewportHeight"
         >
-          <div *cdkVirtualFor="let item of filteredItems">
+          <div *cdkVirtualFor="let item of filteredItems" [style.height.px]="itemHeight">
             <button
               class="dropdown-item filterable-dropdown-item px-2"
               type="button"
+              [style.height.px]="itemHeight"
               [ngbTooltip]="item"
               [disableTooltip]="!tooltips" 
               [openDelay]="tooltipsOpenDelay"
