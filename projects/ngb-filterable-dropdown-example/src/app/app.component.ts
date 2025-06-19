@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+
 import { Component } from "@angular/core";
 import {
   ItemCreatedEvent,
@@ -15,9 +15,8 @@ import {
   styleUrls: ["./app.component.scss"],
   imports: [
     NgbFilterableDropdownComponent,
-    NgbCustomFilterableDropdownComponent,
-    CommonModule,
-  ],
+    NgbCustomFilterableDropdownComponent
+],
 })
 export class AppComponent {
   title = "ngb-filterable-dropdown-examples";

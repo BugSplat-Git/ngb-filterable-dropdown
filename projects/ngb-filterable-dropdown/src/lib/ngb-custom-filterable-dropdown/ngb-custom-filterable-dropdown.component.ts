@@ -2,7 +2,7 @@ import {
   CdkVirtualScrollViewport,
   ScrollingModule,
 } from "@angular/cdk/scrolling";
-import { CommonModule } from "@angular/common";
+
 import {
   Component,
   ElementRef,
@@ -51,9 +51,8 @@ import { SelectionType } from "../selection-type";
     NoneComponent,
     PlusComponent,
     CheckmarkComponent,
-    CommonModule,
-    ScrollingModule,
-  ],
+    ScrollingModule
+],
 })
 export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly SELECT = SelectionType.All;
