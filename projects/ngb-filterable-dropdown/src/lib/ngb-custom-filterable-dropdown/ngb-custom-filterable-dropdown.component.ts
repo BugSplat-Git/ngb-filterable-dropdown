@@ -24,7 +24,7 @@ import {
   NgbDropdownMenu,
   NgbDropdownToggle,
   NgbTooltip,
-} from "@bugsplat/ng-bootstrap";
+} from "@ng-bootstrap/ng-bootstrap";
 import { debounceTime, Subscription } from "rxjs";
 import {
   ItemCreatedEvent,
