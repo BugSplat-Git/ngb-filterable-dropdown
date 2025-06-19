@@ -2,7 +2,7 @@ import {
   CdkVirtualScrollViewport,
   ScrollingModule,
 } from "@angular/cdk/scrolling";
-import { CommonModule } from "@angular/common";
+
 import {
   Component,
   ElementRef,
@@ -24,7 +24,7 @@ import {
   NgbDropdownMenu,
   NgbDropdownToggle,
   NgbTooltip,
-} from "@bugsplat/ng-bootstrap";
+} from "@ng-bootstrap/ng-bootstrap";
 import { debounceTime, Subscription } from "rxjs";
 import {
   ItemCreatedEvent,
@@ -51,9 +51,8 @@ import { SelectionType } from "../selection-type";
     NoneComponent,
     PlusComponent,
     CheckmarkComponent,
-    CommonModule,
-    ScrollingModule,
-  ],
+    ScrollingModule
+],
 })
 export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly SELECT = SelectionType.All;

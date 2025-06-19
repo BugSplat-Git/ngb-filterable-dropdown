@@ -7,7 +7,7 @@ import {
   tick,
 } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@bugsplat/ng-bootstrap";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { firstValueFrom } from "rxjs";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { NgbCustomFilterableDropdownComponent } from "./ngb-custom-filterable-dropdown.component";

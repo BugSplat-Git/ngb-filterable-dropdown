@@ -17,9 +17,9 @@ BugSplat's [@bugsplat/ngb-filterable-dropdown](https://www.npmjs.com/package/@bu
 
 ## 🏗 Installation
 
-Install `@bugsplat/ngb-filterable-dropdown` and the associated peer dependencies [@bugsplat/ng-bootstrap](https://ng-bootstrap.github.io/#/home) and [Bootstrap](https://getbootstrap.com/):
+Install `@bugsplat/ngb-filterable-dropdown` and the associated peer dependencies [@ng-bootstrap/ng-bootstrap](https://ng-bootstrap.github.io/#/home) and [Bootstrap](https://getbootstrap.com/):
 
-`npm i @bugsplat/ngb-filterable-dropdown @bugsplat/ng-bootstrap bootstrap`
+`npm i @bugsplat/ngb-filterable-dropdown @ng-bootstrap/ng-bootstrap bootstrap`
 
 ## 🏃 Usage
 

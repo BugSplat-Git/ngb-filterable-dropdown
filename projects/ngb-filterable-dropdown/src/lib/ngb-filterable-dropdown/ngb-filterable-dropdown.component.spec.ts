@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
-import { NgbModule } from "@bugsplat/ng-bootstrap";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { MultiSelectPipe } from "../internals/multi-select-pipe/multi-select-pipe";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { NgbFilterableDropdownComponent } from "./ngb-filterable-dropdown.component";

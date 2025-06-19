@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import {
   ItemCreatedEvent,
@@ -15,9 +15,8 @@ import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-
   styleUrls: ["./ngb-filterable-dropdown.component.scss"],
   imports: [
     NgbCustomFilterableDropdownComponent,
-    MultiSelectPipe,
-    CommonModule,
-  ],
+    MultiSelectPipe
+],
 })
 export class NgbFilterableDropdownComponent {
   @Input() allowCreateItem = false;
