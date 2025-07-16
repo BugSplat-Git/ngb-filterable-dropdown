@@ -35,6 +35,7 @@ import { AllComponent } from "../internals/icons/all.component";
 import { CheckmarkComponent } from "../internals/icons/checkmark.component";
 import { NoneComponent } from "../internals/icons/none.component";
 import { PlusComponent } from "../internals/icons/plus.component";
+import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { SelectionType } from "../selection-type";
 
 @Component({
@@ -51,8 +52,8 @@ import { SelectionType } from "../selection-type";
     NoneComponent,
     PlusComponent,
     CheckmarkComponent,
-    ScrollingModule
-],
+    ScrollingModule,
+  ],
 })
 export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   public readonly SELECT = SelectionType.All;
@@ -409,12 +410,4 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
 
     this.nextToggleState = this.DESELECT;
   }
-}
-
-export enum NgbFilterableDropdownSelectionMode {
-  SingleSelect = "Single Select",
-  MultiSelectWithSelectAllSelectNone = "Multi-Select with Select All and Select None",
-  MultiSelectWithSelectAll = "Multi-Select with Select All",
-  MultiSelectWithSelectNone = "Multi-Select with Select None",
-  MultiSelect = "Multi-Select",
 }
