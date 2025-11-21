@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Output, input } from "@angular/core";
 import {
   ItemCreatedEvent,
   OpenChangedEvent,
@@ -19,18 +19,21 @@ import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-
 ],
 })
 export class NgbFilterableDropdownComponent {
-  @Input() allowCreateItem = false;
-  @Input() autoClose: boolean | "outside" | "inside" = false;
-  @Input() disabled = false;
-  @Input() items: string | Array<string> = [];
-  @Input() itemHeight = 37;
-  @Input() loading = false;
-  @Input() placeholder = "No Items Selected";
-  @Input() searchInputPlaceholder = "Search";
-  @Input() selection: string | Array<string> = [];
-  @Input() selectionMode: NgbFilterableDropdownSelectionMode;
-  @Input() tooltips = false;
-  @Input() tooltipsOpenDelay = 0;
+  // Signal Inputs
+  allowCreateItem = input(false);
+  autoClose = input<boolean | "outside" | "inside">(false);
+  disabled = input(false);
+  items = input<string | Array<string>>([]);
+  itemHeight = input(37);
+  loading = input(false);
+  placeholder = input("No Items Selected");
+  searchInputPlaceholder = input("Search");
+  selection = input<string | Array<string>>([]);
+  selectionMode = input<NgbFilterableDropdownSelectionMode>(
+    NgbFilterableDropdownSelectionMode.SingleSelect
+  );
+  tooltips = input(false);
+  tooltipsOpenDelay = input(0);
 
   @Output()
   itemCreated: EventEmitter<ItemCreatedEvent> =

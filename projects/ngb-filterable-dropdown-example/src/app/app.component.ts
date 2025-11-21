@@ -1,5 +1,5 @@
 
-import { Component } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import {
   ItemCreatedEvent,
   NgbCustomFilterableDropdownComponent,
@@ -26,7 +26,8 @@ export class AppComponent {
   );
   autoCloseValues = ["inside", "outside", true, false];
 
-  items = [
+  // Using signals for reactive state
+  items = signal([
     "Beetle",
     "Ant",
     "Moth",
@@ -34,60 +35,60 @@ export class AppComponent {
     "Dung Beetle",
     "Grass Ant",
     "A Really Long Made Up Bug Name For Testing Tooltips Etc Etc Yadda Yadda Yadda", 
-  ];
+  ]);
 
-  lotsOfItems = [
-    ...this.items,
+  lotsOfItems = signal([
+    ...this.items(),
     ...this.generateLotsOfItems(),
-  ];
+  ]);
 
-  allowCreateItem = false;
-  autoClose: boolean | "inside" | "outside" = false;
-  customToggleText = false;
-  disabled = false;
-  genericHandleUseCustomHandle = true;
-  genericHandleSelection: string | Array<string> = "nothing";
-  isGenericHandleDropdownOpen = false;
-  lotsOfItemsSelection: string | Array<string> = "";
-  searchInputPlaceholder = "Search Bugs";
-  selection: string | Array<string> = "Moth";
-  selectionMode = NgbFilterableDropdownSelectionMode.SingleSelect;
-  tooltips = false;
-  tooltipsOpenDelay = 750;
-  loading = false;
+  allowCreateItem = signal(false);
+  autoClose = signal<boolean | "inside" | "outside">(false);
+  customToggleText = signal(false);
+  disabled = signal(false);
+  genericHandleUseCustomHandle = signal(true);
+  genericHandleSelection = signal<string | Array<string>>("nothing");
+  isGenericHandleDropdownOpen = signal(false);
+  lotsOfItemsSelection = signal<string | Array<string>>("");
+  searchInputPlaceholder = signal("Search Bugs");
+  selection = signal<string | Array<string>>("Moth");
+  selectionMode = signal(NgbFilterableDropdownSelectionMode.SingleSelect);
+  tooltips = signal(false);
+  tooltipsOpenDelay = signal(750);
+  loading = signal(false);
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
-    this.allowCreateItem = event.target.checked;
+    this.allowCreateItem.set(event.target.checked);
   }
 
   customToggleTextClick(event: CheckboxClickEvent) {
-    this.customToggleText = event.target.checked;
+    this.customToggleText.set(event.target.checked);
   }
 
   disabledClick(event: CheckboxClickEvent): void {
-    this.disabled = event.target.checked;
+    this.disabled.set(event.target.checked);
   }
 
   genericHandleOpenChanged($event: OpenChangedEvent): void {
     console.log($event);
-    this.isGenericHandleDropdownOpen = $event.open;
+    this.isGenericHandleDropdownOpen.set($event.open);
   }
 
   genericHandlerOnSelectionChanged($event: SelectionChangedEvent): void {
-    this.genericHandleSelection = $event.selection;
+    this.genericHandleSelection.set($event.selection);
   }
 
   lotsOfItemsSelectionChanged($event: SelectionChangedEvent): void {
-    this.lotsOfItemsSelection = $event.selection;
+    this.lotsOfItemsSelection.set($event.selection);
   }
 
   onAutoCloseValueChanged(value: boolean | "inside" | "outside"): void {
-    this.autoClose = value;
+    this.autoClose.set(value);
   }
 
   onItemCreated(event: ItemCreatedEvent): void {
-    this.items = event.items;
-    this.selection = event.selection;
+    this.items.set(event.items);
+    this.selection.set(event.selection);
     console.log(event);
   }
 
@@ -96,21 +97,21 @@ export class AppComponent {
   }
 
   onSelectionChanged(event: SelectionChangedEvent): void {
-    this.selection = event.selection;
+    this.selection.set(event.selection);
     console.log(event);
   }
 
   onSelectionModeChange(value: NgbFilterableDropdownSelectionMode): void {
-    this.selectionMode = value;
-    this.selection = [];
+    this.selectionMode.set(value);
+    this.selection.set([]);
   }
 
   tooltipsClick(event: CheckboxClickEvent): void {
-    this.tooltips = event.target.checked;
+    this.tooltips.set(event.target.checked);
   }
 
   loadingClick(event: CheckboxClickEvent): void {
-    this.loading = event.target.checked;
+    this.loading.set(event.target.checked);
   }
 
   private generateLotsOfItems(): Array<string> {

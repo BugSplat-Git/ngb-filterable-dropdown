@@ -7,11 +7,13 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
   Output,
   ViewChild,
+  computed,
+  effect,
+  input,
+  signal,
+  untracked,
 } from "@angular/core";
 import {
   AbstractControl,
@@ -25,7 +27,7 @@ import {
   NgbDropdownToggle,
   NgbTooltip,
 } from "@ng-bootstrap/ng-bootstrap";
-import { debounceTime, Subscription } from "rxjs";
+import { debounceTime } from "rxjs";
 import {
   ItemCreatedEvent,
   OpenChangedEvent,
@@ -55,53 +57,28 @@ import { SelectionType } from "../selection-type";
     ScrollingModule,
   ],
 })
-export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
+export class NgbCustomFilterableDropdownComponent {
   public readonly SELECT = SelectionType.All;
   public readonly DESELECT = SelectionType.None;
   public readonly MAX_HEIGHT = 280;
 
-  @Input() autoClose: boolean | "outside" | "inside" = "outside";
-  @Input() allowCreateItem = false;
-  @Input() customClickHandle = false;
-  @Input() disabled = false;
-  @Input() itemHeight = 37;
-  @Input() searchInputPlaceholder = "Search";
-  @Input() tooltips = false;
-  @Input() tooltipsOpenDelay = 0;
-  @Input() set items(value: Array<string>) {
-    this.setItems(value);
-  }
-  get items(): Array<string> {
-    return this._items;
-  }
+  // Signal Inputs
+  autoClose = input<boolean | "outside" | "inside">("outside");
+  allowCreateItem = input(false);
+  customClickHandle = input(false);
+  disabled = input(false);
+  itemHeight = input(37);
+  searchInputPlaceholder = input("Search");
+  tooltips = input(false);
+  tooltipsOpenDelay = input(0);
+  items = input<Array<string>>([]);
+  loading = input(false);
+  selection = input<string | Array<string>>([]);
+  selectionMode = input<NgbFilterableDropdownSelectionMode>(
+    NgbFilterableDropdownSelectionMode.SingleSelect
+  );
 
-  @Input() set loading(value: boolean) {
-    this.setLoading(value);
-  }
-  get loading(): boolean {
-    return this._loading;
-  }
-
-  @Input() set selection(value: string | Array<string>) {
-    this.setSelection(value);
-  }
-  get selection(): Array<string> | string {
-    const arr: Array<any> = Array.from(this._selectedSet);
-    if (this._allowMultiSelect) {
-      return arr;
-    }
-
-    if (arr) {
-      return arr[0];
-    }
-
-    return "";
-  }
-
-  @Input() set selectionMode(value: NgbFilterableDropdownSelectionMode) {
-    this.setSelectionMode(value);
-  }
-
+  // Outputs
   @Output()
   itemCreated: EventEmitter<ItemCreatedEvent> =
     new EventEmitter<ItemCreatedEvent>();
@@ -116,185 +93,274 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   @ViewChild("dropdown", { static: true }) dropdown: NgbDropdown;
   @ViewChild("viewport") viewport: CdkVirtualScrollViewport;
 
-  public filtered: Set<string> = new Set();
-  public nextToggleState: SelectionType = this.SELECT;
+  // Internal State Signals
+  public filtered = signal<Set<string>>(new Set());
+  public nextToggleState = signal<SelectionType>(this.SELECT);
   public searchForm = new UntypedFormGroup({
     searchInput: new UntypedFormControl(),
   });
+  public searchInputValue = signal<string>("");
 
-  private _itemsSet: Set<string> = new Set();
-  private _items: Array<string> = [];
-  private _loading = false;
-  private _selectionMode: NgbFilterableDropdownSelectionMode;
-  private _selectedSet: Set<string> = new Set();
-  private _valueChangesSubscription: Subscription;
+  private _itemsSet = signal<Set<string>>(new Set());
+  private _createdItems = signal<Array<string>>([]);
+  private _selectedSet = signal<Set<string>>(new Set());
 
-  private _allowMultiSelect: boolean;
+  // Computed signal that combines input items with created items
+  private _allItems = computed(() => {
+    return [...this.items(), ...this._createdItems()];
+  });
 
-  get allowToggleSelectAll(): boolean {
+  // Computed Signals
+  _allowMultiSelect = computed(() => {
+    const mode = this.selectionMode();
     return (
-      this._allowMultiSelect &&
-      this.searchInputValue.length === 0 &&
-      (this._selectionMode ===
+      mode === NgbFilterableDropdownSelectionMode.MultiSelect ||
+      mode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll ||
+      mode ===
+        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone ||
+      mode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone
+    );
+  });
+
+  allowToggleSelectAll = computed(() => {
+    return (
+      this._allowMultiSelect() &&
+      this.searchInputValue().length === 0 &&
+      (this.selectionMode() ===
         NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll ||
-        this._selectionMode ===
+        this.selectionMode() ===
           NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) &&
-      !this.loading
+      !this.loading()
     );
-  }
+  });
 
-  get allowToggleSelectMultiple(): boolean {
+  allowToggleSelectMultiple = computed(() => {
     return (
-      this._allowMultiSelect &&
-      this.searchInputValue.length > 0 &&
-      this.filtered.size > 0 &&
-      this._selectionMode ===
+      this._allowMultiSelect() &&
+      this.searchInputValue().length > 0 &&
+      this.filtered().size > 0 &&
+      this.selectionMode() ===
         NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone &&
-      !this.loading
+      !this.loading()
     );
-  }
+  });
 
-  get allowToggleSelectNone(): boolean {
+  allowToggleSelectNone = computed(() => {
     return (
-      this._allowMultiSelect &&
-      this._selectedSet.size > 0 &&
-      (this._selectionMode ===
+      this._allowMultiSelect() &&
+      this._selectedSet().size > 0 &&
+      (this.selectionMode() ===
         NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone ||
-        this._selectionMode ===
+        this.selectionMode() ===
           NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) &&
-      !this.loading
+      !this.loading()
     );
-  }
+  });
 
-  get noItemsToDisplay(): boolean {
-    return this.filtered.size === 0 && !this.allowCreateItem && !this.loading;
-  }
-
-  get showCreateItem(): boolean {
+  noItemsToDisplay = computed(() => {
     return (
-      this.searchInputValue.length > 0 &&
-      this.allowCreateItem &&
-      !this._itemsSet.has(this.searchInputValue) &&
-      !this.loading
+      this.filtered().size === 0 &&
+      !this.allowCreateItem() &&
+      !this.loading()
     );
-  }
+  });
+
+  showCreateItem = computed(() => {
+    return (
+      this.searchInputValue().length > 0 &&
+      this.allowCreateItem() &&
+      !this._itemsSet().has(this.searchInputValue()) &&
+      !this.loading()
+    );
+  });
 
   get searchInput(): AbstractControl {
     return this.searchForm.controls["searchInput"];
   }
 
-  get searchInputValue(): string {
-    return this.searchInput.value || "";
-  }
-
-  get typeToCreateItem(): boolean {
+  typeToCreateItem = computed(() => {
     return (
-      this.filtered.size === 0 &&
-      this.searchInputValue.length === 0 &&
-      this.allowCreateItem &&
-      !this.loading
+      this.filtered().size === 0 &&
+      this.searchInputValue().length === 0 &&
+      this.allowCreateItem() &&
+      !this.loading()
     );
-  }
+  });
 
-  get filteredItems(): Array<string> {
-    return this.items.filter((item) => this.filtered.has(item));
-  }
+  filteredItems = computed(() => {
+    const items = this._allItems();
+    const filteredSet = this.filtered();
+    return items.filter((item) => filteredSet.has(item));
+  });
 
-  get viewportHeight(): number {
-    return this.filteredItems.length * this.itemHeight > this.MAX_HEIGHT
+  viewportHeight = computed(() => {
+    const length = this.filteredItems().length;
+    const height = this.itemHeight();
+    return length * height > this.MAX_HEIGHT
       ? this.MAX_HEIGHT
-      : this.filteredItems.length * this.itemHeight;
-  }
+      : length * height;
+  });
 
-  ngOnInit(): void {
-    this._valueChangesSubscription = this.searchForm
-      .get("searchInput")
-      .valueChanges.pipe(debounceTime(300))
-      .subscribe((value) => {
-        if (!value) {
-          this.filtered = new Set(this.items);
-        } else {
-          const lowerCaseSearchInputValue = value.toLowerCase();
-          const filteredValues = this.items.filter(
-            (item) =>
-              item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1
-          );
-
-          this.filtered = new Set(filteredValues);
-        }
-
-        setTimeout(() => {
-          this.viewport?.checkViewportSize();
+  constructor() {
+    // Effect to track form value changes (non-debounced for immediate signal update)
+    effect(() => {
+      const subscription = this.searchForm
+        .get("searchInput")
+        .valueChanges.subscribe((value) => {
+          this.searchInputValue.set(value || "");
         });
-      });
-  }
 
-  ngOnDestroy(): void {
-    this._valueChangesSubscription?.unsubscribe();
+      return () => subscription.unsubscribe();
+    });
+
+    // Effect for handling search input changes (debounced for filtering)
+    effect(() => {
+      const subscription = this.searchForm
+        .get("searchInput")
+        .valueChanges.pipe(debounceTime(300))
+        .subscribe((value) => {
+          if (!value) {
+            this.filtered.set(new Set(this._allItems()));
+          } else {
+            const lowerCaseSearchInputValue = value.toLowerCase();
+            const filteredValues = this._allItems().filter(
+              (item) =>
+                item.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1
+            );
+
+            this.filtered.set(new Set(filteredValues));
+          }
+
+          setTimeout(() => {
+            this.viewport?.checkViewportSize();
+          });
+        });
+
+      return () => subscription.unsubscribe();
+    });
+
+    // Effect for handling items input changes
+    effect(() => {
+      const items = this.items();
+      const createdItems = this._createdItems();
+      
+      // Remove any created items that are now in the items input
+      // This prevents duplicates when parent component updates items
+      const remainingCreatedItems = createdItems.filter(
+        (item) => !items.includes(item)
+      );
+      
+      // Only update if there's a change, and use untracked when writing
+      // to prevent infinite loop
+      if (remainingCreatedItems.length !== createdItems.length) {
+        // Use queueMicrotask to defer the update outside the effect
+        queueMicrotask(() => {
+          this._createdItems.set(remainingCreatedItems);
+        });
+      }
+      
+      const allItems = [...items, ...remainingCreatedItems];
+      this.filtered.set(new Set(allItems));
+      this._itemsSet.set(new Set(allItems));
+    });
+
+    // Effect for handling loading input changes
+    effect(() => {
+      const isLoading = this.loading();
+      if (isLoading) {
+        this.searchInput.disable();
+      } else {
+        this.searchInput.enable();
+        this.focusSearchInput();
+      }
+    });
+
+    // Effect for handling selection input changes
+    effect(() => {
+      const value = this.selection();
+      if (!value || (Array.isArray(value) && value.length === 0)) {
+        this._selectedSet.set(new Set([]));
+        this.nextToggleState.set(this.SELECT);
+        return;
+      }
+
+      if (typeof value === "string") {
+        this._selectedSet.set(new Set([value]));
+        return;
+      }
+
+      this.nextToggleState.set(this.DESELECT);
+      this._selectedSet.set(new Set(value));
+    });
   }
 
   isFiltered(value: string): boolean {
-    return this.filtered.has(value);
+    return this.filtered().has(value);
   }
 
   isSelected(value: string): boolean {
-    return this._selectedSet.has(value);
+    return this._selectedSet().has(value);
   }
 
   onCreateItem(): void {
-    const item = this.searchInputValue;
+    const item = this.searchInputValue();
     this.createItem(item);
     this.itemCreated.next({
       created: item,
-      items: this.items,
-      selection: this.selection,
+      items: this._allItems(),
+      selection: this.getSelectionValue(),
     });
     this.resetFilterInput();
   }
 
   onEnterKeyPressed(): void {
-    if (this._allowMultiSelect && this.filtered?.size) {
+    const filteredSet = this.filtered();
+    
+    if (this._allowMultiSelect() && filteredSet?.size) {
       this.selectMultiple();
     }
 
-    if (!this._allowMultiSelect && this.filtered?.size) {
-      this._selectedSet = new Set([this.filtered.entries().next().value[0]]);
+    if (!this._allowMultiSelect() && filteredSet?.size) {
+      this._selectedSet.set(new Set([filteredSet.entries().next().value[0]]));
     }
 
-    if (this.allowCreateItem && !this.filtered?.size) {
-      const item = this.searchInputValue;
+    if (this.allowCreateItem() && !filteredSet?.size) {
+      const item = this.searchInputValue();
       this.createItem(item);
       this.itemCreated.next({
         created: item,
-        items: this.items,
-        selection: this.selection,
+        items: this._allItems(),
+        selection: this.getSelectionValue(),
       });
       this.resetFilterInput();
     }
 
-    if (!this.allowCreateItem) {
-      this.selectionChanged.next({ selection: this.selection });
+    if (!this.allowCreateItem()) {
+      this.selectionChanged.next({ selection: this.getSelectionValue() });
     }
 
-    if (this.autoClose) {
+    if (this.autoClose()) {
       this.dropdown.close();
     }
   }
 
   onItemSelect(item: string): void {
-    if (this._allowMultiSelect) {
-      if (this._selectedSet.has(item)) {
-        this._selectedSet.delete(item);
+    if (this._allowMultiSelect()) {
+      const currentSet = new Set(this._selectedSet());
+      if (currentSet.has(item)) {
+        currentSet.delete(item);
       } else {
-        this._selectedSet.add(item);
+        currentSet.add(item);
       }
+      this._selectedSet.set(currentSet);
 
-      this.nextToggleState =
-        this._selectedSet.size > 0 ? this.DESELECT : this.SELECT;
+      this.nextToggleState.set(
+        currentSet.size > 0 ? this.DESELECT : this.SELECT
+      );
     } else {
-      this._selectedSet = new Set([item]);
+      this._selectedSet.set(new Set([item]));
     }
-    this.selectionChanged.next({ selection: this.selection });
+    this.selectionChanged.next({ selection: this.getSelectionValue() });
   }
 
   onOpenChange(open: boolean): void {
@@ -311,20 +377,20 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   onSelectAll(): void {
-    this.nextToggleState = this.DESELECT;
-    this._selectedSet = new Set(this.items);
-    this.selectionChanged.next({ selection: this.selection });
+    this.nextToggleState.set(this.DESELECT);
+    this._selectedSet.set(new Set(this._allItems()));
+    this.selectionChanged.next({ selection: this.getSelectionValue() });
   }
 
   onSelectMultiple(): void {
     this.selectMultiple();
-    this.selectionChanged.next({ selection: this.selection });
+    this.selectionChanged.next({ selection: this.getSelectionValue() });
   }
 
   onSelectNone(): void {
-    this.nextToggleState = this.SELECT;
-    this._selectedSet = new Set([]);
-    this.selectionChanged.next({ selection: this.selection });
+    this.nextToggleState.set(this.SELECT);
+    this._selectedSet.set(new Set([]));
+    this.selectionChanged.next({ selection: this.getSelectionValue() });
   }
 
   private resetFilterInput(): void {
@@ -332,82 +398,44 @@ export class NgbCustomFilterableDropdownComponent implements OnInit, OnDestroy {
   }
 
   private createItem(item: string): void {
-    if (this._allowMultiSelect) {
-      this._selectedSet.add(item);
+    // Add the new item to created items
+    this._createdItems.set([...this._createdItems(), item]);
+    
+    // Update selection
+    const currentSelected = new Set(this._selectedSet());
+    if (this._allowMultiSelect()) {
+      currentSelected.add(item);
+      this._selectedSet.set(currentSelected);
     } else {
-      this._selectedSet = new Set([item]);
+      this._selectedSet.set(new Set([item]));
     }
-
-    this._items = [...this._items, item];
   }
 
   private focusSearchInput(): void {
     setTimeout(() => this.search.nativeElement.focus());
   }
 
-  private setItems(value: string[]) {
-    this.filtered = new Set(value);
-    this._itemsSet = new Set(value);
-    this._items = value;
-  }
-
-  private setLoading(value: boolean) {
-    if (value) {
-      this.searchInput.disable();
-    } else {
-      this.searchInput.enable();
-      this.focusSearchInput();
-    }
-
-    this._loading = value;
-  }
-
-  private setSelectionMode(value: NgbFilterableDropdownSelectionMode) {
-    if (value === NgbFilterableDropdownSelectionMode.MultiSelect) {
-      this._allowMultiSelect = true;
-    } else if (
-      value === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll
-    ) {
-      this._allowMultiSelect = true;
-    } else if (
-      value ===
-      NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone
-    ) {
-      this._allowMultiSelect = true;
-    } else if (
-      value === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone
-    ) {
-      this._allowMultiSelect = true;
-    } else {
-      this._allowMultiSelect = false;
-    }
-
-    this._selectionMode = value;
-  }
-
-  private setSelection(value: string | Array<string>): void {
-    if (!value || value?.length === 0) {
-      this._selectedSet = new Set([]);
-      this.nextToggleState = this.SELECT;
-      return;
-    }
-
-    if (typeof value === "string") {
-      this._selectedSet = new Set([value]);
-      return;
-    }
-
-    this.nextToggleState = this.DESELECT;
-    this._selectedSet = new Set(value);
-  }
-
   private selectMultiple(): void {
-    this.filtered.forEach((item) => {
-      if (!this._selectedSet.has(item)) {
-        this._selectedSet.add(item);
+    const currentSelected = new Set(this._selectedSet());
+    this.filtered().forEach((item) => {
+      if (!currentSelected.has(item)) {
+        currentSelected.add(item);
       }
     });
+    this._selectedSet.set(currentSelected);
+    this.nextToggleState.set(this.DESELECT);
+  }
 
-    this.nextToggleState = this.DESELECT;
+  getSelectionValue(): Array<string> | string {
+    const arr: Array<any> = Array.from(this._selectedSet());
+    if (this._allowMultiSelect()) {
+      return arr;
+    }
+
+    if (arr && arr.length > 0) {
+      return arr[0];
+    }
+
+    return "";
   }
 }

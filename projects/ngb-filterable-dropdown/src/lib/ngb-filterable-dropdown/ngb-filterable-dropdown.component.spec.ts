@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { provideZonelessChangeDetection } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -13,7 +14,7 @@ describe("NgbFilterableDropdownComponent", () => {
   let filterItem: string;
   let items: Array<string>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [
         NgbFilterableDropdownComponent,
@@ -22,51 +23,54 @@ describe("NgbFilterableDropdownComponent", () => {
         ReactiveFormsModule,
         CommonModule,
       ],
+      providers: [provideZonelessChangeDetection()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgbFilterableDropdownComponent);
     component = fixture.componentInstance;
     filterItem = "foo";
     items = [filterItem, "bar", "baz"];
-    component.items = items;
-    fixture.detectChanges();
+    fixture.componentRef.setInput("items", items);
+    await fixture.whenStable();
   });
 
   it("should create", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should be disabled if disabled input is true", () => {
-    component.disabled = true;
-    fixture.detectChanges();
+  it("should be disabled if disabled input is true", async () => {
+    fixture.componentRef.setInput("disabled", true);
+    await fixture.whenStable();
     expect(
       fixture.nativeElement.querySelector("button[disabled]")
     ).toBeTruthy();
   });
 
-  it("should display placeholder as currentItem if no items are selected", () => {
-    component.items = ["it's a living"];
-    fixture.detectChanges();
+  it("should display placeholder as currentItem if no items are selected", async () => {
+    fixture.componentRef.setInput("items", ["it's a living"]);
+    await fixture.whenStable();
     expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(
-      component.placeholder
+      component.placeholder()
     );
   });
 
-  it("should display currentItem if one item is selected", () => {
+  it("should display currentItem if one item is selected", async () => {
     const currentItem = "MyDatabaseName";
-    component.items = [currentItem];
-    component.selection = [currentItem];
-    fixture.detectChanges();
+    fixture.componentRef.setInput("items", [currentItem]);
+    fixture.componentRef.setInput("selection", [currentItem]);
+    await fixture.whenStable();
     expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(
       currentItem
     );
   });
 
-  it("should display Multiple as currentItem if more than one item is selected", () => {
-    component.selectionMode =
-      NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone;
-    component.selection = ["one", "two", "three"];
-    fixture.detectChanges();
+  it("should display Multiple as currentItem if more than one item is selected", async () => {
+    fixture.componentRef.setInput(
+      "selectionMode",
+      NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone
+    );
+    fixture.componentRef.setInput("selection", ["one", "two", "three"]);
+    await fixture.whenStable();
     expect(fixture.nativeElement.querySelector("#toggle").innerText).toEqual(
       "Multiple"
     );
