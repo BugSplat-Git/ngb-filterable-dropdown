@@ -11,9 +11,9 @@ import {
   ViewChild,
   computed,
   effect,
+  inject,
   input,
   signal,
-  untracked,
 } from "@angular/core";
 import {
   AbstractControl,
@@ -27,7 +27,6 @@ import {
   NgbDropdownToggle,
   NgbTooltip,
 } from "@ng-bootstrap/ng-bootstrap";
-import { debounceTime } from "rxjs";
 import {
   ItemCreatedEvent,
   OpenChangedEvent,
@@ -37,6 +36,7 @@ import { AllComponent } from "../internals/icons/all.component";
 import { CheckmarkComponent } from "../internals/icons/checkmark.component";
 import { NoneComponent } from "../internals/icons/none.component";
 import { PlusComponent } from "../internals/icons/plus.component";
+import { SearchService } from "../internals/search/search.service";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { SelectionType } from "../selection-type";
 
@@ -56,6 +56,7 @@ import { SelectionType } from "../selection-type";
     CheckmarkComponent,
     ScrollingModule,
   ],
+  providers: [SearchService],
 })
 export class NgbCustomFilterableDropdownComponent {
   public readonly SELECT = SelectionType.All;
@@ -159,9 +160,7 @@ export class NgbCustomFilterableDropdownComponent {
 
   noItemsToDisplay = computed(() => {
     return (
-      this.filtered().size === 0 &&
-      !this.allowCreateItem() &&
-      !this.loading()
+      this.filtered().size === 0 && !this.allowCreateItem() && !this.loading()
     );
   });
 
@@ -201,6 +200,8 @@ export class NgbCustomFilterableDropdownComponent {
       : length * height;
   });
 
+  private searchService = inject(SearchService);
+
   constructor() {
     // Effect to track form value changes (non-debounced for immediate signal update)
     effect(() => {
@@ -215,9 +216,9 @@ export class NgbCustomFilterableDropdownComponent {
 
     // Effect for handling search input changes (debounced for filtering)
     effect(() => {
-      const subscription = this.searchForm
-        .get("searchInput")
-        .valueChanges.pipe(debounceTime(300))
+      const searchInput$ = this.searchForm.get("searchInput").valueChanges;
+      const subscription = this.searchService
+        .debounceSearch(searchInput$, 300)
         .subscribe((value) => {
           if (!value) {
             this.filtered.set(new Set(this._allItems()));
@@ -243,13 +244,13 @@ export class NgbCustomFilterableDropdownComponent {
     effect(() => {
       const items = this.items();
       const createdItems = this._createdItems();
-      
+
       // Remove any created items that are now in the items input
       // This prevents duplicates when parent component updates items
       const remainingCreatedItems = createdItems.filter(
         (item) => !items.includes(item)
       );
-      
+
       // Only update if there's a change, and use untracked when writing
       // to prevent infinite loop
       if (remainingCreatedItems.length !== createdItems.length) {
@@ -258,7 +259,7 @@ export class NgbCustomFilterableDropdownComponent {
           this._createdItems.set(remainingCreatedItems);
         });
       }
-      
+
       const allItems = [...items, ...remainingCreatedItems];
       this.filtered.set(new Set(allItems));
       this._itemsSet.set(new Set(allItems));
@@ -315,7 +316,7 @@ export class NgbCustomFilterableDropdownComponent {
 
   onEnterKeyPressed(): void {
     const filteredSet = this.filtered();
-    
+
     if (this._allowMultiSelect() && filteredSet?.size) {
       this.selectMultiple();
     }
@@ -400,7 +401,7 @@ export class NgbCustomFilterableDropdownComponent {
   private createItem(item: string): void {
     // Add the new item to created items
     this._createdItems.set([...this._createdItems(), item]);
-    
+
     // Update selection
     const currentSelected = new Set(this._selectedSet());
     if (this._allowMultiSelect()) {

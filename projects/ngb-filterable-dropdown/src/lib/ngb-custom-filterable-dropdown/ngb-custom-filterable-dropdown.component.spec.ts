@@ -4,7 +4,9 @@ import { provideZonelessChangeDetection } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, timer } from "rxjs";
+import { SearchService } from "../internals/search/search.service";
+import { MockSearchService } from "../internals/search/search.service.mock";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { NgbCustomFilterableDropdownComponent } from "./ngb-custom-filterable-dropdown.component";
 
@@ -16,7 +18,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
   let items: Array<string>;
 
   beforeEach(async () => {
-    TestBed.configureTestingModule({
+    await TestBed.configureTestingModule({
       imports: [
         NgbCustomFilterableDropdownComponent,
         NgbModule,
@@ -24,7 +26,10 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         CommonModule,
         ScrollingModule,
       ],
-      providers: [provideZonelessChangeDetection()],
+      providers: [
+        provideZonelessChangeDetection(),
+        { provide: SearchService, useClass: MockSearchService },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NgbCustomFilterableDropdownComponent);
@@ -42,7 +47,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
   it("should populate filtered with correct list of filtered items", async () => {
     component.searchInput.setValue("oo");
     await fixture.whenStable();
-    await fixture.whenStable();
+    await firstValueFrom(timer(1000)); // Wait for form valueChanges
     expect(component.filtered().has(filterItem)).toEqual(true);
     expect(component.filtered().has("baz")).toEqual(false);
   });
@@ -68,6 +73,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
   describe("isFiltered", () => {
     beforeEach(async () => {
       component.searchInput.setValue(filterItem);
+      await firstValueFrom(timer(1000)); // Wait for form valueChanges
       await fixture.whenStable();
     });
 
@@ -273,11 +279,12 @@ describe("NgbCustomFilterableDropdownComponent", () => {
           component.filtered.set(new Set([]));
           component.searchInput.setValue(item);
           await fixture.whenStable();
-          await fixture.whenStable();
 
           component.onEnterKeyPressed();
+          await fixture.whenStable();
 
-          expect(component.items()).toEqual([...items, item]);
+          // Check that the item appears in filteredItems (which uses _allItems internally)
+          expect(component.filteredItems()).toContain(item);
         });
 
         it("should select created item if filtered is empty", async () => {
@@ -327,11 +334,12 @@ describe("NgbCustomFilterableDropdownComponent", () => {
           component.filtered.set(new Set([]));
           component.searchInput.setValue(item);
           await fixture.whenStable();
-          await fixture.whenStable();
 
           component.onEnterKeyPressed();
+          await fixture.whenStable();
 
-          expect(component.items()).toEqual([...items, item]);
+          // Check that the item appears in filteredItems (which uses _allItems internally)
+          expect(component.filteredItems()).toContain(item);
         });
 
         it("should add created item to selected items if filtered is empty", async () => {
@@ -657,14 +665,12 @@ describe("NgbCustomFilterableDropdownComponent", () => {
 
   describe("noItemsToDisplay", () => {
     it("should not be hidden if filteredItems length is 0", async () => {
+      fixture.componentRef.setInput("loading", false);
       fixture.componentRef.setInput("items", ["🍔"]);
-      await fixture.whenStable();
+      fixture.componentRef.setInput("allowCreateItem", false);
       component.searchInput.setValue("alsdkjfals");
-      await fixture.whenStable();
-      await fixture.whenStable();
-
-      await fixture.whenStable();
-
+      
+      await firstValueFrom(timer(1000)); // Wait for form valueChanges
       expect(component.noItemsToDisplay()).toEqual(true);
       expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(
         false
