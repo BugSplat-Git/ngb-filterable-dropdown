@@ -90,18 +90,18 @@
     <div class="row mt-4">
       <div class="col-12 col-xl-6">
         <h3>Bugs</h3>
-        @if (customToggleText) {
+        @if (customToggleText()) {
           <ngb-filterable-dropdown
-            [allowCreateItem]="allowCreateItem"
-            [autoClose]="autoClose"
-            [items]="items"
-            [disabled]="disabled"
-            [loading]="loading"
-            [searchInputPlaceholder]="searchInputPlaceholder"
-            [selection]="selection"
-            [selectionMode]="selectionMode"
-            [tooltips]="tooltips"
-            [tooltipsOpenDelay]="tooltipsOpenDelay"
+            [allowCreateItem]="allowCreateItem()"
+            [autoClose]="autoClose()"
+            [items]="items()"
+            [disabled]="disabled()"
+            [loading]="loading()"
+            [searchInputPlaceholder]="searchInputPlaceholder()"
+            [selection]="selection()"
+            [selectionMode]="selectionMode()"
+            [tooltips]="tooltips()"
+            [tooltipsOpenDelay]="tooltipsOpenDelay()"
             (itemCreated)="onItemCreated($event)"
             (openChanged)="onOpenChanged($event)"
             (selectionChanged)="onSelectionChanged($event)"
@@ -109,19 +109,19 @@
             Select a Bug 🐛
           </ngb-filterable-dropdown>
         }
-        @if (!customToggleText) {
+        @if (!customToggleText()) {
           <ngb-filterable-dropdown
-            [allowCreateItem]="allowCreateItem"
-            [autoClose]="autoClose"
-            [items]="items"
-            [disabled]="disabled"
-            [loading]="loading"
+            [allowCreateItem]="allowCreateItem()"
+            [autoClose]="autoClose()"
+            [items]="items()"
+            [disabled]="disabled()"
+            [loading]="loading()"
             [placeholder]="'No Bugs Selected'"
-            [searchInputPlaceholder]="searchInputPlaceholder"
-            [selection]="selection"
-            [selectionMode]="selectionMode"
-            [tooltips]="tooltips"
-            [tooltipsOpenDelay]="tooltipsOpenDelay"
+            [searchInputPlaceholder]="searchInputPlaceholder()"
+            [selection]="selection()"
+            [selectionMode]="selectionMode()"
+            [tooltips]="tooltips()"
+            [tooltipsOpenDelay]="tooltipsOpenDelay()"
             (itemCreated)="onItemCreated($event)"
             (openChanged)="onOpenChanged($event)"
             (selectionChanged)="onSelectionChanged($event)"
@@ -134,17 +134,17 @@
       <div class="col-12 col-xl-6">
         <h3>Lots and Lots of Items</h3>
         <ngb-filterable-dropdown
-          [allowCreateItem]="allowCreateItem"
-          [autoClose]="autoClose"
-          [disabled]="disabled"
-          [items]="lotsOfItems"
+          [allowCreateItem]="allowCreateItem()"
+          [autoClose]="autoClose()"
+          [disabled]="disabled()"
+          [items]="lotsOfItems()"
           [itemHeight]="50"
-          [loading]="loading"
-          [searchInputPlaceholder]="searchInputPlaceholder"
-          [selection]="lotsOfItemsSelection"
-          [selectionMode]="selectionMode"
-          [tooltips]="tooltips"
-          [tooltipsOpenDelay]="tooltipsOpenDelay"
+          [loading]="loading()"
+          [searchInputPlaceholder]="searchInputPlaceholder()"
+          [selection]="lotsOfItemsSelection()"
+          [selectionMode]="selectionMode()"
+          [tooltips]="tooltips()"
+          [tooltipsOpenDelay]="tooltipsOpenDelay()"
           (itemCreated)="onItemCreated($event)"
           (selectionChanged)="lotsOfItemsSelectionChanged($event)"
           >
@@ -155,23 +155,23 @@
       <div class="col-12 col-xl-6">
         <h3>Custom Click Handle</h3>
         <ngb-custom-filterable-dropdown
-          [allowCreateItem]="allowCreateItem"
-          [autoClose]="autoClose"
-          [disabled]="disabled"
-          [items]="items"
-          [loading]="loading"
-          [searchInputPlaceholder]="searchInputPlaceholder"
-          [selection]="genericHandleSelection"
-          [selectionMode]="selectionMode"
-          [tooltips]="tooltips"
-          [tooltipsOpenDelay]="tooltipsOpenDelay"
+          [allowCreateItem]="allowCreateItem()"
+          [autoClose]="autoClose()"
+          [disabled]="disabled()"
+          [items]="items()"
+          [loading]="loading()"
+          [searchInputPlaceholder]="searchInputPlaceholder()"
+          [selection]="genericHandleSelection()"
+          [selectionMode]="selectionMode()"
+          [tooltips]="tooltips()"
+          [tooltipsOpenDelay]="tooltipsOpenDelay()"
           (itemCreated)="onItemCreated($event)"
           (openChanged)="genericHandleOpenChanged($event)"
           (selectionChanged)="genericHandlerOnSelectionChanged($event)"
           >
           <span
-            >A generic click handle. -- Selected: {{ genericHandleSelection }} --
-            isOpen: {{ isGenericHandleDropdownOpen }}</span
+            >A generic click handle. -- Selected: {{ genericHandleSelection() }} --
+            isOpen: {{ isGenericHandleDropdownOpen() }}</span
             >
           </ngb-custom-filterable-dropdown>
         </div>
@@ -180,23 +180,23 @@
         <div class="col-12 col-xl-6">
           <h3>Styled Custom Click Handle</h3>
           <ngb-custom-filterable-dropdown
-            [allowCreateItem]="allowCreateItem"
-            [autoClose]="autoClose"
-            [disabled]="disabled"
-            [items]="items"
-            [loading]="loading"
-            [searchInputPlaceholder]="searchInputPlaceholder"
-            [selection]="genericHandleSelection"
-            [selectionMode]="selectionMode"
-            [tooltips]="tooltips"
-            [tooltipsOpenDelay]="tooltipsOpenDelay"
+            [allowCreateItem]="allowCreateItem()"
+            [autoClose]="autoClose()"
+            [disabled]="disabled()"
+            [items]="items()"
+            [loading]="loading()"
+            [searchInputPlaceholder]="searchInputPlaceholder()"
+            [selection]="genericHandleSelection()"
+            [selectionMode]="selectionMode()"
+            [tooltips]="tooltips()"
+            [tooltipsOpenDelay]="tooltipsOpenDelay()"
             (itemCreated)="onItemCreated($event)"
             (openChanged)="genericHandleOpenChanged($event)"
             (selectionChanged)="genericHandlerOnSelectionChanged($event)"
             >
             <div class="alert alert-dark">
-              Heavily styled handle -- Selected: {{ genericHandleSelection }} --
-              isOpen: {{ isGenericHandleDropdownOpen }}
+              Heavily styled handle -- Selected: {{ genericHandleSelection() }} --
+              isOpen: {{ isGenericHandleDropdownOpen() }}
             </div>
           </ngb-custom-filterable-dropdown>
         </div>

@@ -1,3 +1,4 @@
+import { provideZonelessChangeDetection } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import {
   NgbCustomFilterableDropdownComponent,
@@ -13,6 +14,7 @@ describe("AppComponent", () => {
         NgbCustomFilterableDropdownComponent,
         NgbFilterableDropdownComponent,
       ],
+      providers: [provideZonelessChangeDetection()],
     }).compileComponents();
   });
 

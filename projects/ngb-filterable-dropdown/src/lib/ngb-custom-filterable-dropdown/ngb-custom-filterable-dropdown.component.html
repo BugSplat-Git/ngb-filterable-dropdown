@@ -1,14 +1,14 @@
 <div
   ngbDropdown
   #dropdown="ngbDropdown"
-  [autoClose]="autoClose"
+  [autoClose]="autoClose()"
   (openChange)="onOpenChange($event)"
   >
   <button
     class="custom-click-handle cursor-pointer"
     type="button"
     ngbDropdownToggle
-    [disabled]="disabled"
+    [disabled]="disabled()"
     >
     <ng-content></ng-content>
   </button>
@@ -19,38 +19,38 @@
           #search
           class="form-control"
           formControlName="searchInput"
-          [placeholder]="searchInputPlaceholder"
+          [placeholder]="searchInputPlaceholder()"
           (click)="$event.stopPropagation()"
           (keyup.enter)="onEnterKeyPressed()"
           />
       </form>
       <div class="scroll-container">
-        @if (allowToggleSelectAll) {
+        @if (allowToggleSelectAll()) {
           <button
             class="dropdown-item filterable-dropdown-item px-2"
             type="button"
-            [hidden]="nextToggleState === DESELECT"
+            [hidden]="nextToggleState() === DESELECT"
             (click)="onSelectAll()"
             >
             <icon-all></icon-all>
             Select All
           </button>
         }
-        @if (allowToggleSelectMultiple) {
+        @if (allowToggleSelectMultiple()) {
           <button
             class="dropdown-item filterable-dropdown-item px-2"
             type="button"
-            [hidden]="nextToggleState === DESELECT"
+            [hidden]="nextToggleState() === DESELECT"
             (click)="onSelectMultiple()"
             >
             <icon-all></icon-all>
             Select Multiple
           </button>
         }
-        @if (allowToggleSelectNone) {
+        @if (allowToggleSelectNone()) {
           <button
             type="button"
-            [hidden]="nextToggleState === SELECT"
+            [hidden]="nextToggleState() === SELECT"
             (click)="onSelectNone()"
             class="dropdown-item filterable-dropdown-item px-2"
             >
@@ -62,40 +62,40 @@
           id="create-item"
           class="dropdown-item filterable-dropdown-item px-2"
           type="button"
-          [hidden]="!showCreateItem"
+          [hidden]="!showCreateItem()"
           (click)="onCreateItem()"
           >
           <icon-plus></icon-plus>
-          Create {{ searchInputValue }}
+          Create {{ searchInputValue() }}
         </button>
-        <div [hidden]="!noItemsToDisplay" id="no-items" class="dropdown-item">
+        <div [hidden]="!noItemsToDisplay()" id="no-items" class="dropdown-item">
           No items to display.
         </div>
         <div
-          [hidden]="!typeToCreateItem"
+          [hidden]="!typeToCreateItem()"
           id="type-to-create"
           class="dropdown-item"
           >
           Start typing to create a new item
         </div>
-        <div [hidden]="!loading" id="loading" class="dropdown-item">
+        <div [hidden]="!loading()" id="loading" class="dropdown-item">
           Loading...
         </div>
         <cdk-virtual-scroll-viewport
           #viewport
-          [itemSize]="itemHeight"
+          [itemSize]="itemHeight()"
           class="virtual-scroll-viewport"
-          [hidden]="!filteredItems.length || loading"
-          [style.height.px]="viewportHeight"
+          [hidden]="!filteredItems().length || loading()"
+          [style.height.px]="viewportHeight()"
           >
-          <div *cdkVirtualFor="let item of filteredItems" [style.height.px]="itemHeight">
+          <div *cdkVirtualFor="let item of filteredItems()" [style.height.px]="itemHeight()">
             <button
               class="dropdown-item filterable-dropdown-item px-2"
               type="button"
-              [style.height.px]="itemHeight"
+              [style.height.px]="itemHeight()"
               [ngbTooltip]="item"
-              [disableTooltip]="!tooltips"
-              [openDelay]="tooltipsOpenDelay"
+              [disableTooltip]="!tooltips()"
+              [openDelay]="tooltipsOpenDelay()"
               (click)="onItemSelect(item)"
               >
               <div class="d-flex flex-row">
