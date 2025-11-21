@@ -55,8 +55,7 @@ import { SelectionType } from "../selection-type";
     PlusComponent,
     CheckmarkComponent,
     ScrollingModule,
-  ],
-  providers: [SearchService],
+  ]
 })
 export class NgbCustomFilterableDropdownComponent {
   public readonly SELECT = SelectionType.All;

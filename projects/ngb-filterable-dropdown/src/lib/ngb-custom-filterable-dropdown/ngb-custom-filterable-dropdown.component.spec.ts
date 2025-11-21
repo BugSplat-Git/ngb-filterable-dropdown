@@ -4,11 +4,12 @@ import { provideZonelessChangeDetection } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { firstValueFrom, timer } from "rxjs";
+import { firstValueFrom, skip, take, timer } from "rxjs";
 import { SearchService } from "../internals/search/search.service";
 import { MockSearchService } from "../internals/search/search.service.mock";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { NgbCustomFilterableDropdownComponent } from "./ngb-custom-filterable-dropdown.component";
+import { toObservable } from "@angular/core/rxjs-interop";
 
 describe("NgbCustomFilterableDropdownComponent", () => {
   let component: NgbCustomFilterableDropdownComponent;
@@ -27,8 +28,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         ScrollingModule,
       ],
       providers: [
-        provideZonelessChangeDetection(),
         { provide: SearchService, useClass: MockSearchService },
+        provideZonelessChangeDetection(),
       ],
     }).compileComponents();
 
@@ -73,7 +74,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
   describe("isFiltered", () => {
     beforeEach(async () => {
       component.searchInput.setValue(filterItem);
-      await firstValueFrom(timer(1000)); // Wait for form valueChanges
+      await firstValueFrom(timer(350)); // Wait for form valueChanges
       await fixture.whenStable();
     });
 
@@ -664,13 +665,21 @@ describe("NgbCustomFilterableDropdownComponent", () => {
   });
 
   describe("noItemsToDisplay", () => {
-    it("should not be hidden if filteredItems length is 0", async () => {
+    let item: string;
+
+    beforeEach(async () => {
       fixture.componentRef.setInput("loading", false);
-      fixture.componentRef.setInput("items", ["🍔"]);
+      item = "🍔";
+      fixture.componentRef.setInput("items", [item]);
       fixture.componentRef.setInput("allowCreateItem", false);
+      await fixture.whenStable();
+    });
+
+    it("should not be hidden if filteredItems length is 0", async () => {
       component.searchInput.setValue("alsdkjfals");
-      
-      await firstValueFrom(timer(1000)); // Wait for form valueChanges
+
+      await fixture.whenStable();
+
       expect(component.noItemsToDisplay()).toEqual(true);
       expect(fixture.nativeElement.querySelector("#no-items").hidden).toEqual(
         false
@@ -678,13 +687,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     });
 
     it("should be hidden if filteredItems length is not 0", async () => {
-      const item = "🍕";
-      fixture.componentRef.setInput("items", [item]);
-      await fixture.whenStable();
       component.searchInput.setValue(item);
-      await fixture.whenStable();
-      await fixture.whenStable();
-
       await fixture.whenStable();
 
       expect(component.noItemsToDisplay()).toEqual(false);
