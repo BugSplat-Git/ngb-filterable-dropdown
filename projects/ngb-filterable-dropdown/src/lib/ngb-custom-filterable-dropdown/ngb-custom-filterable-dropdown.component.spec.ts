@@ -552,6 +552,75 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     });
   });
 
+  describe("selectAllLimit", () => {
+    beforeEach(async () => {
+      fixture.componentRef.setInput(
+        "selectionMode",
+        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone
+      );
+      await fixture.whenStable();
+    });
+
+    describe("allowToggleSelectAll", () => {
+      it("should return true if selectAllLimit is undefined", async () => {
+        fixture.componentRef.setInput("selectAllLimit", undefined);
+        await fixture.whenStable();
+
+        expect(component.allowToggleSelectAll()).toEqual(true);
+      });
+
+      it("should return true if filtered items count is less than or equal to selectAllLimit", async () => {
+        fixture.componentRef.setInput("selectAllLimit", 5);
+        await fixture.whenStable();
+
+        expect(component.allowToggleSelectAll()).toEqual(true);
+      });
+
+      it("should return false if filtered items count exceeds selectAllLimit", async () => {
+        fixture.componentRef.setInput("selectAllLimit", 2);
+        await fixture.whenStable();
+
+        expect(component.allowToggleSelectAll()).toEqual(false);
+      });
+
+      it("should return true if filtered items count equals selectAllLimit exactly", async () => {
+        fixture.componentRef.setInput("selectAllLimit", 3);
+        await fixture.whenStable();
+
+        expect(component.allowToggleSelectAll()).toEqual(true);
+      });
+    });
+
+    describe("allowToggleSelectMultiple", () => {
+      beforeEach(async () => {
+        component.searchInput.setValue("a");
+        await fixture.whenStable();
+        await firstValueFrom(timer(350)); // Wait for debounce
+      });
+
+      it("should return true if selectAllLimit is undefined and search filter is active", async () => {
+        fixture.componentRef.setInput("selectAllLimit", undefined);
+        await fixture.whenStable();
+
+        expect(component.allowToggleSelectMultiple()).toEqual(true);
+      });
+
+      it("should return true if filtered items count is within selectAllLimit", async () => {
+        fixture.componentRef.setInput("selectAllLimit", 5);
+        await fixture.whenStable();
+
+        expect(component.allowToggleSelectMultiple()).toEqual(true);
+      });
+
+      it("should return false if filtered items count exceeds selectAllLimit", async () => {
+        fixture.componentRef.setInput("selectAllLimit", 1);
+        await fixture.whenStable();
+
+        expect(component.allowToggleSelectMultiple()).toEqual(false);
+      });
+    });
+  });
+
   describe("onSelectMultiple", () => {
     beforeEach(async () => {
       fixture.componentRef.setInput(
