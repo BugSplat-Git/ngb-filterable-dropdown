@@ -56,6 +56,8 @@ export class AppComponent {
   tooltips = signal(false);
   tooltipsOpenDelay = signal(750);
   loading = signal(false);
+  selectAllLimit = signal<number | undefined>(undefined);
+  selectAllLimitEnabled = signal(false);
 
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem.set(event.target.checked);
@@ -112,6 +114,16 @@ export class AppComponent {
 
   loadingClick(event: CheckboxClickEvent): void {
     this.loading.set(event.target.checked);
+  }
+
+  selectAllLimitClick(event: CheckboxClickEvent): void {
+    this.selectAllLimitEnabled.set(event.target.checked);
+    this.selectAllLimit.set(event.target.checked ? 5 : undefined);
+  }
+
+  selectAllLimitChange(event: { target: { value: string } }): void {
+    const value = parseInt(event.target.value, 10);
+    this.selectAllLimit.set(isNaN(value) ? undefined : value);
   }
 
   private generateLotsOfItems(): Array<string> {

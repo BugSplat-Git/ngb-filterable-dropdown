@@ -69,6 +69,7 @@ export class NgbCustomFilterableDropdownComponent {
   disabled = input(false);
   itemHeight = input(37);
   searchInputPlaceholder = input("Search");
+  selectAllLimit = input<number | undefined>(undefined);
   tooltips = input(false);
   tooltipsOpenDelay = input(0);
   items = input<Array<string>>([]);
@@ -117,31 +118,39 @@ export class NgbCustomFilterableDropdownComponent {
       mode === NgbFilterableDropdownSelectionMode.MultiSelect ||
       mode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll ||
       mode ===
-        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone ||
+      NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone ||
       mode === NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone
     );
   });
 
   allowToggleSelectAll = computed(() => {
+    const limit = this.selectAllLimit();
+    const filteredSize = this.filtered().size;
+    const withinLimit = limit === undefined || filteredSize <= limit;
     return (
       this._allowMultiSelect() &&
       this.searchInputValue().length === 0 &&
       (this.selectionMode() ===
         NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAll ||
         this.selectionMode() ===
-          NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) &&
-      !this.loading()
+        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) &&
+      !this.loading() &&
+      withinLimit
     );
   });
 
   allowToggleSelectMultiple = computed(() => {
+    const limit = this.selectAllLimit();
+    const filteredSize = this.filtered().size;
+    const withinLimit = limit === undefined || filteredSize <= limit;
     return (
       this._allowMultiSelect() &&
       this.searchInputValue().length > 0 &&
-      this.filtered().size > 0 &&
       this.selectionMode() ===
-        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone &&
-      !this.loading()
+      NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone &&
+      !this.loading() &&
+      filteredSize > 0 &&
+      withinLimit
     );
   });
 
@@ -152,7 +161,7 @@ export class NgbCustomFilterableDropdownComponent {
       (this.selectionMode() ===
         NgbFilterableDropdownSelectionMode.MultiSelectWithSelectNone ||
         this.selectionMode() ===
-          NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) &&
+        NgbFilterableDropdownSelectionMode.MultiSelectWithSelectAllSelectNone) &&
       !this.loading()
     );
   });

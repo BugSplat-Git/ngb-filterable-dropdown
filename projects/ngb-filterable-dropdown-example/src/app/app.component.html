@@ -55,6 +55,22 @@
         <label class="ms-4 mb-0" for="loading">Loading</label>
       </div>
     </div>
+    <div class="row mt-2">
+      <div class="col-12 col-xl-6 d-flex align-items-center">
+        <input id="select-all-limit" (click)="selectAllLimitClick($event)" type="checkbox" />
+        <label class="ms-4 mb-0 me-2" for="select-all-limit">Select All Limit</label>
+        @if (selectAllLimitEnabled()) {
+          <input
+            type="number"
+            class="form-control form-control-sm"
+            style="width: 100px"
+            [value]="selectAllLimit()"
+            (change)="selectAllLimitChange($event)"
+            min="0"
+          />
+        }
+      </div>
+    </div>
     <div class="row mt-4">
       <div class="col-12 col-xl-3">
         <label for="selection-mode">Selection Mode</label>
@@ -98,6 +114,7 @@
             [disabled]="disabled()"
             [loading]="loading()"
             [searchInputPlaceholder]="searchInputPlaceholder()"
+            [selectAllLimit]="selectAllLimit()"
             [selection]="selection()"
             [selectionMode]="selectionMode()"
             [tooltips]="tooltips()"
@@ -118,6 +135,7 @@
             [loading]="loading()"
             [placeholder]="'No Bugs Selected'"
             [searchInputPlaceholder]="searchInputPlaceholder()"
+            [selectAllLimit]="selectAllLimit()"
             [selection]="selection()"
             [selectionMode]="selectionMode()"
             [tooltips]="tooltips()"
@@ -141,6 +159,7 @@
           [itemHeight]="50"
           [loading]="loading()"
           [searchInputPlaceholder]="searchInputPlaceholder()"
+          [selectAllLimit]="selectAllLimit()"
           [selection]="lotsOfItemsSelection()"
           [selectionMode]="selectionMode()"
           [tooltips]="tooltips()"
@@ -161,6 +180,7 @@
           [items]="items()"
           [loading]="loading()"
           [searchInputPlaceholder]="searchInputPlaceholder()"
+          [selectAllLimit]="selectAllLimit()"
           [selection]="genericHandleSelection()"
           [selectionMode]="selectionMode()"
           [tooltips]="tooltips()"
@@ -186,6 +206,7 @@
             [items]="items()"
             [loading]="loading()"
             [searchInputPlaceholder]="searchInputPlaceholder()"
+            [selectAllLimit]="selectAllLimit()"
             [selection]="genericHandleSelection()"
             [selectionMode]="selectionMode()"
             [tooltips]="tooltips()"

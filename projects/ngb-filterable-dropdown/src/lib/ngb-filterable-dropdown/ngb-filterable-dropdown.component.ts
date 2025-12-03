@@ -28,6 +28,7 @@ export class NgbFilterableDropdownComponent {
   loading = input(false);
   placeholder = input("No Items Selected");
   searchInputPlaceholder = input("Search");
+  selectAllLimit = input<number | undefined>(undefined);
   selection = input<string | Array<string>>([]);
   selectionMode = input<NgbFilterableDropdownSelectionMode>(
     NgbFilterableDropdownSelectionMode.SingleSelect
