@@ -3,6 +3,11 @@
  */
 
 export {
+  DropdownItem,
+  DropdownItemBadge,
+  DropdownItemInput,
+} from "./lib/dropdown-item";
+export {
   ItemCreatedEvent,
   OpenChangedEvent,
   SelectionChangedEvent,

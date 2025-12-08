@@ -1,5 +1,6 @@
 
 import { Component, EventEmitter, Output, input } from "@angular/core";
+import { DropdownItemInput } from "../dropdown-item";
 import {
   ItemCreatedEvent,
   OpenChangedEvent,
@@ -23,7 +24,7 @@ export class NgbFilterableDropdownComponent {
   allowCreateItem = input(false);
   autoClose = input<boolean | "outside" | "inside">(false);
   disabled = input(false);
-  items = input<string | Array<string>>([]);
+  items = input<Array<DropdownItemInput>>([]);
   itemHeight = input(37);
   loading = input(false);
   placeholder = input("No Items Selected");

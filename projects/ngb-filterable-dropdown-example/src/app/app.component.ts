@@ -1,6 +1,7 @@
 
 import { Component, signal } from "@angular/core";
 import {
+  DropdownItemInput,
   ItemCreatedEvent,
   NgbCustomFilterableDropdownComponent,
   NgbFilterableDropdownComponent,
@@ -42,6 +43,17 @@ export class AppComponent {
     ...this.generateLotsOfItems(),
   ]);
 
+  itemsWithBadges = signal<Array<DropdownItemInput>>([
+    { value: "Beetle", badge: { text: "RARE", backgroundColor: "#ffc107", textColor: "#000000" } },
+    "Ant",
+    { value: "Moth", badge: { text: "RARE", backgroundColor: "#ffc107", textColor: "#000000" } },
+    { value: "Fire Ant", badge: { text: "DANGER", backgroundColor: "#dc3545", textColor: "#ffffff" } },
+    { value: "Dung Beetle", badge: { text: "SPECIAL", cssClass: "custom-badge" } },
+    { value: "Grass Ant", badge: { text: "COMMON", backgroundColor: "#28a745", textColor: "#ffffff" } },
+    "A Really Long Made Up Bug Name For Testing Tooltips Etc Etc Yadda Yadda Yadda",
+  ]);
+  badgesSelection = signal<string | Array<string>>("");
+
   allowCreateItem = signal(false);
   autoClose = signal<boolean | "inside" | "outside">(false);
   customToggleText = signal(false);
@@ -82,6 +94,10 @@ export class AppComponent {
 
   lotsOfItemsSelectionChanged($event: SelectionChangedEvent): void {
     this.lotsOfItemsSelection.set($event.selection);
+  }
+
+  badgesSelectionChanged($event: SelectionChangedEvent): void {
+    this.badgesSelection.set($event.selection);
   }
 
   onAutoCloseValueChanged(value: boolean | "inside" | "outside"): void {

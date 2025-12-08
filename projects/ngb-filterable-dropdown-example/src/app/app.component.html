@@ -150,6 +150,28 @@
     <hr />
     <div class="row mt-4">
       <div class="col-12 col-xl-6">
+        <h3>Bugs with Badges</h3>
+        <ngb-filterable-dropdown
+          [allowCreateItem]="allowCreateItem()"
+          [autoClose]="autoClose()"
+          [disabled]="disabled()"
+          [items]="itemsWithBadges()"
+          [loading]="loading()"
+          [placeholder]="'No Bugs Selected'"
+          [searchInputPlaceholder]="searchInputPlaceholder()"
+          [selectAllLimit]="selectAllLimit()"
+          [selection]="badgesSelection()"
+          [selectionMode]="selectionMode()"
+          [tooltips]="tooltips()"
+          [tooltipsOpenDelay]="tooltipsOpenDelay()"
+          (itemCreated)="onItemCreated($event)"
+          (selectionChanged)="badgesSelectionChanged($event)"
+        ></ngb-filterable-dropdown>
+      </div>
+    </div>
+    <hr />
+    <div class="row mt-4">
+      <div class="col-12 col-xl-6">
         <h3>Lots and Lots of Items</h3>
         <ngb-filterable-dropdown
           [allowCreateItem]="allowCreateItem()"
