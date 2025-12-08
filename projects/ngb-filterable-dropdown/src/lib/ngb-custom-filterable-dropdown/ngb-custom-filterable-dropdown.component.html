@@ -88,20 +88,34 @@
           [hidden]="!filteredItems().length || loading()"
           [style.height.px]="viewportHeight()"
           >
-          <div *cdkVirtualFor="let item of filteredItems()" [style.height.px]="itemHeight()">
+          <div *cdkVirtualFor="let item of filteredItems()" class="virtual-scroll-item" [style.height.px]="itemHeight()">
+            @let badge = item | itemBadge;
             <button
               class="dropdown-item filterable-dropdown-item px-2"
               type="button"
               [style.height.px]="itemHeight()"
-              [ngbTooltip]="item"
+              [ngbTooltip]="item | itemValue"
               [disableTooltip]="!tooltips()"
               [openDelay]="tooltipsOpenDelay()"
               (click)="onItemSelect(item)"
               >
-              <div class="d-flex flex-row">
-                <div class="item-text-container">{{ item }}</div>
-                <div class="w-100 text-end" [hidden]="!isSelected(item)">
-                  <icon-checkmark></icon-checkmark>
+              <div class="item-row">
+                <div class="item-text-container">{{ item | itemValue }}</div>
+                <div class="item-end-container">
+                  @if (badge) {
+                    <div
+                      class="item-badge"
+                      [class]="badge.cssClass || ''"
+                      [style.background-color]="badge.backgroundColor || '#f3f4f6'"
+                      [style.color]="badge.textColor || '#6b7280'"
+                      [style.border-color]="badge.borderColor"
+                      >
+                      {{ badge.text }}
+                    </div>
+                  }
+                  <div class="checkmark-container" [hidden]="!isSelected(item)">
+                    <icon-checkmark></icon-checkmark>
+                  </div>
                 </div>
               </div>
             </button>

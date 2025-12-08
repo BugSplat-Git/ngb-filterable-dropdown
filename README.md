@@ -56,18 +56,89 @@ Add `ngb-filterable-dropdown` to your component's template:
 </ngb-filterable-dropdown>
 ```
 
+The `items` input accepts either an array of strings or an array of objects with optional badge configuration. See the [Item Badges](#item-badges) section for details on using badges.
+
 ## 🧩 API
 
 Customize your dropdown by leveraging the inputs and outputs of `@bugsplat/ngb-filterable-dropdown` as described below.
 
 ### Selection
 
-The component takes two main inputs, a list of strings that are selectable and a sub-list of strings that are already selected.
+The component takes two main inputs, a list of items that are selectable and a sub-list of strings that are already selected.
+
+Items can be provided as simple strings for basic usage:
 
 ```ts
 items: Array<string> = ['Beetle', 'Ant', 'Moth', 'Fire Ant', 'Dung Beetle', 'Grass Ant'];
 selection: Array<string> = ['Moth'];
 ```
+
+Or as objects with optional badge configuration for advanced usage:
+
+```ts
+import { DropdownItemInput } from '@bugsplat/ngb-filterable-dropdown';
+
+items: Array<DropdownItemInput> = [
+  { value: 'Admin User', badge: { text: 'ADMIN', backgroundColor: '#e9ecef', textColor: '#6c757d' } },
+  'Regular User',
+  { value: 'Guest User', badge: { text: 'GUEST' } }
+];
+selection: Array<string> = ['Admin User'];
+```
+
+### Item Badges
+
+You can add visual badges to dropdown items by using the object format. Badges support full customization:
+
+```ts
+interface DropdownItemBadge {
+  text: string;                  // Badge text (required)
+  backgroundColor?: string;       // Background color (default: #e9ecef)
+  textColor?: string;            // Text color (default: #6c757d)
+  borderColor?: string;          // Border color (optional)
+  cssClass?: string;             // Custom CSS class for full control (optional)
+}
+
+interface DropdownItem {
+  value: string;                 // The item value
+  badge?: DropdownItemBadge;     // Optional badge configuration
+}
+
+type DropdownItemInput = string | DropdownItem;
+```
+
+**Example with different badge styles:**
+
+```ts
+items: Array<DropdownItemInput> = [
+  // With custom colors
+  { 
+    value: 'Production', 
+    badge: { 
+      text: 'PROD', 
+      backgroundColor: '#dc3545', 
+      textColor: '#ffffff' 
+    } 
+  },
+  // With default styling
+  { 
+    value: 'Staging', 
+    badge: { text: 'STAGING' } 
+  },
+  // No badge
+  'Development',
+  // With custom CSS class
+  { 
+    value: 'Admin Only', 
+    badge: { 
+      text: 'ADMIN', 
+      cssClass: 'my-custom-badge-class' 
+    } 
+  }
+];
+```
+
+Badges are displayed only in the dropdown list, not in the toggle button when selected. The `items` input maintains full backward compatibility - you can mix strings and objects in the same array.
 
 ### Selection Modes
 

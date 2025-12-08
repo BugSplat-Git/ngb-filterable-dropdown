@@ -6,3 +6,16 @@ body {
   margin: 0;
   height: 100%;
 }
+
+/* Custom badge style example - pill with border */
+.custom-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid transparent !important;
+  padding: 3px 12px !important;
+  border-radius: 9999px !important;
+  font-size: 0.7rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px !important;
+  text-transform: uppercase !important;
+}
