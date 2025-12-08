@@ -10,6 +10,7 @@ import { MockSearchService } from "../internals/search/search.service.mock";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { NgbCustomFilterableDropdownComponent } from "./ngb-custom-filterable-dropdown.component";
 import { toObservable } from "@angular/core/rxjs-interop";
+import { DropdownItem } from "../dropdown-item";
 
 describe("NgbCustomFilterableDropdownComponent", () => {
   let component: NgbCustomFilterableDropdownComponent;
@@ -17,6 +18,9 @@ describe("NgbCustomFilterableDropdownComponent", () => {
 
   let filterItem: string;
   let items: Array<string>;
+
+  // Helper function to convert string to DropdownItem
+  const toItem = (value: string): DropdownItem => ({ value });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -49,8 +53,9 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     component.searchInput.setValue("oo");
     await fixture.whenStable();
     await firstValueFrom(timer(1000)); // Wait for form valueChanges
-    expect(component.filtered().has(filterItem)).toEqual(true);
-    expect(component.filtered().has("baz")).toEqual(false);
+    const filteredItems = Array.from(component.filtered());
+    expect(filteredItems.some(item => item.value === filterItem)).toEqual(true);
+    expect(filteredItems.some(item => item.value === "baz")).toEqual(false);
   });
 
   describe("selection", () => {
@@ -79,25 +84,30 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     });
 
     it("should should return true if item is selected", () => {
-      expect(component.isFiltered(filterItem)).toEqual(true);
+      const item = component.filteredItems().find(i => i.value === filterItem);
+      expect(component.isFiltered(item!)).toEqual(true);
     });
 
     it("should set selected item when onItemSelect is called", () => {
-      expect(component.isFiltered("baz")).toEqual(false);
+      const item = component.filteredItems().find(i => i.value === "baz");
+      expect(component.isFiltered(item || toItem("baz"))).toEqual(false);
     });
   });
 
   describe("isSelected", () => {
     beforeEach(() => {
-      component.onItemSelect(filterItem);
+      const item = component.filteredItems().find(i => i.value === filterItem) || toItem(filterItem);
+      component.onItemSelect(item);
     });
 
     it("should should return true if item is selected", () => {
-      expect(component.isSelected(filterItem)).toEqual(true);
+      const item = component.filteredItems().find(i => i.value === filterItem) || toItem(filterItem);
+      expect(component.isSelected(item)).toEqual(true);
     });
 
     it("should set selected item when onItemSelect is called", () => {
-      expect(component.isSelected("baz")).toEqual(false);
+      const item = component.filteredItems().find(i => i.value === "baz") || toItem("baz");
+      expect(component.isSelected(item)).toEqual(false);
     });
   });
 
@@ -155,7 +165,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         component.searchInput.setValue(item);
         fixture.componentRef.setInput("selection", items);
         await fixture.whenStable();
-        component.filtered.set(new Set(items));
+        component.filtered.set(new Set(items.map(i => toItem(i))));
         await fixture.whenStable();
         await fixture.whenStable();
 
@@ -170,7 +180,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         component.searchInput.setValue(item);
         fixture.componentRef.setInput("selection", items);
         await fixture.whenStable();
-        component.filtered.set(new Set(items));
+        component.filtered.set(new Set(items.map(i => toItem(i))));
         await fixture.whenStable();
         await fixture.whenStable();
 
@@ -285,7 +295,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
           await fixture.whenStable();
 
           // Check that the item appears in filteredItems (which uses _allItems internally)
-          expect(component.filteredItems()).toContain(item);
+          expect(component.filteredItems().some(i => i.value === item)).toEqual(true);
         });
 
         it("should select created item if filtered is empty", async () => {
@@ -340,7 +350,7 @@ describe("NgbCustomFilterableDropdownComponent", () => {
           await fixture.whenStable();
 
           // Check that the item appears in filteredItems (which uses _allItems internally)
-          expect(component.filteredItems()).toContain(item);
+          expect(component.filteredItems().some(i => i.value === item)).toEqual(true);
         });
 
         it("should add created item to selected items if filtered is empty", async () => {
@@ -418,7 +428,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         fixture.componentRef.setInput("selection", "");
         await fixture.whenStable();
 
-        component.onItemSelect(item);
+        const dropdownItem = component.filteredItems().find(i => i.value === item) || toItem(item);
+        component.onItemSelect(dropdownItem);
 
         expect(component.getSelectionValue()).toEqual(item);
       });
@@ -429,7 +440,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         fixture.componentRef.setInput("selection", "");
         await fixture.whenStable();
 
-        component.onItemSelect(item);
+        const dropdownItem = component.filteredItems().find(i => i.value === item) || toItem(item);
+        component.onItemSelect(dropdownItem);
         const result = await resultPromise;
 
         expect(result).toEqual(
@@ -454,7 +466,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         fixture.componentRef.setInput("selection", []);
         await fixture.whenStable();
 
-        component.onItemSelect(item);
+        const dropdownItem = component.filteredItems().find(i => i.value === item) || toItem(item);
+        component.onItemSelect(dropdownItem);
 
         expect(component.getSelectionValue()).toEqual([item]);
       });
@@ -464,7 +477,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         fixture.componentRef.setInput("selection", [item]);
         await fixture.whenStable();
 
-        component.onItemSelect(item);
+        const dropdownItem = component.filteredItems().find(i => i.value === item) || toItem(item);
+        component.onItemSelect(dropdownItem);
 
         expect(component.getSelectionValue()).toEqual([]);
       });
@@ -475,7 +489,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         fixture.componentRef.setInput("selection", []);
         await fixture.whenStable();
 
-        component.onItemSelect(item);
+        const dropdownItem = component.filteredItems().find(i => i.value === item) || toItem(item);
+        component.onItemSelect(dropdownItem);
         const result = await resultPromise;
 
         expect(result).toEqual(
