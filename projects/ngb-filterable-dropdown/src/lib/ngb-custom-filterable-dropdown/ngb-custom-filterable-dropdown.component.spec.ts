@@ -4,12 +4,9 @@ import { provideZonelessChangeDetection } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { firstValueFrom, skip, take, timer } from "rxjs";
-import { SearchService } from "../internals/search/search.service";
-import { MockSearchService } from "../internals/search/search.service.mock";
+import { firstValueFrom, timer } from "rxjs";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { NgbCustomFilterableDropdownComponent } from "./ngb-custom-filterable-dropdown.component";
-import { toObservable } from "@angular/core/rxjs-interop";
 import { DropdownItem } from "../dropdown-item";
 
 describe("NgbCustomFilterableDropdownComponent", () => {
@@ -32,7 +29,6 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         ScrollingModule,
       ],
       providers: [
-        { provide: SearchService, useClass: MockSearchService },
         provideZonelessChangeDetection(),
       ],
     }).compileComponents();
@@ -49,11 +45,10 @@ describe("NgbCustomFilterableDropdownComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it("should populate filtered with correct list of filtered items", async () => {
+  it("should populate filteredItems with correct list of filtered items", async () => {
     component.searchInput.setValue("oo");
     await fixture.whenStable();
-    await firstValueFrom(timer(1000)); // Wait for form valueChanges
-    const filteredItems = Array.from(component.filtered());
+    const filteredItems = component.filteredItems();
     expect(filteredItems.some(item => item.value === filterItem)).toEqual(true);
     expect(filteredItems.some(item => item.value === "baz")).toEqual(false);
   });
@@ -165,9 +160,6 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         component.searchInput.setValue(item);
         fixture.componentRef.setInput("selection", items);
         await fixture.whenStable();
-        component.filtered.set(new Set(items.map(i => toItem(i))));
-        await fixture.whenStable();
-        await fixture.whenStable();
 
         component.onCreateItem();
 
@@ -179,9 +171,6 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         const item = "🎃";
         component.searchInput.setValue(item);
         fixture.componentRef.setInput("selection", items);
-        await fixture.whenStable();
-        component.filtered.set(new Set(items.map(i => toItem(i))));
-        await fixture.whenStable();
         await fixture.whenStable();
 
         component.onCreateItem();
@@ -287,9 +276,12 @@ describe("NgbCustomFilterableDropdownComponent", () => {
 
         it("should create item if filtered is empty", async () => {
           const item = "🎃";
-          component.filtered.set(new Set([]));
+          // Set search to something that won't match any existing items
           component.searchInput.setValue(item);
           await fixture.whenStable();
+
+          // Verify filtered is empty (no items match the search)
+          expect(component.filteredItems().length).toEqual(0);
 
           component.onEnterKeyPressed();
           await fixture.whenStable();
@@ -300,9 +292,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
 
         it("should select created item if filtered is empty", async () => {
           const item = "🎃";
-          component.filtered.set(new Set([]));
+          // Set search to something that won't match any existing items
           component.searchInput.setValue(item);
-          await fixture.whenStable();
           await fixture.whenStable();
 
           component.onEnterKeyPressed();
@@ -313,9 +304,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         it("should emit created selection and items", async () => {
           const resultPromise = firstValueFrom(component.itemCreated);
           const item = "🎃";
-          component.filtered.set(new Set([]));
+          // Set search to something that won't match any existing items
           component.searchInput.setValue(item);
-          await fixture.whenStable();
           await fixture.whenStable();
 
           component.onEnterKeyPressed();
@@ -342,9 +332,12 @@ describe("NgbCustomFilterableDropdownComponent", () => {
 
         it("should create item if filtered is empty", async () => {
           const item = "🎃";
-          component.filtered.set(new Set([]));
+          // Set search to something that won't match any existing items
           component.searchInput.setValue(item);
           await fixture.whenStable();
+
+          // Verify filtered is empty (no items match the search)
+          expect(component.filteredItems().length).toEqual(0);
 
           component.onEnterKeyPressed();
           await fixture.whenStable();
@@ -355,9 +348,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
 
         it("should add created item to selected items if filtered is empty", async () => {
           const item = "🎃";
-          component.filtered.set(new Set([]));
+          // Set search to something that won't match any existing items
           component.searchInput.setValue(item);
-          await fixture.whenStable();
           await fixture.whenStable();
 
           component.onEnterKeyPressed();
@@ -368,9 +360,8 @@ describe("NgbCustomFilterableDropdownComponent", () => {
         it("should emit created, selection and items", async () => {
           const resultPromise = firstValueFrom(component.itemCreated);
           const item = "🎃";
-          component.filtered.set(new Set([]));
+          // Set search to something that won't match any existing items
           component.searchInput.setValue(item);
-          await fixture.whenStable();
           await fixture.whenStable();
 
           component.onEnterKeyPressed();

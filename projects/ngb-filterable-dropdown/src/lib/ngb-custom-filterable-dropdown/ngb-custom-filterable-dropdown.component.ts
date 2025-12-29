@@ -11,7 +11,6 @@ import {
   ViewChild,
   computed,
   effect,
-  inject,
   input,
   signal,
 } from "@angular/core";
@@ -42,7 +41,6 @@ import { NoneComponent } from "../internals/icons/none.component";
 import { PlusComponent } from "../internals/icons/plus.component";
 import { ItemValuePipe } from "../internals/item-pipes/item-value.pipe";
 import { ItemBadgePipe } from "../internals/item-pipes/item-badge.pipe";
-import { SearchService } from "../internals/search/search.service";
 import { NgbFilterableDropdownSelectionMode } from "../ngb-filterable-drop-down-selection-mode";
 import { SelectionType } from "../selection-type";
 
@@ -103,14 +101,12 @@ export class NgbCustomFilterableDropdownComponent {
   @ViewChild("viewport") viewport: CdkVirtualScrollViewport;
 
   // Internal State Signals
-  public filtered = signal<Set<DropdownItem>>(new Set());
   public nextToggleState = signal<SelectionType>(this.SELECT);
   public searchForm = new UntypedFormGroup({
     searchInput: new UntypedFormControl(),
   });
   public searchInputValue = signal<string>("");
 
-  private _itemsSet = signal<Set<string>>(new Set());
   private _createdItems = signal<Array<DropdownItem>>([]);
   private _selectedSet = signal<Set<string>>(new Set());
 
@@ -118,6 +114,11 @@ export class NgbCustomFilterableDropdownComponent {
   private _allItems = computed(() => {
     const normalizedInputItems = this.normalizeItems(this.items());
     return [...normalizedInputItems, ...this._createdItems()];
+  });
+
+  // Computed signal for the set of all item values (for checking if item exists)
+  private _itemsSet = computed(() => {
+    return new Set(this._allItems().map(item => item.value));
   });
 
   // Computed Signals
@@ -132,9 +133,27 @@ export class NgbCustomFilterableDropdownComponent {
     );
   });
 
+  filteredItems = computed(() => {
+    const items = this._allItems();
+    const searchTerm = this.searchInputValue().toLowerCase().trim();
+    
+    if (!searchTerm) {
+      return items;
+    }
+    
+    return items.filter(
+      (item) => item.value.toLowerCase().indexOf(searchTerm) !== -1
+    );
+  });
+
+  // Computed set of filtered items (for size checks)
+  private _filteredSet = computed(() => {
+    return new Set(this.filteredItems());
+  });
+
   allowToggleSelectAll = computed(() => {
     const limit = this.selectAllLimit();
-    const filteredSize = this.filtered().size;
+    const filteredSize = this._filteredSet().size;
     const withinLimit = limit === undefined || filteredSize <= limit;
     return (
       this._allowMultiSelect() &&
@@ -150,7 +169,7 @@ export class NgbCustomFilterableDropdownComponent {
 
   allowToggleSelectMultiple = computed(() => {
     const limit = this.selectAllLimit();
-    const filteredSize = this.filtered().size;
+    const filteredSize = this._filteredSet().size;
     const withinLimit = limit === undefined || filteredSize <= limit;
     return (
       this._allowMultiSelect() &&
@@ -177,7 +196,7 @@ export class NgbCustomFilterableDropdownComponent {
 
   noItemsToDisplay = computed(() => {
     return (
-      this.filtered().size === 0 && !this.allowCreateItem() && !this.loading()
+      this._filteredSet().size === 0 && !this.allowCreateItem() && !this.loading()
     );
   });
 
@@ -196,17 +215,11 @@ export class NgbCustomFilterableDropdownComponent {
 
   typeToCreateItem = computed(() => {
     return (
-      this.filtered().size === 0 &&
+      this._filteredSet().size === 0 &&
       this.searchInputValue().length === 0 &&
       this.allowCreateItem() &&
       !this.loading()
     );
-  });
-
-  filteredItems = computed(() => {
-    const items = this._allItems();
-    const filteredSet = this.filtered();
-    return items.filter((item) => filteredSet.has(item));
   });
 
   viewportHeight = computed(() => {
@@ -216,8 +229,6 @@ export class NgbCustomFilterableDropdownComponent {
       ? this.MAX_HEIGHT
       : length * height;
   });
-
-  private searchService = inject(SearchService);
 
   /**
    * Normalizes mixed input items (strings or DropdownItem objects) into uniform DropdownItem format
@@ -229,35 +240,13 @@ export class NgbCustomFilterableDropdownComponent {
   }
 
   constructor() {
-    // Effect to track form value changes (non-debounced for immediate signal update)
+    // Effect to track form value changes - updates searchInputValue signal immediately
     effect(() => {
       const subscription = this.searchForm
         .get("searchInput")
         .valueChanges.subscribe((value) => {
           this.searchInputValue.set(value || "");
-        });
-
-      return () => subscription.unsubscribe();
-    });
-
-    // Effect for handling search input changes (debounced for filtering)
-    effect(() => {
-      const searchInput$ = this.searchForm.get("searchInput").valueChanges;
-      const subscription = this.searchService
-        .debounceSearch(searchInput$, 300)
-        .subscribe((value) => {
-          if (!value) {
-            this.filtered.set(new Set(this._allItems()));
-          } else {
-            const lowerCaseSearchInputValue = value.toLowerCase();
-            const filteredValues = this._allItems().filter(
-              (item) =>
-                item.value.toLowerCase().indexOf(lowerCaseSearchInputValue) !== -1
-            );
-
-            this.filtered.set(new Set(filteredValues));
-          }
-
+          // Check viewport size after search changes
           setTimeout(() => {
             this.viewport?.checkViewportSize();
           });
@@ -266,7 +255,7 @@ export class NgbCustomFilterableDropdownComponent {
       return () => subscription.unsubscribe();
     });
 
-    // Effect for handling items input changes
+    // Effect for handling items input changes - removes duplicates from created items
     effect(() => {
       const items = this.items();
       const normalizedItems = this.normalizeItems(items);
@@ -279,18 +268,13 @@ export class NgbCustomFilterableDropdownComponent {
         (item) => !normalizedItemValues.includes(item.value)
       );
 
-      // Only update if there's a change, and use untracked when writing
-      // to prevent infinite loop
+      // Only update if there's a change
       if (remainingCreatedItems.length !== createdItems.length) {
         // Use queueMicrotask to defer the update outside the effect
         queueMicrotask(() => {
           this._createdItems.set(remainingCreatedItems);
         });
       }
-
-      const allItems = [...normalizedItems, ...remainingCreatedItems];
-      this.filtered.set(new Set(allItems));
-      this._itemsSet.set(new Set(allItems.map(item => item.value)));
     });
 
     // Effect for handling loading input changes
@@ -324,7 +308,7 @@ export class NgbCustomFilterableDropdownComponent {
   }
 
   isFiltered(item: DropdownItem): boolean {
-    return Array.from(this.filtered()).some(i => i.value === item.value);
+    return this._filteredSet().has(item);
   }
 
   isSelected(item: DropdownItem): boolean {
@@ -343,18 +327,18 @@ export class NgbCustomFilterableDropdownComponent {
   }
 
   onEnterKeyPressed(): void {
-    const filteredSet = this.filtered();
+    const filtered = this.filteredItems();
 
-    if (this._allowMultiSelect() && filteredSet?.size) {
+    if (this._allowMultiSelect() && filtered.length) {
       this.selectMultiple();
     }
 
-    if (!this._allowMultiSelect() && filteredSet?.size) {
-      const firstItem = filteredSet.entries().next().value[0] as DropdownItem;
+    if (!this._allowMultiSelect() && filtered.length) {
+      const firstItem = filtered[0];
       this._selectedSet.set(new Set([firstItem.value]));
     }
 
-    if (this.allowCreateItem() && !filteredSet?.size) {
+    if (this.allowCreateItem() && !filtered.length) {
       const itemValue = this.searchInputValue();
       this.createItem(itemValue);
       this.itemCreated.next({
@@ -451,7 +435,7 @@ export class NgbCustomFilterableDropdownComponent {
 
   private selectMultiple(): void {
     const currentSelected = new Set(this._selectedSet());
-    this.filtered().forEach((item) => {
+    this.filteredItems().forEach((item) => {
       if (!currentSelected.has(item.value)) {
         currentSelected.add(item.value);
       }
