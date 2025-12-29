@@ -133,7 +133,6 @@ export class NgbCustomFilterableDropdownComponent {
     );
   });
 
-  // Pure computed signal for filtered items - no race condition!
   filteredItems = computed(() => {
     const items = this._allItems();
     const searchTerm = this.searchInputValue().toLowerCase().trim();
