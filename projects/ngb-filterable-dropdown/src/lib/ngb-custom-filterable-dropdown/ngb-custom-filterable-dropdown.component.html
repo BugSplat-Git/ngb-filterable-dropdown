@@ -102,6 +102,9 @@
               <div class="item-row">
                 <div class="item-text-container">{{ item | itemValue }}</div>
                 <div class="item-end-container">
+                  <div class="checkmark-container" [hidden]="!isSelected(item)">
+                    <icon-checkmark></icon-checkmark>
+                  </div>
                   @if (badge) {
                     <div
                       class="item-badge"
@@ -113,9 +116,6 @@
                       {{ badge.text }}
                     </div>
                   }
-                  <div class="checkmark-container" [hidden]="!isSelected(item)">
-                    <icon-checkmark></icon-checkmark>
-                  </div>
                 </div>
               </div>
             </button>
