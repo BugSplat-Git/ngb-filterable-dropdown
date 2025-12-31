@@ -22,8 +22,6 @@ import {
 ],
 })
 export class AppComponent {
-  title = "ngb-filterable-dropdown-examples";
-
   selectionModes: Array<string> = Object.values(
     NgbFilterableDropdownSelectionMode
   );
