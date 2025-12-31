@@ -1,69 +1,61 @@
-<div class="p-2">
-  <div class="row">
-    <div class="col-12 col-xl-4">
-      <a href="https://www.bugsplat.com">
-        <img style="max-width: 350px" src="./assets/logo-bugsplat-color.png" />
+<div class="app-container">
+  <!-- Floating background bugs -->
+  <div class="floating-bugs">
+    <span class="bug" style="left: 10%; top: 20%; animation-delay: 0s;">🐛</span>
+    <span class="bug" style="left: 80%; top: 15%; animation-delay: 3s;">🦋</span>
+    <span class="bug" style="left: 25%; top: 70%; animation-delay: 7s;">🐝</span>
+    <span class="bug" style="left: 70%; top: 60%; animation-delay: 5s;">🐞</span>
+    <span class="bug" style="left: 50%; top: 40%; animation-delay: 2s;">🦗</span>
+    <span class="bug" style="left: 90%; top: 80%; animation-delay: 9s;">🪲</span>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <a href="https://www.bugsplat.com">
+      <img class="logo" src="./assets/logo-bugsplat-color.png" alt="BugSplat" />
+    </a>
+    <h1><span class="emoji">🪲</span> ngb-filterable-dropdown</h1>
+    <p class="subtitle">
+      A beautiful, accessible dropdown component for Angular
+      <br />
+      <a href="https://github.com/BugSplat-Git/ngb-filterable-dropdown">
+        View on GitHub →
       </a>
-    </div>
+    </p>
   </div>
-  <div class="row mt-4">
-    <div class="col-12">
-      <h2>
-        <a href="https://github.com/BugSplat-Git/ngb-filterable-dropdown">{{
-          title
-        }}</a>
-      </h2>
-    </div>
-  </div>
-  <div class="row mt-4">
-    <div class="col-12 col-xl-6">
-      <input
-        id="allow-create-item"
-        (click)="allowCreateItemClick($event)"
-        type="checkbox"
-        />
-      <label class="ms-4 mb-0" for="allow-create-item">Allow Create Item</label>
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-12 col-xl-6">
-      <input
-        id="custom-toggle-text"
-        (click)="customToggleTextClick($event)"
-        type="checkbox"
-        />
-      <label class="ms-4 mb-0" for="custom-toggle-text"
-        >Custom Toggle Text</label
-        >
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-12 col-xl-6">
-        <input id="disabled" (click)="tooltipsClick($event)" type="checkbox" />
-        <label class="ms-4 mb-0" for="disabled">Tooltips</label>
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-12 col-xl-6">
-        <input id="disabled" (click)="disabledClick($event)" type="checkbox" />
-        <label class="ms-4 mb-0" for="disabled">Disabled</label>
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-12 col-xl-6">
-        <input id="loading" (click)="loadingClick($event)" type="checkbox" />
-        <label class="ms-4 mb-0" for="loading">Loading</label>
-      </div>
-    </div>
-    <div class="row mt-2">
-      <div class="col-12 col-xl-6 d-flex align-items-center">
-        <input id="select-all-limit" (click)="selectAllLimitClick($event)" type="checkbox" />
-        <label class="ms-4 mb-0 me-2" for="select-all-limit">Select All Limit</label>
+
+  <!-- Configuration Card -->
+  <div class="config-card">
+    <div class="config-title">⚙️ Configuration</div>
+    
+    <div class="checkbox-grid">
+      <label class="checkbox-bubble">
+        <input class="form-check-input" type="checkbox" (click)="allowCreateItemClick($event)" />
+        <span class="form-check-label">✨ Allow Create</span>
+      </label>
+      <label class="checkbox-bubble">
+        <input class="form-check-input" type="checkbox" (click)="customToggleTextClick($event)" />
+        <span class="form-check-label">🏷️ Custom Text</span>
+      </label>
+      <label class="checkbox-bubble">
+        <input class="form-check-input" type="checkbox" (click)="tooltipsClick($event)" />
+        <span class="form-check-label">💬 Tooltips</span>
+      </label>
+      <label class="checkbox-bubble">
+        <input class="form-check-input" type="checkbox" (click)="disabledClick($event)" />
+        <span class="form-check-label">🚫 Disabled</span>
+      </label>
+      <label class="checkbox-bubble">
+        <input class="form-check-input" type="checkbox" (click)="loadingClick($event)" />
+        <span class="form-check-label">⏳ Loading</span>
+      </label>
+      <div class="limit-bubble">
+        <input class="form-check-input" id="select-all-limit" type="checkbox" (click)="selectAllLimitClick($event)" />
+        <label class="form-check-label" for="select-all-limit">🔢 Limit</label>
         @if (selectAllLimitEnabled()) {
           <input
             type="number"
-            class="form-control form-control-sm"
-            style="width: 100px"
+            class="form-control"
             [value]="selectAllLimit()"
             (change)="selectAllLimitChange($event)"
             min="0"
@@ -71,177 +63,181 @@
         }
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-12 col-xl-3">
-        <label for="selection-mode">Selection Mode</label>
-        <select
-          id="selection-mode"
-          class="form-select"
-          (change)="onSelectionModeChange($event.target.value)"
-          >
+
+    <div class="select-grid">
+      <div>
+        <label class="form-label" for="selection-mode">Selection Mode</label>
+        <select id="selection-mode" class="form-select" (change)="onSelectionModeChange($event.target.value)">
           @for (mode of selectionModes; track mode) {
-            <option [value]="mode">
-              {{ mode }}
-            </option>
+            <option [value]="mode">{{ mode }}</option>
           }
         </select>
       </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-12 col-xl-3">
-        <label for="auto-close-value">Auto Close</label>
-        <select
-          id="auto-close-value"
-          class="form-select"
-          (change)="onAutoCloseValueChanged($event.target.value)"
-          >
+      <div>
+        <label class="form-label" for="auto-close-value">Auto Close</label>
+        <select id="auto-close-value" class="form-select" (change)="onAutoCloseValueChanged($event.target.value)">
           @for (value of autoCloseValues; track value) {
-            <option [value]="value">
-              {{ value }}
-            </option>
+            <option [value]="value">{{ value }}</option>
           }
         </select>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-12 col-xl-6">
-        <h3>Bugs</h3>
-        @if (customToggleText()) {
-          <ngb-filterable-dropdown
-            [allowCreateItem]="allowCreateItem()"
-            [autoClose]="autoClose()"
-            [items]="items()"
-            [disabled]="disabled()"
-            [loading]="loading()"
-            [searchInputPlaceholder]="searchInputPlaceholder()"
-            [selectAllLimit]="selectAllLimit()"
-            [selection]="selection()"
-            [selectionMode]="selectionMode()"
-            [tooltips]="tooltips()"
-            [tooltipsOpenDelay]="tooltipsOpenDelay()"
-            (itemCreated)="onItemCreated($event)"
-            (openChanged)="onOpenChanged($event)"
-            (selectionChanged)="onSelectionChanged($event)"
-            >
-            Select a Bug 🐛
-          </ngb-filterable-dropdown>
+  </div>
+
+  <!-- Demo Cards -->
+  <div class="demo-card bugs-card">
+    <h3>🐛 Bugs</h3>
+    @if (customToggleText()) {
+      <ngb-filterable-dropdown
+        [allowCreateItem]="allowCreateItem()"
+        [autoClose]="autoClose()"
+        [items]="items()"
+        [disabled]="disabled()"
+        [loading]="loading()"
+        [searchInputPlaceholder]="searchInputPlaceholder()"
+        [selectAllLimit]="selectAllLimit()"
+        [selection]="selection()"
+        [selectionMode]="selectionMode()"
+        [tooltips]="tooltips()"
+        [tooltipsOpenDelay]="tooltipsOpenDelay()"
+        (itemCreated)="onItemCreated($event)"
+        (openChanged)="onOpenChanged($event)"
+        (selectionChanged)="onSelectionChanged($event)"
+      >
+        Select a Bug 🐛
+      </ngb-filterable-dropdown>
+    } @else {
+      <ngb-filterable-dropdown
+        [allowCreateItem]="allowCreateItem()"
+        [autoClose]="autoClose()"
+        [items]="items()"
+        [disabled]="disabled()"
+        [loading]="loading()"
+        [placeholder]="'No Bugs Selected'"
+        [searchInputPlaceholder]="searchInputPlaceholder()"
+        [selectAllLimit]="selectAllLimit()"
+        [selection]="selection()"
+        [selectionMode]="selectionMode()"
+        [tooltips]="tooltips()"
+        [tooltipsOpenDelay]="tooltipsOpenDelay()"
+        (itemCreated)="onItemCreated($event)"
+        (openChanged)="onOpenChanged($event)"
+        (selectionChanged)="onSelectionChanged($event)"
+      ></ngb-filterable-dropdown>
+    }
+  </div>
+
+  <div class="demo-card badges-card">
+    <h3>🏅 Bugs with Badges</h3>
+    <ngb-filterable-dropdown
+      [allowCreateItem]="allowCreateItem()"
+      [autoClose]="autoClose()"
+      [disabled]="disabled()"
+      [items]="itemsWithBadges()"
+      [loading]="loading()"
+      [placeholder]="'No Bugs Selected'"
+      [searchInputPlaceholder]="searchInputPlaceholder()"
+      [selectAllLimit]="selectAllLimit()"
+      [selection]="badgesSelection()"
+      [selectionMode]="selectionMode()"
+      [tooltips]="tooltips()"
+      [tooltipsOpenDelay]="tooltipsOpenDelay()"
+      (itemCreated)="onItemCreated($event)"
+      (selectionChanged)="badgesSelectionChanged($event)"
+    ></ngb-filterable-dropdown>
+  </div>
+
+  <div class="demo-card lots-card">
+    <h3>📚 100,000+ Items</h3>
+    <ngb-filterable-dropdown
+      [allowCreateItem]="allowCreateItem()"
+      [autoClose]="autoClose()"
+      [disabled]="disabled()"
+      [items]="lotsOfItems()"
+      [itemHeight]="50"
+      [loading]="loading()"
+      [searchInputPlaceholder]="searchInputPlaceholder()"
+      [selectAllLimit]="selectAllLimit()"
+      [selection]="lotsOfItemsSelection()"
+      [selectionMode]="selectionMode()"
+      [tooltips]="tooltips()"
+      [tooltipsOpenDelay]="tooltipsOpenDelay()"
+      (itemCreated)="onItemCreated($event)"
+      (selectionChanged)="lotsOfItemsSelectionChanged($event)"
+    ></ngb-filterable-dropdown>
+  </div>
+
+  <div class="demo-card custom-card">
+    <h3>🎨 Custom Click Handle</h3>
+    <ngb-custom-filterable-dropdown
+      [allowCreateItem]="allowCreateItem()"
+      [autoClose]="autoClose()"
+      [disabled]="disabled()"
+      [items]="items()"
+      [loading]="loading()"
+      [searchInputPlaceholder]="searchInputPlaceholder()"
+      [selectAllLimit]="selectAllLimit()"
+      [selection]="genericHandleSelection()"
+      [selectionMode]="selectionMode()"
+      [tooltips]="tooltips()"
+      [tooltipsOpenDelay]="tooltipsOpenDelay()"
+      (itemCreated)="onItemCreated($event)"
+      (openChanged)="genericHandleOpenChanged($event)"
+      (selectionChanged)="genericHandlerOnSelectionChanged($event)"
+    >
+      <span class="text-muted">
+        Click me! → <strong>{{ genericHandleSelection() }}</strong>
+        @if (isGenericHandleDropdownOpen()) {
+          <span class="badge bg-success ms-2">Open</span>
         }
-        @if (!customToggleText()) {
-          <ngb-filterable-dropdown
-            [allowCreateItem]="allowCreateItem()"
-            [autoClose]="autoClose()"
-            [items]="items()"
-            [disabled]="disabled()"
-            [loading]="loading()"
-            [placeholder]="'No Bugs Selected'"
-            [searchInputPlaceholder]="searchInputPlaceholder()"
-            [selectAllLimit]="selectAllLimit()"
-            [selection]="selection()"
-            [selectionMode]="selectionMode()"
-            [tooltips]="tooltips()"
-            [tooltipsOpenDelay]="tooltipsOpenDelay()"
-            (itemCreated)="onItemCreated($event)"
-            (openChanged)="onOpenChanged($event)"
-            (selectionChanged)="onSelectionChanged($event)"
-          ></ngb-filterable-dropdown>
+      </span>
+    </ngb-custom-filterable-dropdown>
+  </div>
+
+  <div class="demo-card styled-card">
+    <h3>💅 Styled Custom Handle</h3>
+    <ngb-custom-filterable-dropdown
+      [allowCreateItem]="allowCreateItem()"
+      [autoClose]="autoClose()"
+      [disabled]="disabled()"
+      [items]="items()"
+      [loading]="loading()"
+      [searchInputPlaceholder]="searchInputPlaceholder()"
+      [selectAllLimit]="selectAllLimit()"
+      [selection]="genericHandleSelection()"
+      [selectionMode]="selectionMode()"
+      [tooltips]="tooltips()"
+      [tooltipsOpenDelay]="tooltipsOpenDelay()"
+      (itemCreated)="onItemCreated($event)"
+      (openChanged)="genericHandleOpenChanged($event)"
+      (selectionChanged)="genericHandlerOnSelectionChanged($event)"
+    >
+      <div class="custom-handle">
+        ✨ Fancy Handle → {{ genericHandleSelection() }}
+        @if (isGenericHandleDropdownOpen()) {
+          <span class="badge bg-warning text-dark ms-2">Open</span>
         }
       </div>
-    </div>
-    <hr />
-    <div class="row mt-4">
-      <div class="col-12 col-xl-6">
-        <h3>Bugs with Badges</h3>
-        <ngb-filterable-dropdown
-          [allowCreateItem]="allowCreateItem()"
-          [autoClose]="autoClose()"
-          [disabled]="disabled()"
-          [items]="itemsWithBadges()"
-          [loading]="loading()"
-          [placeholder]="'No Bugs Selected'"
-          [searchInputPlaceholder]="searchInputPlaceholder()"
-          [selectAllLimit]="selectAllLimit()"
-          [selection]="badgesSelection()"
-          [selectionMode]="selectionMode()"
-          [tooltips]="tooltips()"
-          [tooltipsOpenDelay]="tooltipsOpenDelay()"
-          (itemCreated)="onItemCreated($event)"
-          (selectionChanged)="badgesSelectionChanged($event)"
-        ></ngb-filterable-dropdown>
-      </div>
-    </div>
-    <hr />
-    <div class="row mt-4">
-      <div class="col-12 col-xl-6">
-        <h3>Lots and Lots of Items</h3>
-        <ngb-filterable-dropdown
-          [allowCreateItem]="allowCreateItem()"
-          [autoClose]="autoClose()"
-          [disabled]="disabled()"
-          [items]="lotsOfItems()"
-          [itemHeight]="50"
-          [loading]="loading()"
-          [searchInputPlaceholder]="searchInputPlaceholder()"
-          [selectAllLimit]="selectAllLimit()"
-          [selection]="lotsOfItemsSelection()"
-          [selectionMode]="selectionMode()"
-          [tooltips]="tooltips()"
-          [tooltipsOpenDelay]="tooltipsOpenDelay()"
-          (itemCreated)="onItemCreated($event)"
-          (selectionChanged)="lotsOfItemsSelectionChanged($event)"
-          >
-        </ngb-filterable-dropdown>
-      </div>
-    </div>
-    <div class="row mt-4">
-      <div class="col-12 col-xl-6">
-        <h3>Custom Click Handle</h3>
-        <ngb-custom-filterable-dropdown
-          [allowCreateItem]="allowCreateItem()"
-          [autoClose]="autoClose()"
-          [disabled]="disabled()"
-          [items]="items()"
-          [loading]="loading()"
-          [searchInputPlaceholder]="searchInputPlaceholder()"
-          [selectAllLimit]="selectAllLimit()"
-          [selection]="genericHandleSelection()"
-          [selectionMode]="selectionMode()"
-          [tooltips]="tooltips()"
-          [tooltipsOpenDelay]="tooltipsOpenDelay()"
-          (itemCreated)="onItemCreated($event)"
-          (openChanged)="genericHandleOpenChanged($event)"
-          (selectionChanged)="genericHandlerOnSelectionChanged($event)"
-          >
-          <span
-            >A generic click handle. -- Selected: {{ genericHandleSelection() }} --
-            isOpen: {{ isGenericHandleDropdownOpen() }}</span
-            >
-          </ngb-custom-filterable-dropdown>
-        </div>
-      </div>
-      <div class="row mt-4">
-        <div class="col-12 col-xl-6">
-          <h3>Styled Custom Click Handle</h3>
-          <ngb-custom-filterable-dropdown
-            [allowCreateItem]="allowCreateItem()"
-            [autoClose]="autoClose()"
-            [disabled]="disabled()"
-            [items]="items()"
-            [loading]="loading()"
-            [searchInputPlaceholder]="searchInputPlaceholder()"
-            [selectAllLimit]="selectAllLimit()"
-            [selection]="genericHandleSelection()"
-            [selectionMode]="selectionMode()"
-            [tooltips]="tooltips()"
-            [tooltipsOpenDelay]="tooltipsOpenDelay()"
-            (itemCreated)="onItemCreated($event)"
-            (openChanged)="genericHandleOpenChanged($event)"
-            (selectionChanged)="genericHandlerOnSelectionChanged($event)"
-            >
-            <div class="alert alert-dark">
-              Heavily styled handle -- Selected: {{ genericHandleSelection() }} --
-              isOpen: {{ isGenericHandleDropdownOpen() }}
-            </div>
-          </ngb-custom-filterable-dropdown>
-        </div>
-      </div>
-    </div>
+    </ngb-custom-filterable-dropdown>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1100;">
+    @for (toast of toasts(); track toast.id) {
+      <ngb-toast
+        class="bg-success text-white border-0"
+        [autohide]="true"
+        [delay]="4000"
+        [header]="''"
+        (hidden)="dismissToast(toast.id)"
+      >
+        <strong>{{ toast.source }}:</strong>
+        @if (isArray(toast.selection)) {
+          Selected {{ toast.selection.length }} items
+        } @else {
+          "{{ toast.selection }}"
+        }
+      </ngb-toast>
+    }
+  </div>
+</div>

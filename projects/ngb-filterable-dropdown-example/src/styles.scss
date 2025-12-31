@@ -1,15 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
-@import "bootstrap/scss/bootstrap";
+@use "bootstrap/scss/bootstrap";
+
+:root {
+  /* BugSplat Color Palette */
+  --bs-navy: #01284D;
+  --bs-blue: #007BFF;
+  --bs-light-blue: #E1EFFB;
+  --bs-lightest: #F9FBFD;
+  --bs-teal: #06D6A0;
+  --bs-pink: #EF476F;
+  --bs-yellow: #FAD776;
+}
 
 html,
 body {
   margin: 0;
-  height: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--bs-navy) 0%, #032d56 50%, #043a6b 100%);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
 }
 
 /* Custom badge style example - pill with border */
 .custom-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(135deg, var(--bs-blue) 0%, var(--bs-teal) 100%) !important;
   color: #ffffff !important;
   border: 1px solid transparent !important;
   padding: 3px 12px !important;
@@ -18,4 +31,57 @@ body {
   font-weight: 400 !important;
   letter-spacing: 0.2px !important;
   text-transform: uppercase !important;
+}
+
+/* Fun toast styling */
+.toast-container .ngb-toast {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Customize dropdown appearance */
+.dropdown-menu {
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  border: none;
+}
+
+.form-select, .form-control {
+  border-radius: 8px;
+  border: 2px solid var(--bs-light-blue);
+  
+  &:focus {
+    border-color: var(--bs-blue);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+  }
+}
+
+.form-check-input {
+  border-color: var(--bs-blue);
+  
+  &:checked {
+    background-color: var(--bs-teal);
+    border-color: var(--bs-teal);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(6, 214, 160, 0.25);
+  }
+}
+
+/* Success toast with BugSplat teal */
+.bg-success {
+  background-color: var(--bs-teal) !important;
 }

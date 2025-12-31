@@ -327,6 +327,7 @@ export class NgbCustomFilterableDropdownComponent {
   }
 
   onEnterKeyPressed(): void {
+    const previousSelection = this.getSelectionValue();
     const filtered = this.filteredItems();
 
     if (this._allowMultiSelect() && filtered.length) {
@@ -349,7 +350,7 @@ export class NgbCustomFilterableDropdownComponent {
       this.resetFilterInput();
     }
 
-    if (!this.allowCreateItem()) {
+    if (!this.allowCreateItem() && !this.selectionsEqual(previousSelection, this.getSelectionValue())) {
       this.selectionChanged.next({ selection: this.getSelectionValue() });
     }
 
@@ -372,10 +373,15 @@ export class NgbCustomFilterableDropdownComponent {
       this.nextToggleState.set(
         currentSet.size > 0 ? this.DESELECT : this.SELECT
       );
+      this.selectionChanged.next({ selection: this.getSelectionValue() });
     } else {
-      this._selectedSet.set(new Set([itemValue]));
+      // For single-select, only emit if selection actually changed
+      const isAlreadySelected = this._selectedSet().has(itemValue);
+      if (!isAlreadySelected) {
+        this._selectedSet.set(new Set([itemValue]));
+        this.selectionChanged.next({ selection: this.getSelectionValue() });
+      }
     }
-    this.selectionChanged.next({ selection: this.getSelectionValue() });
   }
 
   onOpenChange(open: boolean): void {
@@ -455,5 +461,20 @@ export class NgbCustomFilterableDropdownComponent {
     }
 
     return "";
+  }
+
+  private selectionsEqual(a: Array<string> | string, b: Array<string> | string): boolean {
+    if (typeof a === 'string' && typeof b === 'string') {
+      return a === b;
+    }
+    if (Array.isArray(a) && Array.isArray(b)) {
+      if (a.length !== b.length) {
+        return false;
+      }
+      const sortedA = [...a].sort();
+      const sortedB = [...b].sort();
+      return sortedA.every((val, idx) => val === sortedB[idx]);
+    }
+    return false;
   }
 }

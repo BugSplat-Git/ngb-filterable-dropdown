@@ -226,6 +226,18 @@ describe("NgbCustomFilterableDropdownComponent", () => {
             })
           );
         });
+
+        it("should not emit selectionChanged if selection has not changed", async () => {
+          // Pre-select the first item (which onEnterKeyPressed will select)
+          fixture.componentRef.setInput("selection", items[0]);
+          await fixture.whenStable();
+
+          const selectionChangedSpy = spyOn(component.selectionChanged, "next");
+
+          component.onEnterKeyPressed();
+
+          expect(selectionChangedSpy).not.toHaveBeenCalled();
+        });
       });
 
       describe("and in mode that allows multi select", () => {
@@ -255,6 +267,18 @@ describe("NgbCustomFilterableDropdownComponent", () => {
           const result = await resultPromise;
 
           expect(result.selection).toEqual(items);
+        });
+
+        it("should not emit selectionChanged if all items are already selected", async () => {
+          // Pre-select all items (which onEnterKeyPressed will try to select)
+          fixture.componentRef.setInput("selection", items);
+          await fixture.whenStable();
+
+          const selectionChangedSpy = spyOn(component.selectionChanged, "next");
+
+          component.onEnterKeyPressed();
+
+          expect(selectionChangedSpy).not.toHaveBeenCalled();
         });
       });
     });
@@ -440,6 +464,18 @@ describe("NgbCustomFilterableDropdownComponent", () => {
             selection: item,
           })
         );
+      });
+
+      it("should not emit selectionChanged when clicking already-selected item", async () => {
+        const item = items[0];
+        fixture.componentRef.setInput("selection", item);
+        await fixture.whenStable();
+
+        const selectionChangedSpy = spyOn(component.selectionChanged, "next");
+        const dropdownItem = component.filteredItems().find(i => i.value === item) || toItem(item);
+        component.onItemSelect(dropdownItem);
+
+        expect(selectionChangedSpy).not.toHaveBeenCalled();
       });
     });
 

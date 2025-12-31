@@ -58,7 +58,7 @@
               "base": "dist/ngb-filterable-dropdown-example"
             },
             "index": "projects/ngb-filterable-dropdown-example/src/index.html",
-            "polyfills": [],
+            "polyfills": ["@angular/localize/init"],
             "tsConfig": "projects/ngb-filterable-dropdown-example/tsconfig.app.json",
             "assets": [
               "projects/ngb-filterable-dropdown-example/src/favicon.ico",
@@ -123,7 +123,7 @@
           "builder": "@angular/build:karma",
           "options": {
             "main": "projects/ngb-filterable-dropdown-example/src/test.ts",
-            "polyfills": [],
+            "polyfills": ["@angular/localize/init"],
             "tsConfig": "projects/ngb-filterable-dropdown-example/tsconfig.spec.json",
             "karmaConfig": "projects/ngb-filterable-dropdown-example/karma.conf.js",
             "assets": [
