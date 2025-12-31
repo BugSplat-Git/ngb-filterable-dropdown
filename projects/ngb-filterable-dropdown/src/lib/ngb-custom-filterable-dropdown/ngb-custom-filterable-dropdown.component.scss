@@ -1,4 +1,4 @@
-@import "../colors.scss";
+@use "../colors.scss" as *;
 
 .dropdown-menu {
   width: 100%;

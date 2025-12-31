@@ -1,5 +1,6 @@
 
 import { Component, signal } from "@angular/core";
+import { NgbToast } from "@ng-bootstrap/ng-bootstrap";
 import {
   DropdownItemInput,
   ItemCreatedEvent,
@@ -15,13 +16,12 @@ import {
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
   imports: [
+    NgbToast,
     NgbFilterableDropdownComponent,
     NgbCustomFilterableDropdownComponent
 ],
 })
 export class AppComponent {
-  title = "ngb-filterable-dropdown-examples";
-
   selectionModes: Array<string> = Object.values(
     NgbFilterableDropdownSelectionMode
   );
@@ -71,6 +71,10 @@ export class AppComponent {
   selectAllLimit = signal<number | undefined>(undefined);
   selectAllLimitEnabled = signal(false);
 
+  // Toast notifications for debugging
+  toasts = signal<Array<{ id: number; source: string; selection: string | Array<string> }>>([]);
+  private toastId = 0;
+
   allowCreateItemClick(event: CheckboxClickEvent): void {
     this.allowCreateItem.set(event.target.checked);
   }
@@ -90,14 +94,17 @@ export class AppComponent {
 
   genericHandlerOnSelectionChanged($event: SelectionChangedEvent): void {
     this.genericHandleSelection.set($event.selection);
+    this.logSelectionEvent("Custom Handle", $event.selection);
   }
 
   lotsOfItemsSelectionChanged($event: SelectionChangedEvent): void {
     this.lotsOfItemsSelection.set($event.selection);
+    this.logSelectionEvent("Lots of Items", $event.selection);
   }
 
   badgesSelectionChanged($event: SelectionChangedEvent): void {
     this.badgesSelection.set($event.selection);
+    this.logSelectionEvent("Badges", $event.selection);
   }
 
   onAutoCloseValueChanged(value: boolean | "inside" | "outside"): void {
@@ -116,6 +123,7 @@ export class AppComponent {
 
   onSelectionChanged(event: SelectionChangedEvent): void {
     this.selection.set(event.selection);
+    this.logSelectionEvent("Bugs", event.selection);
     console.log(event);
   }
 
@@ -140,6 +148,19 @@ export class AppComponent {
   selectAllLimitChange(event: { target: { value: string } }): void {
     const value = parseInt(event.target.value, 10);
     this.selectAllLimit.set(isNaN(value) ? undefined : value);
+  }
+
+  dismissToast(id: number): void {
+    this.toasts.update((toasts) => toasts.filter((t) => t.id !== id));
+  }
+
+  isArray(value: unknown): value is Array<string> {
+    return Array.isArray(value);
+  }
+
+  private logSelectionEvent(source: string, selection: string | Array<string>): void {
+    const id = ++this.toastId;
+    this.toasts.update((toasts) => [...toasts, { id, source, selection }]);
   }
 
   private generateLotsOfItems(): Array<string> {
